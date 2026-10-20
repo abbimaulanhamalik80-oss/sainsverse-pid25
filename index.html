@@ -1,0 +1,2729 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SainsVerse: Jelajah IPA Interaktif | Kelompok 3 PID25</title>
+    <!-- Google Fonts: Fredoka untuk kesan Game Edukasi & Plus Jakarta Sans untuk keterbacaan materi -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================================================
+           1. CSS VARIABLES & THEME TOKENS (COSMIC GAMIFIED UI)
+           ========================================================================== */
+        :root {
+            --bg-cosmic: #090d16;
+            --app-bg: #0f172a;
+            --app-surface: #1e293b;
+            --app-surface-light: #334155;
+            --glass-bg: rgba(30, 41, 59, 0.78);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            
+            --primary: #6366f1;
+            --primary-dark: #4338ca;
+            --secondary: #06b6d4;
+            --secondary-dark: #0e7490;
+            --accent: #f59e0b;
+            --accent-dark: #b45309;
+            --success: #10b981;
+            --success-dark: #047857;
+            --danger: #ef4444;
+            --danger-dark: #b91c1c;
+            
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            
+            --font-display: 'Fredoka', sans-serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+            
+            --radius-sm: 12px;
+            --radius-md: 18px;
+            --radius-lg: 24px;
+            --radius-full: 9999px;
+        }
+
+        /* ==========================================================================
+           2. RESET & BASE MOBILE-FIRST STYLES
+           ========================================================================== */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: var(--bg-cosmic);
+            font-family: var(--font-body);
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Cosmic Desktop Background Effect */
+        .desktop-backdrop {
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 15% 20%, rgba(99, 102, 241, 0.25) 0%, transparent 40%),
+                radial-gradient(circle at 85% 80%, rgba(6, 182, 212, 0.25) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, #0f172a 0%, #050811 100%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .bg-stars {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                radial-gradient(2px 2px at 40px 60px, #fff, transparent),
+                radial-gradient(2px 2px at 120px 180px, rgba(255,255,255,0.7), transparent),
+                radial-gradient(1.5px 1.5px at 250px 90px, #38bdf8, transparent),
+                radial-gradient(2px 2px at 320px 280px, #f59e0b, transparent);
+            background-size: 350px 350px;
+            opacity: 0.45;
+            animation: driftStars 60s linear infinite;
+        }
+
+        @keyframes driftStars {
+            from { background-position: 0 0; }
+            to { background-position: 350px 350px; }
+        }
+
+        /* ==========================================================================
+           3. APP CONTAINER (NATIVE FULLSCREEN ON HP, MOCKUP FRAME ON PC)
+           ========================================================================== */
+        #app-frame {
+            position: relative;
+            z-index: 10;
+            width: 100vw;
+            height: 100dvh;
+            background: linear-gradient(180deg, #0f172a 0%, #172036 100%);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Phone Notch (Hidden on mobile, visible on PC mockup) */
+        .mockup-notch {
+            display: none;
+        }
+
+        @media (min-width: 600px) {
+            #app-frame {
+                width: 430px;
+                height: min(865px, 94dvh);
+                border-radius: 42px;
+                border: 10px solid #1e293b;
+                box-shadow: 
+                    0 25px 60px -15px rgba(0, 0, 0, 0.85),
+                    0 0 0 2px rgba(255, 255, 255, 0.1),
+                    0 0 40px rgba(99, 102, 241, 0.25);
+            }
+
+            .mockup-notch {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                width: 130px;
+                height: 22px;
+                background: #1e293b;
+                margin: 0 auto;
+                border-bottom-left-radius: 14px;
+                border-bottom-right-radius: 14px;
+                flex-shrink: 0;
+                z-index: 30;
+            }
+
+            .notch-speaker {
+                width: 40px;
+                height: 4px;
+                background: #0f172a;
+                border-radius: 4px;
+            }
+
+            .notch-camera {
+                width: 8px;
+                height: 8px;
+                background: #0ea5e9;
+                border-radius: 50%;
+                opacity: 0.6;
+            }
+        }
+
+        /* ==========================================================================
+           4. TOP BAR (HUD) & FOOTER
+           ========================================================================== */
+        .app-topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--glass-border);
+            flex-shrink: 0;
+            z-index: 20;
+        }
+
+        .player-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--app-surface);
+            padding: 4px 10px 4px 5px;
+            border-radius: var(--radius-full);
+            border: 1px solid var(--glass-border);
+            cursor: pointer;
+        }
+
+        .avatar-circle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            box-shadow: 0 2px 6px rgba(99, 102, 241, 0.4);
+        }
+
+        .player-meta {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.1;
+        }
+
+        .player-name {
+            font-family: var(--font-display);
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .player-rank {
+            font-size: 0.65rem;
+            color: var(--secondary);
+            font-weight: 700;
+        }
+
+        .hud-stats {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stat-pill {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: var(--app-surface);
+            padding: 5px 10px;
+            border-radius: var(--radius-full);
+            border: 1px solid var(--glass-border);
+            font-family: var(--font-display);
+            font-size: 0.82rem;
+            font-weight: 600;
+        }
+
+        .stat-pill.coins { color: #fbbf24; }
+        .stat-pill.stars { color: #38bdf8; }
+
+        .icon-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 12px;
+            background: var(--app-surface);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.12s ease, background 0.2s;
+            box-shadow: 0 3px 0 #0f172a;
+        }
+
+        .icon-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 0 0 #0f172a;
+        }
+
+        /* Main Screen Viewport Area */
+        .screen-viewport {
+            position: relative;
+            flex: 1;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .app-screen {
+            position: absolute;
+            inset: 0;
+            padding: 14px 16px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.96) translateY(12px);
+            transition: opacity 0.26s cubic-bezier(0.22, 1, 0.36, 1), transform 0.26s cubic-bezier(0.22, 1, 0.36, 1);
+            scrollbar-width: thin;
+            scrollbar-color: var(--app-surface-light) transparent;
+        }
+
+        .app-screen::-webkit-scrollbar {
+            width: 4px;
+        }
+        .app-screen::-webkit-scrollbar-thumb {
+            background: var(--app-surface-light);
+            border-radius: 4px;
+        }
+
+        .app-screen.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1) translateY(0);
+            z-index: 5;
+        }
+
+        /* Bottom Navigation Bar */
+        .bottom-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 6px 10px;
+            background: rgba(15, 23, 42, 0.94);
+            backdrop-filter: blur(12px);
+            border-top: 1px solid var(--glass-border);
+            flex-shrink: 0;
+            z-index: 20;
+        }
+
+        .nav-item {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            padding: 5px 4px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-family: var(--font-body);
+            font-size: 0.68rem;
+            font-weight: 700;
+            transition: all 0.2s ease;
+        }
+
+        .nav-item .nav-icon {
+            font-size: 1.2rem;
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .nav-item.active {
+            color: var(--secondary);
+            background: rgba(6, 182, 212, 0.12);
+        }
+
+        .nav-item.active .nav-icon {
+            transform: translateY(-2px) scale(1.12);
+        }
+
+        /* App Footer Credit */
+        .app-footer {
+            text-align: center;
+            font-size: 0.66rem;
+            color: var(--text-muted);
+            padding: 4px 8px 6px;
+            background: #090d16;
+            letter-spacing: 0.02em;
+            flex-shrink: 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* ==========================================================================
+           5. REUSABLE 3D TACTILE GAME BUTTONS & CARDS
+           ========================================================================== */
+        .btn-game {
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 12px 18px;
+            border-radius: var(--radius-md);
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: transform 0.1s ease, filter 0.15s ease;
+            text-decoration: none;
+            position: relative;
+        }
+
+        .btn-game:active {
+            transform: translateY(4px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(180deg, #818cf8 0%, #4f46e5 100%);
+            box-shadow: 0 5px 0 var(--primary-dark), 0 8px 16px rgba(79, 70, 229, 0.35);
+        }
+        .btn-primary:active { box-shadow: 0 1px 0 var(--primary-dark); }
+
+        .btn-secondary {
+            background: linear-gradient(180deg, #22d3ee 0%, #0891b2 100%);
+            box-shadow: 0 5px 0 var(--secondary-dark), 0 8px 16px rgba(8, 145, 178, 0.35);
+        }
+        .btn-secondary:active { box-shadow: 0 1px 0 var(--secondary-dark); }
+
+        .btn-accent {
+            background: linear-gradient(180deg, #fbbf24 0%, #d97706 100%);
+            box-shadow: 0 5px 0 var(--accent-dark), 0 8px 16px rgba(217, 119, 6, 0.35);
+            color: #0f172a;
+        }
+        .btn-accent:active { box-shadow: 0 1px 0 var(--accent-dark); }
+
+        .btn-success {
+            background: linear-gradient(180deg, #34d399 0%, #059669 100%);
+            box-shadow: 0 5px 0 var(--success-dark), 0 8px 16px rgba(5, 150, 105, 0.35);
+        }
+        .btn-success:active { box-shadow: 0 1px 0 var(--success-dark); }
+
+        .btn-surface {
+            background: var(--app-surface);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 4px 0 #090d16;
+            color: var(--text-main);
+        }
+        .btn-surface:active { box-shadow: 0 1px 0 #090d16; }
+
+        .glass-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            padding: 14px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+        }
+
+        /* Screen Header Bar with Back to Map */
+        .module-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 12px;
+            flex-shrink: 0;
+        }
+
+        .module-title-wrap {
+            flex: 1;
+        }
+
+        .module-tag {
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--secondary);
+            font-weight: 800;
+        }
+
+        .module-title {
+            font-family: var(--font-display);
+            font-size: 1.05rem;
+            color: #fff;
+            line-height: 1.2;
+        }
+
+        /* Internal Module Tabs */
+        .tab-switcher {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            background: #090d16;
+            padding: 5px;
+            border-radius: 14px;
+            border: 1px solid var(--glass-border);
+            margin-bottom: 12px;
+            flex-shrink: 0;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-family: var(--font-display);
+            font-size: 0.8rem;
+            padding: 8px 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #fff;
+            box-shadow: 0 3px 10px rgba(99, 102, 241, 0.35);
+        }
+
+        .tab-pane {
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+            flex: 1;
+        }
+
+        .tab-pane.active {
+            display: flex;
+            animation: fadeInPane 0.22s ease;
+        }
+
+        @keyframes fadeInPane {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ==========================================================================
+           6. LAYAR 1: SPLASH / HOME SCREEN
+           ========================================================================== */
+        .splash-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 10px 6px;
+            gap: 14px;
+        }
+
+        .logo-orb-wrapper {
+            position: relative;
+            width: 128px;
+            height: 128px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 4px;
+        }
+
+        .logo-orb-glow {
+            position: absolute;
+            inset: -10px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.45) 0%, rgba(99, 102, 241, 0) 70%);
+            animation: pulseGlow 3s ease-in-out infinite;
+        }
+
+        .logo-ring {
+            position: absolute;
+            inset: 4px;
+            border: 2px dashed rgba(56, 189, 248, 0.45);
+            border-radius: 50%;
+            animation: spinOrbit 18s linear infinite;
+        }
+
+        .logo-core {
+            width: 96px;
+            height: 96px;
+            border-radius: 28px;
+            background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            box-shadow: 0 12px 25px rgba(6, 182, 212, 0.35), inset 0 2px 4px rgba(255,255,255,0.4);
+            transform: rotate(-6deg);
+            animation: floatAtom 4s ease-in-out infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(0.95); opacity: 0.7; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+        @keyframes spinOrbit {
+            to { transform: rotate(360deg); }
+        }
+        @keyframes floatAtom {
+            0%, 100% { transform: translateY(0) rotate(-6deg); }
+            50% { transform: translateY(-8px) rotate(4deg); }
+        }
+
+        .game-title {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #fff 0%, #38bdf8 50%, #fbbf24 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 0.02em;
+            line-height: 1.1;
+        }
+
+        .game-subtitle {
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            font-weight: 600;
+            margin-top: -6px;
+        }
+
+        .credit-badges {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .badge-chip {
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 5px 12px;
+            border-radius: var(--radius-full);
+            background: rgba(99, 102, 241, 0.16);
+            border: 1px solid rgba(99, 102, 241, 0.4);
+            color: #c7d2fe;
+        }
+
+        .badge-chip.domain {
+            background: rgba(6, 182, 212, 0.15);
+            border-color: rgba(6, 182, 212, 0.4);
+            color: #a5f3fc;
+        }
+
+        .splash-highlights {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            width: 100%;
+            margin: 4px 0;
+        }
+
+        .mini-feature {
+            background: rgba(30, 41, 59, 0.65);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            padding: 8px 6px;
+            font-size: 0.7rem;
+            color: #cbd5e1;
+            font-weight: 600;
+        }
+
+        .mini-feature span {
+            display: block;
+            font-size: 1.25rem;
+            margin-bottom: 3px;
+        }
+
+        .splash-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+            margin-top: 4px;
+        }
+
+        /* ==========================================================================
+           7. LAYAR 2: WORLD SELECT (PETA PETUALANGAN)
+           ========================================================================== */
+        .world-progress-card {
+            background: linear-gradient(135deg, rgba(79, 70, 229, 0.35), rgba(6, 182, 212, 0.25));
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: var(--radius-md);
+            padding: 12px 14px;
+            margin-bottom: 12px;
+        }
+
+        .progress-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .progress-bar-track {
+            width: 100%;
+            height: 10px;
+            background: rgba(9, 13, 22, 0.7);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #38bdf8, #fbbf24);
+            border-radius: var(--radius-full);
+            transition: width 0.4s ease;
+        }
+
+        .level-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding-bottom: 8px;
+        }
+
+        .level-card {
+            position: relative;
+            background: var(--glass-bg);
+            border: 2px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            padding: 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: transform 0.18s ease, border-color 0.2s;
+            cursor: pointer;
+        }
+
+        .level-card:active {
+            transform: scale(0.98);
+        }
+
+        .level-card.unlocked {
+            border-color: rgba(56, 189, 248, 0.45);
+        }
+
+        .level-card.locked {
+            opacity: 0.68;
+            filter: grayscale(0.35);
+        }
+
+        .level-icon-box {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            flex-shrink: 0;
+            box-shadow: inset 0 2px 4px rgba(255,255,255,0.25);
+        }
+
+        .lvl-1-bg { background: linear-gradient(135deg, #10b981, #047857); }
+        .lvl-2-bg { background: linear-gradient(135deg, #f59e0b, #b45309); }
+        .lvl-3-bg { background: linear-gradient(135deg, #6366f1, #4338ca); }
+
+        .level-info {
+            flex: 1;
+        }
+
+        .level-num {
+            font-size: 0.68rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: var(--secondary);
+            letter-spacing: 0.05em;
+        }
+
+        .level-name {
+            font-family: var(--font-display);
+            font-size: 0.98rem;
+            color: #fff;
+            margin: 2px 0 4px;
+        }
+
+        .level-desc {
+            font-size: 0.73rem;
+            color: var(--text-muted);
+            line-height: 1.35;
+        }
+
+        .level-meta-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 6px;
+        }
+
+        .star-row {
+            display: flex;
+            gap: 2px;
+            font-size: 0.95rem;
+        }
+
+        .star-slot {
+            color: #334155;
+        }
+
+        .star-slot.earned {
+            color: #fbbf24;
+            filter: drop-shadow(0 0 4px rgba(251, 191, 36, 0.5));
+        }
+
+        .status-pill {
+            font-size: 0.65rem;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: var(--radius-full);
+            background: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+        }
+
+        .status-pill.locked {
+            background: rgba(148, 163, 184, 0.2);
+            color: #94a3b8;
+        }
+
+        /* ==========================================================================
+           8. LAYAR 3: MODUL 1 (KLASIFIKASI MAKHLUK HIDUP)
+           ========================================================================== */
+        .kingdom-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+
+        .kingdom-card {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            padding: 10px 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .kingdom-emoji {
+            font-size: 1.65rem;
+            background: var(--app-surface);
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .kingdom-text h4 {
+            font-family: var(--font-display);
+            font-size: 0.9rem;
+            color: #38bdf8;
+            margin-bottom: 2px;
+        }
+
+        .kingdom-text p {
+            font-size: 0.74rem;
+            color: #cbd5e1;
+            line-height: 1.35;
+        }
+
+        /* Mini Game Klasifikasi (Tap & Drag Friendly) */
+        .classifier-hud {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.78rem;
+            font-weight: 700;
+            background: rgba(15, 23, 42, 0.8);
+            padding: 8px 12px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--glass-border);
+        }
+
+        .specimen-stage {
+            background: radial-gradient(circle at center, rgba(99, 102, 241, 0.22), rgba(15, 23, 42, 0.9));
+            border: 2px dashed rgba(56, 189, 248, 0.5);
+            border-radius: var(--radius-md);
+            padding: 14px;
+            text-align: center;
+            position: relative;
+        }
+
+        .specimen-card {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            background: var(--app-surface);
+            padding: 12px 22px;
+            border-radius: var(--radius-md);
+            border: 2px solid var(--secondary);
+            box-shadow: 0 8px 20px rgba(6, 182, 212, 0.25);
+            cursor: grab;
+            transition: transform 0.2s ease;
+        }
+
+        .specimen-card:active {
+            cursor: grabbing;
+            transform: scale(1.04);
+        }
+
+        .specimen-emoji {
+            font-size: 2.6rem;
+            margin-bottom: 4px;
+        }
+
+        .specimen-name {
+            font-family: var(--font-display);
+            font-size: 1.05rem;
+            color: #fff;
+        }
+
+        .specimen-clue {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .kingdom-bins {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .bin-box {
+            background: var(--app-surface);
+            border: 2px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            padding: 12px 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .bin-box:hover, .bin-box.drag-over {
+            border-color: var(--secondary);
+            background: rgba(6, 182, 212, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .bin-box .bin-icon {
+            font-size: 1.45rem;
+        }
+
+        .bin-box .bin-title {
+            font-family: var(--font-display);
+            font-size: 0.85rem;
+            color: #fff;
+        }
+
+        .bin-box .bin-sub {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+        }
+
+        /* ==========================================================================
+           9. LAYAR 4: MODUL 2 (LAB PARTIKEL ZAT & KUIS PERUBAHAN MATERI)
+           ========================================================================== */
+        .particle-canvas-wrap {
+            position: relative;
+            width: 100%;
+            height: 185px;
+            background: #070b14;
+            border-radius: var(--radius-md);
+            border: 2px solid var(--glass-border);
+            overflow: hidden;
+        }
+
+        #particleCanvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .state-overlay-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid var(--glass-border);
+            padding: 4px 10px;
+            border-radius: var(--radius-full);
+            font-family: var(--font-display);
+            font-size: 0.78rem;
+            color: #38bdf8;
+        }
+
+        .temp-overlay-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid var(--glass-border);
+            padding: 4px 10px;
+            border-radius: var(--radius-full);
+            font-family: var(--font-display);
+            font-size: 0.8rem;
+            color: #fbbf24;
+        }
+
+        .slider-control {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 10px;
+            border-radius: 8px;
+            background: #090d16;
+            border: 1px solid var(--glass-border);
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #38bdf8, #6366f1);
+            border: 2px solid #fff;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+        }
+
+        .preset-temp-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+        }
+
+        /* Quiz Perubahan Fisika vs Kimia */
+        .matter-quiz-card {
+            background: radial-gradient(circle at top, rgba(245, 158, 11, 0.18), rgba(15, 23, 42, 0.9));
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            text-align: center;
+        }
+
+        .phenomenon-icon {
+            font-size: 2.8rem;
+            margin-bottom: 6px;
+        }
+
+        .phenomenon-title {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+
+        .phenomenon-desc {
+            font-size: 0.76rem;
+            color: var(--text-muted);
+            margin-bottom: 14px;
+        }
+
+        .choice-duo {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        /* ==========================================================================
+           10. LAYAR 5: MODUL 3 (ARENA GAYA, GERAK & LAB TEKANAN)
+           ========================================================================== */
+        .force-arena {
+            position: relative;
+            width: 100%;
+            height: 135px;
+            background: linear-gradient(180deg, #0b1325 0%, #1e293b 78%, #334155 78%, #0f172a 100%);
+            border-radius: var(--radius-md);
+            border: 2px solid var(--glass-border);
+            overflow: hidden;
+            display: flex;
+            align-items: flex-end;
+            padding-bottom: 28px;
+        }
+
+        .arena-ground-grid {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 28px;
+            background: repeating-linear-gradient(
+                -45deg,
+                #1e293b,
+                #1e293b 10px,
+                #0f172a 10px,
+                #0f172a 20px
+            );
+            border-top: 2px solid #475569;
+        }
+
+        .physics-crate {
+            position: relative;
+            left: 24px;
+            width: 58px;
+            height: 58px;
+            background: linear-gradient(135deg, #f59e0b, #b45309);
+            border: 2px solid #fde68a;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-size: 0.75rem;
+            color: #fff;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.45);
+            transition: transform 0.05s linear;
+        }
+
+        .force-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 6px;
+            border-radius: 4px;
+            transition: width 0.2s ease;
+        }
+
+        .arrow-push {
+            left: 100%;
+            background: #10b981;
+        }
+
+        .arrow-friction {
+            right: 100%;
+            background: #ef4444;
+        }
+
+        .telemetry-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            text-align: center;
+        }
+
+        .telemetry-box {
+            background: #090d16;
+            border: 1px solid var(--glass-border);
+            padding: 6px;
+            border-radius: 10px;
+        }
+
+        .telemetry-box span {
+            display: block;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+        }
+
+        .telemetry-box strong {
+            font-family: var(--font-display);
+            font-size: 0.88rem;
+            color: #38bdf8;
+        }
+
+        /* Lab Tekanan Visual */
+        .pressure-visual-stage {
+            height: 135px;
+            background: linear-gradient(180deg, #090d16 0%, #1e293b 55%, #065f46 55%, #064e3b 100%);
+            border-radius: var(--radius-md);
+            border: 2px solid var(--glass-border);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding-top: 14px;
+            overflow: hidden;
+        }
+
+        .pressure-pillar {
+            background: linear-gradient(90deg, #6366f1, #38bdf8);
+            border: 2px solid #e0e7ff;
+            border-bottom-left-radius: 6px;
+            border-bottom-right-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-family: var(--font-display);
+            font-size: 0.72rem;
+            transition: all 0.25s ease;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+        }
+
+        .soil-label {
+            position: absolute;
+            bottom: 6px;
+            right: 10px;
+            font-size: 0.66rem;
+            color: #a7f3d0;
+            font-weight: 700;
+        }
+
+        /* ==========================================================================
+           11. MODALS (VICTORY, PANDUAN, SETTINGS) & TOAST FEEDBACK
+           ========================================================================== */
+        .modal-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(5, 8, 17, 0.82);
+            backdrop-filter: blur(6px);
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.22s ease;
+        }
+
+        .modal-backdrop.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-dialog {
+            width: 100%;
+            max-width: 360px;
+            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+            border: 2px solid rgba(255, 255, 255, 0.16);
+            border-radius: var(--radius-lg);
+            padding: 20px 18px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+            transform: scale(0.9);
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            max-height: 85%;
+            overflow-y: auto;
+        }
+
+        .modal-backdrop.open .modal-dialog {
+            transform: scale(1);
+        }
+
+        .victory-stars {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            font-size: 2.5rem;
+            margin: 8px 0 12px;
+        }
+
+        .v-star {
+            color: #334155;
+            transform: scale(0.8);
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .v-star.lit {
+            color: #fbbf24;
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.65));
+        }
+
+        .badge-earned-box {
+            background: rgba(99, 102, 241, 0.15);
+            border: 1px solid rgba(99, 102, 241, 0.4);
+            border-radius: var(--radius-sm);
+            padding: 10px;
+            margin: 12px 0;
+        }
+
+        /* Toast Notification */
+        #game-toast {
+            position: absolute;
+            top: 64px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-20px);
+            background: rgba(15, 23, 42, 0.95);
+            border: 1.5px solid var(--secondary);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: var(--radius-full);
+            font-family: var(--font-display);
+            font-size: 0.8rem;
+            z-index: 60;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.22s ease;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.45);
+            white-space: nowrap;
+        }
+
+        #game-toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .setting-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--glass-border);
+            text-align: left;
+            font-size: 0.82rem;
+        }
+
+        .toggle-switch {
+            width: 46px;
+            height: 26px;
+            background: #334155;
+            border-radius: var(--radius-full);
+            position: relative;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .toggle-switch.on {
+            background: var(--success);
+        }
+
+        .toggle-knob {
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border-radius: 50%;
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            transition: transform 0.2s;
+        }
+
+        .toggle-switch.on .toggle-knob {
+            transform: translateX(20px);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Kosmik untuk tampilan PC/Laptop -->
+    <div class="desktop-backdrop">
+        <div class="bg-stars"></div>
+    </div>
+
+    <!-- ==========================================================================
+         KERANGKA APLIKASI UTAMA (MOBILE MOCKUP DI PC, FULLSCREEN DI HP)
+         ========================================================================== -->
+    <div id="app-frame">
+        <!-- Detail Speaker/Notch Smartphone untuk PC -->
+        <div class="mockup-notch">
+            <div class="notch-speaker"></div>
+            <div class="notch-camera"></div>
+        </div>
+
+        <!-- TOP HUD BAR -->
+        <header class="app-topbar">
+            <div class="player-badge" onclick="openModal('modal-info')" title="Profil & Info">
+                <div class="avatar-circle">🧑‍🔬</div>
+                <div class="player-meta">
+                    <span class="player-name">Kadet Sains</span>
+                    <span class="player-rank" id="hud-rank">Penjelajah Muda</span>
+                </div>
+            </div>
+
+            <div class="hud-stats">
+                <div class="stat-pill coins" title="Total Skor Sains">
+                    <span>🪙</span>
+                    <span id="hud-score">0</span>
+                </div>
+                <div class="stat-pill stars" title="Total Bintang Modul">
+                    <span>⭐</span>
+                    <span id="hud-stars">0/9</span>
+                </div>
+                <button class="icon-btn" onclick="openModal('modal-settings')" aria-label="Pengaturan">
+                    ⚙️
+                </button>
+            </div>
+        </header>
+
+        <!-- TOAST FEEDBACK INSTAN -->
+        <div id="game-toast">✨ Selamat datang di SainsVerse!</div>
+
+        <!-- AREA LAYAR DINAMIS (SCREEN SWITCHER) -->
+        <main class="screen-viewport">
+
+            <!-- ==================================================================
+                 LAYAR 1: SPLASH / HOME SCREEN
+                 ================================================================== -->
+            <section id="screen-home" class="app-screen active">
+                <div class="splash-container">
+                    <div class="logo-orb-wrapper">
+                        <div class="logo-orb-glow"></div>
+                        <div class="logo-ring"></div>
+                        <div class="logo-core">⚛️</div>
+                    </div>
+
+                    <h1 class="game-title">SainsVerse</h1>
+                    <p class="game-subtitle">Jelajah IPA Interaktif Tingkat SMP</p>
+
+                    <div class="credit-badges">
+                        <span class="badge-chip">👥 Oleh: Kelompok 3 PID25</span>
+                        <span class="badge-chip domain">🌐 sainsverse-pid25.pages.dev</span>
+                    </div>
+
+                    <div class="splash-highlights">
+                        <div class="mini-feature">
+                            <span>🧬</span>
+                            Biologi & Klasifikasi
+                        </div>
+                        <div class="mini-feature">
+                            <span>🧪</span>
+                            Partikel & Materi
+                        </div>
+                        <div class="mini-feature">
+                            <span>🚀</span>
+                            Gaya & Tekanan
+                        </div>
+                    </div>
+
+                    <div class="splash-actions">
+                        <button class="btn-game btn-primary" onclick="switchScreen('screen-map')">
+                            🚀 Mulai Petualangan
+                        </button>
+                        <button class="btn-game btn-surface" onclick="openModal('modal-info')">
+                            📖 Panduan & Info Karya
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================================================================
+                 LAYAR 2: LEVEL / WORLD SELECT (MENU PILIHAN MATERI)
+                 ================================================================== -->
+            <section id="screen-map" class="app-screen">
+                <div class="module-header">
+                    <div class="module-title-wrap">
+                        <div class="module-tag">Peta Dunia SainsVerse</div>
+                        <h2 class="module-title">Pilih Misi Eksplorasi IPA</h2>
+                    </div>
+                    <button class="icon-btn" onclick="switchScreen('screen-home')" title="Ke Layar Utama">🏠</button>
+                </div>
+
+                <div class="world-progress-card">
+                    <div class="progress-top">
+                        <span>Progres Penjelajahan Galaksi IPA</span>
+                        <span id="map-progress-pct">0%</span>
+                    </div>
+                    <div class="progress-bar-track">
+                        <div class="progress-bar-fill" id="map-progress-bar"></div>
+                    </div>
+                </div>
+
+                <div class="level-list">
+                    <!-- Modul 1 -->
+                    <div class="level-card unlocked" id="card-lvl-1" onclick="enterModule(1)">
+                        <div class="level-icon-box lvl-1-bg">🌿</div>
+                        <div class="level-info">
+                            <div class="level-num">Modul 1 • Biologi</div>
+                            <div class="level-name">Klasifikasi Makhluk Hidup</div>
+                            <div class="level-desc">5 Kingdom, karakteristik organisme & mini-game sortir taksonomi.</div>
+                        </div>
+                        <div class="level-meta-right">
+                            <div class="star-row" id="stars-lvl-1">
+                                <span class="star-slot">★</span><span class="star-slot">★</span><span class="star-slot">★</span>
+                            </div>
+                            <span class="status-pill" id="status-lvl-1">TERBUKA</span>
+                        </div>
+                    </div>
+
+                    <!-- Modul 2 -->
+                    <div class="level-card locked" id="card-lvl-2" onclick="enterModule(2)">
+                        <div class="level-icon-box lvl-2-bg">🌡️</div>
+                        <div class="level-info">
+                            <div class="level-num">Modul 2 • Kimia Fisika</div>
+                            <div class="level-name">Sifat & Perubahan Materi</div>
+                            <div class="level-desc">Simulasi partikel zat (Padat, Cair, Gas) & kuis perubahan materi.</div>
+                        </div>
+                        <div class="level-meta-right">
+                            <div class="star-row" id="stars-lvl-2">
+                                <span class="star-slot">★</span><span class="star-slot">★</span><span class="star-slot">★</span>
+                            </div>
+                            <span class="status-pill locked" id="status-lvl-2">🔒 TERKUNCI</span>
+                        </div>
+                    </div>
+
+                    <!-- Modul 3 -->
+                    <div class="level-card locked" id="card-lvl-3" onclick="enterModule(3)">
+                        <div class="level-icon-box lvl-3-bg">⚡</div>
+                        <div class="level-info">
+                            <div class="level-num">Modul 3 • Fisika Mekanika</div>
+                            <div class="level-name">Gaya, Gerak & Tekanan</div>
+                            <div class="level-desc">Arena Hukum Newton, gaya gesek & laboratorium tekanan zat padat.</div>
+                        </div>
+                        <div class="level-meta-right">
+                            <div class="star-row" id="stars-lvl-3">
+                                <span class="star-slot">★</span><span class="star-slot">★</span><span class="star-slot">★</span>
+                            </div>
+                            <span class="status-pill locked" id="status-lvl-3">🔒 TERKUNCI</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================================================================
+                 LAYAR 3: MODUL 1 – KARAKTERISTIK & KLASIFIKASI MAKHLUK HIDUP
+                 ================================================================== -->
+            <section id="screen-mod1" class="app-screen">
+                <div class="module-header">
+                    <div class="module-title-wrap">
+                        <div class="module-tag">Modul 1 • Biologi SMP</div>
+                        <h2 class="module-title">Klasifikasi Makhluk Hidup</h2>
+                    </div>
+                    <button class="btn-game btn-surface" style="padding: 6px 12px; font-size: 0.75rem;" onclick="switchScreen('screen-map')">
+                        🗺️ Peta
+                    </button>
+                </div>
+
+                <!-- Tab Switcher Modul 1 -->
+                <div class="tab-switcher">
+                    <button class="tab-btn active" id="tabbtn-m1-materi" onclick="switchModuleTab('m1', 'materi')">
+                        📚 Materi Visual
+                    </button>
+                    <button class="tab-btn" id="tabbtn-m1-game" onclick="switchModuleTab('m1', 'game')">
+                        🎮 Mini Game Sortir
+                    </button>
+                </div>
+
+                <!-- Tab 1: Materi Visual 5 Kingdom -->
+                <div class="tab-pane active" id="pane-m1-materi">
+                    <div class="glass-card" style="padding: 10px 12px;">
+                        <p style="font-size: 0.76rem; color: #e2e8f0; line-height: 1.4;">
+                            💡 <strong>Ciri Makhluk Hidup:</strong> Bernapas, bergerak, butuh nutrisi, tumbuh & berkembang, berkembang biak, dan peka terhadap rangsang (iritabilitas). Robert H. Whittaker membagi makhluk hidup menjadi <strong>5 Kingdom</strong>:
+                        </p>
+                    </div>
+
+                    <div class="kingdom-grid">
+                        <div class="kingdom-card">
+                            <div class="kingdom-emoji">🦁</div>
+                            <div class="kingdom-text">
+                                <h4>1. Kingdom Animalia (Hewan)</h4>
+                                <p>Multiseluler, eukariotik, heterotrof (tidak bisa membuat makanan sendiri), dan bergerak aktif.</p>
+                            </div>
+                        </div>
+                        <div class="kingdom-card">
+                            <div class="kingdom-emoji">🌻</div>
+                            <div class="kingdom-text">
+                                <h4>2. Kingdom Plantae (Tumbuhan)</h4>
+                                <p>Multiseluler, memiliki dinding sel & klorofil untuk fotosintesis (autotrof). Contoh: lumut, paku, mangga.</p>
+                            </div>
+                        </div>
+                        <div class="kingdom-card">
+                            <div class="kingdom-emoji">🍄</div>
+                            <div class="kingdom-text">
+                                <h4>3. Kingdom Fungi (Jamur)</h4>
+                                <p>Eukariotik, tidak berklorofil, menyerap zat organik (saprofit/parasit), bereproduksi dengan spora.</p>
+                            </div>
+                        </div>
+                        <div class="kingdom-card">
+                            <div class="kingdom-emoji">🦠</div>
+                            <div class="kingdom-text">
+                                <h4>4. Monera & 5. Protista</h4>
+                                <p><strong>Monera:</strong> Prokariotik bersel satu (Bakteri & Alga biru). <strong>Protista:</strong> Eukariotik sederhana (Amoeba, Paramecium, Ganggang).</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn-game btn-secondary" onclick="switchModuleTab('m1', 'game')">
+                        🎮 Mainkan Mini Game Klasifikasi →
+                    </button>
+                </div>
+
+                <!-- Tab 2: Mini Game Drag & Drop / Tap to Classify -->
+                <div class="tab-pane" id="pane-m1-game">
+                    <div class="classifier-hud">
+                        <span>Spesimen: <strong id="m1-progress-text">1 / 6</strong></span>
+                        <span>Skor Misi: <strong id="m1-score-text" style="color: #fbbf24;">0</strong></span>
+                    </div>
+
+                    <div class="specimen-stage">
+                        <p style="font-size: 0.7rem; color: #94a3b8; margin-bottom: 8px;">
+                            Seret kartu organisme di bawah atau <strong>Tap kotak Kingdom</strong> yang tepat!
+                        </p>
+                        <div class="specimen-card" id="specimen-draggable" draggable="true">
+                            <div class="specimen-emoji" id="spec-emoji">🐅</div>
+                            <div class="specimen-name" id="spec-name">Harimau Sumatera</div>
+                            <div class="specimen-clue" id="spec-clue">Multiseluler, karnivora, bergerak aktif</div>
+                        </div>
+                    </div>
+
+                    <div class="kingdom-bins">
+                        <div class="bin-box" data-kingdom="Animalia" onclick="handleKingdomSelect('Animalia')">
+                            <span class="bin-icon">🐾</span>
+                            <span class="bin-title">Animalia</span>
+                            <span class="bin-sub">Dunia Hewan</span>
+                        </div>
+                        <div class="bin-box" data-kingdom="Plantae" onclick="handleKingdomSelect('Plantae')">
+                            <span class="bin-icon">🌱</span>
+                            <span class="bin-title">Plantae</span>
+                            <span class="bin-sub">Dunia Tumbuhan</span>
+                        </div>
+                        <div class="bin-box" data-kingdom="Fungi" onclick="handleKingdomSelect('Fungi')">
+                            <span class="bin-icon">🍄</span>
+                            <span class="bin-title">Fungi</span>
+                            <span class="bin-sub">Dunia Jamur</span>
+                        </div>
+                        <div class="bin-box" data-kingdom="Mikro" onclick="handleKingdomSelect('Mikro')">
+                            <span class="bin-icon">🔬</span>
+                            <span class="bin-title">Monera / Protista</span>
+                            <span class="bin-sub">Mikroorganisme</span>
+                        </div>
+                    </div>
+
+                    <button class="btn-game btn-surface" style="font-size: 0.78rem; padding: 8px;" onclick="resetMod1Game()">
+                        🔄 Acak Ulang Spesimen
+                    </button>
+                </div>
+            </section>
+
+            <!-- ==================================================================
+                 LAYAR 4: MODUL 2 – SIFAT & PERUBAHAN MATERI
+                 ================================================================== -->
+            <section id="screen-mod2" class="app-screen">
+                <div class="module-header">
+                    <div class="module-title-wrap">
+                        <div class="module-tag">Modul 2 • Kimia Dasar</div>
+                        <h2 class="module-title">Sifat & Perubahan Materi</h2>
+                    </div>
+                    <button class="btn-game btn-surface" style="padding: 6px 12px; font-size: 0.75rem;" onclick="switchScreen('screen-map')">
+                        🗺️ Peta
+                    </button>
+                </div>
+
+                <div class="tab-switcher">
+                    <button class="tab-btn active" id="tabbtn-m2-lab" onclick="switchModuleTab('m2', 'lab')">
+                        🔬 Lab Partikel Zat
+                    </button>
+                    <button class="tab-btn" id="tabbtn-m2-quiz" onclick="switchModuleTab('m2', 'quiz')">
+                        ⚡ Kuis Fisika vs Kimia
+                    </button>
+                </div>
+
+                <!-- Tab 1: Simulasi Partikel Zat -->
+                <div class="tab-pane active" id="pane-m2-lab">
+                    <div class="particle-canvas-wrap">
+                        <canvas id="particleCanvas"></canvas>
+                        <div class="state-overlay-badge" id="water-state-label">🧊 Wujud: PADAT (Es)</div>
+                        <div class="temp-overlay-badge" id="water-temp-label">-20°C</div>
+                    </div>
+
+                    <div class="glass-card slider-control">
+                        <div class="slider-header">
+                            <span>🔥 Pengatur Suhu Pemanas Lab</span>
+                            <span id="slider-temp-val" style="color: var(--accent);">-20°C</span>
+                        </div>
+                        <input type="range" id="tempSlider" min="-50" max="150" value="-20" oninput="updateTemperature(this.value)">
+                        <div class="preset-temp-row" style="margin-top: 6px;">
+                            <button class="btn-game btn-surface" style="padding: 6px; font-size: 0.72rem;" onclick="setPresetTemp(-25)">🧊 Beku (-25°C)</button>
+                            <button class="btn-game btn-surface" style="padding: 6px; font-size: 0.72rem;" onclick="setPresetTemp(30)">💧 Cair (30°C)</button>
+                            <button class="btn-game btn-surface" style="padding: 6px; font-size: 0.72rem;" onclick="setPresetTemp(120)">♨️ Uap (120°C)</button>
+                        </div>
+                    </div>
+
+                    <div class="glass-card" id="particle-explanation" style="font-size: 0.75rem; line-height: 1.4; color: #cbd5e1;">
+                        <strong>Analisis Partikel (Padat):</strong> Jarak antarpartikel sangat rapat dan teratur. Gaya tarik-menarik sangat kuat sehingga partikel hanya bergetar di tempatnya. Bentuk dan volume tetap.
+                    </div>
+
+                    <button class="btn-game btn-secondary" onclick="switchModuleTab('m2', 'quiz')">
+                        ⚡ Lanjut ke Tantangan Perubahan Materi →
+                    </button>
+                </div>
+
+                <!-- Tab 2: Kuis Perubahan Fisika vs Kimia -->
+                <div class="tab-pane" id="pane-m2-quiz">
+                    <div class="classifier-hud">
+                        <span>Tantangan: <strong id="m2-q-index">1 / 5</strong></span>
+                        <span>Skor Lab: <strong id="m2-q-score" style="color: #fbbf24;">0</strong></span>
+                    </div>
+
+                    <div class="matter-quiz-card">
+                        <div class="phenomenon-icon" id="m2-phenom-icon">🕯️</div>
+                        <h3 class="phenomenon-title" id="m2-phenom-title">Es Batu Mencair di Meja</h3>
+                        <p class="phenomenon-desc" id="m2-phenom-desc">
+                            Air berwujud padat berubah menjadi air cair karena menyerap kalor tanpa menghasilkan zat jenis baru.
+                        </p>
+
+                        <div class="choice-duo">
+                            <button class="btn-game btn-secondary" onclick="answerMatterQuiz('Fisika')">
+                                🧊 Perubahan Fisika
+                            </button>
+                            <button class="btn-game btn-accent" onclick="answerMatterQuiz('Kimia')">
+                                🧪 Perubahan Kimia
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="glass-card" style="font-size: 0.73rem; color: #cbd5e1; line-height: 1.38;">
+                        💡 <strong>Tips Cepat:</strong><br>
+                        • <strong>Perubahan Fisika:</strong> Hanya mengubah wujud/ukuran, dapat balik (reversibel), <em>tidak</em> terbentuk zat baru.<br>
+                        • <strong>Perubahan Kimia:</strong> Terbentuk zat baru (ada gas, endapan, perubahan warna/suhu, pembakaran/perkaratan).
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================================================================
+                 LAYAR 5: MODUL 3 – GAYA, GERAK, DAN TEKANAN
+                 ================================================================== -->
+            <section id="screen-mod3" class="app-screen">
+                <div class="module-header">
+                    <div class="module-title-wrap">
+                        <div class="module-tag">Modul 3 • Fisika Mekanika</div>
+                        <h2 class="module-title">Gaya, Gerak & Tekanan</h2>
+                    </div>
+                    <button class="btn-game btn-surface" style="padding: 6px 12px; font-size: 0.75rem;" onclick="switchScreen('screen-map')">
+                        🗺️ Peta
+                    </button>
+                </div>
+
+                <div class="tab-switcher">
+                    <button class="tab-btn active" id="tabbtn-m3-force" onclick="switchModuleTab('m3', 'force')">
+                        🚜 Simulasi Gaya & Gerak
+                    </button>
+                    <button class="tab-btn" id="tabbtn-m3-pressure" onclick="switchModuleTab('m3', 'pressure')">
+                        📐 Lab Tekanan & Misi
+                    </button>
+                </div>
+
+                <!-- Tab 1: Simulasi Gaya Dorong & Gesekan -->
+                <div class="tab-pane active" id="pane-m3-force">
+                    <div class="force-arena">
+                        <div class="physics-crate" id="sim-crate">
+                            <span>📦</span>
+                            <span id="crate-mass-label">10 kg</span>
+                            <div class="force-arrow arrow-push" id="arrow-push" style="width: 30px;"></div>
+                            <div class="force-arrow arrow-friction" id="arrow-friction" style="width: 10px;"></div>
+                        </div>
+                        <div class="arena-ground-grid"></div>
+                    </div>
+
+                    <div class="telemetry-grid">
+                        <div class="telemetry-box">
+                            <span>Resultan (ΣF)</span>
+                            <strong id="tel-netforce">40 N</strong>
+                        </div>
+                        <div class="telemetry-box">
+                            <span>Percepatan (a)</span>
+                            <strong id="tel-accel">4.0 m/s²</strong>
+                        </div>
+                        <div class="telemetry-box">
+                            <span>Status Benda</span>
+                            <strong id="tel-status" style="color: #34d399;">Bergerak →</strong>
+                        </div>
+                    </div>
+
+                    <div class="glass-card" style="display: flex; flex-direction: column; gap: 8px; padding: 10px 12px;">
+                        <div class="slider-control">
+                            <div class="slider-header">
+                                <span>🟢 Gaya Dorong (F):</span>
+                                <span id="val-push">60 N</span>
+                            </div>
+                            <input type="range" id="slider-push" min="0" max="120" value="60" oninput="updateForceSim()">
+                        </div>
+
+                        <div class="slider-control">
+                            <div class="slider-header">
+                                <span>🔴 Gaya Gesek Maksimum (f):</span>
+                                <span id="val-friction">20 N</span>
+                            </div>
+                            <input type="range" id="slider-friction" min="0" max="80" value="20" oninput="updateForceSim()">
+                        </div>
+
+                        <div class="slider-control">
+                            <div class="slider-header">
+                                <span>⚖️ Massa Balok (m):</span>
+                                <span id="val-mass">10 kg</span>
+                            </div>
+                            <input type="range" id="slider-mass" min="2" max="30" value="10" oninput="updateForceSim()">
+                        </div>
+                    </div>
+
+                    <button class="btn-game btn-secondary" onclick="switchModuleTab('m3', 'pressure')">
+                        📐 Buka Kalkulator & Misi Tekanan →
+                    </button>
+                </div>
+
+                <!-- Tab 2: Kalkulator & Visualisasi Tekanan (P = F / A) + Misi Akhir -->
+                <div class="tab-pane" id="pane-m3-pressure">
+                    <div class="pressure-visual-stage">
+                        <div class="pressure-pillar" id="pressure-block" style="width: 70px; height: 55px; transform: translateY(12px);">
+                            <span id="p-visual-text">500 Pa</span>
+                        </div>
+                        <span class="soil-label">Lapisan Tanah Lunak</span>
+                    </div>
+
+                    <div class="glass-card" style="display: flex; flex-direction: column; gap: 8px; padding: 10px 12px;">
+                        <div class="slider-header" style="border-bottom: 1px solid var(--glass-border); padding-bottom: 6px;">
+                            <span>Rumus: <strong>P = F / A</strong></span>
+                            <span style="color: #38bdf8; font-family: var(--font-display); font-size: 0.95rem;" id="calc-pressure-out">P = 500 N/m² (Pa)</span>
+                        </div>
+
+                        <div class="slider-control">
+                            <div class="slider-header">
+                                <span>⬇️ Gaya Tekan (F):</span>
+                                <span id="val-p-force">100 N</span>
+                            </div>
+                            <input type="range" id="slider-p-force" min="20" max="300" step="10" value="100" oninput="updatePressureSim()">
+                        </div>
+
+                        <div class="slider-control">
+                            <div class="slider-header">
+                                <span>📏 Luas Bidang Tekan (A):</span>
+                                <span id="val-p-area">0.20 m²</span>
+                            </div>
+                            <input type="range" id="slider-p-area" min="5" max="100" step="5" value="20" oninput="updatePressureSim()">
+                        </div>
+                    </div>
+
+                    <!-- Misi Tantangan Tekanan untuk Menyelesaikan Modul 3 -->
+                    <div class="glass-card" style="background: rgba(99, 102, 241, 0.16); border-color: rgba(99, 102, 241, 0.45);">
+                        <div style="font-size: 0.72rem; color: #a5f3fc; font-weight: 800; text-transform: uppercase;">
+                            🎯 Misi Laboratorium Fisika (<span id="m3-mission-step">1/3</span>)
+                        </div>
+                        <p id="m3-mission-prompt" style="font-size: 0.8rem; color: #fff; margin: 4px 0 10px; line-height: 1.35;">
+                            Atur slider di atas agar menghasilkan Tekanan (P) sebesar <strong>1000 Pa</strong> (Contoh: F = 200 N dan A = 0.20 m²), lalu klik Verifikasi!
+                        </p>
+                        <button class="btn-game btn-success" style="width: 100%; padding: 10px;" onclick="verifyMod3Mission()">
+                            ✅ Verifikasi Eksperimen Tekanan
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- BOTTOM NAVIGATION BAR -->
+        <nav class="bottom-nav">
+            <button class="nav-item active" id="nav-home" onclick="switchScreen('screen-home')">
+                <span class="nav-icon">🏠</span>
+                <span>Beranda</span>
+            </button>
+            <button class="nav-item" id="nav-map" onclick="switchScreen('screen-map')">
+                <span class="nav-icon">🗺️</span>
+                <span>Peta Dunia</span>
+            </button>
+            <button class="nav-item" id="nav-info" onclick="openModal('modal-info')">
+                <span class="nav-icon">📖</span>
+                <span>Panduan</span>
+            </button>
+            <button class="nav-item" id="nav-settings" onclick="openModal('modal-settings')">
+                <span class="nav-icon">⚙️</span>
+                <span>Pengaturan</span>
+            </button>
+        </nav>
+
+        <!-- FOOTER CREDIT KELOMPOK 3 PID25 -->
+        <footer class="app-footer">
+            © 2026 Kelompok 3 PID25 | SainsVerse • sainsverse-pid25.pages.dev
+        </footer>
+
+        <!-- ======================================================================
+             LAYAR 6 / KOMPONEN GLOBAL: MODAL VICTORY / RINGKASAN SKOR
+             ====================================================================== -->
+        <div class="modal-backdrop" id="modal-victory">
+            <div class="modal-dialog">
+                <div style="font-size: 0.75rem; font-weight: 800; color: var(--secondary); text-transform: uppercase;">
+                    🎉 Misi Modul Selesai!
+                </div>
+                <h3 id="victory-title" style="font-family: var(--font-display); font-size: 1.35rem; margin-top: 2px;">
+                    Modul 1 Tuntas!
+                </h3>
+
+                <div class="victory-stars">
+                    <span class="v-star" id="vstar-1">★</span>
+                    <span class="v-star" id="vstar-2">★</span>
+                    <span class="v-star" id="vstar-3">★</span>
+                </div>
+
+                <p id="victory-desc" style="font-size: 0.8rem; color: #cbd5e1; line-height: 1.4;">
+                    Luar biasa! Kamu berhasil mengelompokkan spesimen makhluk hidup dengan akurat.
+                </p>
+
+                <div class="badge-earned-box">
+                    <div style="font-size: 1.6rem;" id="victory-badge-icon">🏅</div>
+                    <div style="font-family: var(--font-display); font-size: 0.9rem; color: #fbbf24;" id="victory-badge-name">
+                        Lencana Ahli Taksonomi
+                    </div>
+                    <div style="font-size: 0.78rem; color: #a5f3fc; margin-top: 2px;">
+                        Skor Didapat: <strong id="victory-score-val">+300</strong> Koin Sains
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 14px;">
+                    <button class="btn-game btn-primary" id="btn-next-module" onclick="goNextModuleFromVictory()">
+                        🚀 Lanjut ke Level Berikutnya
+                    </button>
+                    <button class="btn-game btn-surface" onclick="closeModal('modal-victory'); switchScreen('screen-map');">
+                        🗺️ Kembali ke Peta Dunia
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======================================================================
+             MODAL PANDUAN & INFO KARYA KELOMPOK 3 PID25
+             ====================================================================== -->
+        <div class="modal-backdrop" id="modal-info">
+            <div class="modal-dialog" style="text-align: left;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <h3 style="font-family: var(--font-display); font-size: 1.15rem; color: #38bdf8;">
+                        📖 Panduan & Tentang Aplikasi
+                    </h3>
+                    <button class="icon-btn" style="width: 30px; height: 30px;" onclick="closeModal('modal-info')">✕</button>
+                </div>
+
+                <div style="font-size: 0.78rem; color: #cbd5e1; line-height: 1.45; display: flex; flex-direction: column; gap: 10px;">
+                    <div class="glass-card" style="padding: 10px;">
+                        <strong style="color: #fff;">🌟 SainsVerse (Jelajah IPA Interaktif)</strong><br>
+                        Media pembelajaran IPA SMP berbasis <em>Mobile Game App UI</em> yang dikembangkan oleh <strong>Kelompok 3 PID25</strong> untuk domain <code>sainsverse-pid25.pages.dev</code>.
+                    </div>
+
+                    <div>
+                        <strong style="color: #fbbf24;">🎮 Cara Bermain:</strong>
+                        <ul style="padding-left: 18px; margin-top: 4px;">
+                            <li>Pilih <strong>Mulai Petualangan</strong> untuk membuka Peta Dunia.</li>
+                            <li>Setiap modul memiliki tab <strong>Materi Visual / Lab Simulasi</strong> dan <strong>Mini Game / Tantangan</strong>.</li>
+                            <li>Raih minimal 1 Bintang di setiap modul untuk membuka modul berikutnya (atau aktifkan <em>Mode Bebas</em> di Pengaturan).</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <strong style="color: #34d399;">🏆 Lencana Pencapaian Anda:</strong>
+                        <div id="info-badges-list" style="display: flex; gap: 8px; margin-top: 6px; flex-wrap: wrap;">
+                            <!-- Diisi otomatis via JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn-game btn-primary" style="width: 100%; margin-top: 14px;" onclick="closeModal('modal-info')">
+                    Mengerti & Siap Eksplorasi!
+                </button>
+            </div>
+        </div>
+
+        <!-- ======================================================================
+             MODAL PENGATURAN (SUARA, MODE BEBAS DOSEN/PENGUJI, RESET)
+             ====================================================================== -->
+        <div class="modal-backdrop" id="modal-settings">
+            <div class="modal-dialog">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <h3 style="font-family: var(--font-display); font-size: 1.15rem;">⚙️ Pengaturan Game</h3>
+                    <button class="icon-btn" style="width: 30px; height: 30px;" onclick="closeModal('modal-settings')">✕</button>
+                </div>
+
+                <div class="setting-row">
+                    <div>
+                        <strong>🔊 Efek Suara (SFX)</strong>
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">Suara sintetis tombol & kemenangan</div>
+                    </div>
+                    <div class="toggle-switch on" id="toggle-sound" onclick="toggleSoundSetting()">
+                        <div class="toggle-knob"></div>
+                    </div>
+                </div>
+
+                <div class="setting-row">
+                    <div>
+                        <strong>🔓 Mode Bebas (Buka Semua Level)</strong>
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">Akses instan semua modul untuk penguji/guru</div>
+                    </div>
+                    <div class="toggle-switch" id="toggle-unlock" onclick="toggleFreeModeSetting()">
+                        <div class="toggle-knob"></div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 16px; display: flex; flex-direction: column; gap: 8px;">
+                    <button class="btn-game btn-surface" style="color: #fca5a5; border-color: rgba(239,68,68,0.4);" onclick="resetAllProgress()">
+                        🗑️ Reset Semua Progres & Skor
+                    </button>
+                    <button class="btn-game btn-primary" onclick="closeModal('modal-settings')">
+                        Simpan & Tutup
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ==========================================================================
+         JAVASCRIPT ENGINE: STATE, AUDIO SYNTH, SIMULASI & MINI GAMES
+         ========================================================================== -->
+    <script>
+        /* ==========================================================================
+           1. STATE MANAGEMENT & LOCALSTORAGE PERSISTENCE
+           ========================================================================== */
+        const STORAGE_KEY = 'sainsverse_pid25_save_v1';
+
+        const defaultState = {
+            score: 0,
+            soundEnabled: true,
+            freeMode: false, // Jika true, semua modul langsung terbuka
+            unlockedLevel: 1,
+            stars: { 1: 0, 2: 0, 3: 0 },
+            badges: []
+        };
+
+        let gameState = loadState();
+        let currentVictoryModule = 1;
+
+        function loadState() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (raw) {
+                    return Object.assign({}, defaultState, JSON.parse(raw));
+                }
+            } catch (e) {
+                console.warn('LocalStorage tidak dapat diakses, menggunakan state memori.');
+            }
+            return JSON.parse(JSON.stringify(defaultState));
+        }
+
+        function saveState() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(gameState));
+            } catch (e) {}
+            updateHUD();
+        }
+
+        /* ==========================================================================
+           2. WEB AUDIO API SYNTHESIZER (TANPA FILE MP3 EKSTERNAL)
+           ========================================================================== */
+        let audioCtx = null;
+
+        function playSFX(type) {
+            if (!gameState.soundEnabled) return;
+            try {
+                if (!audioCtx) {
+                    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                    audioCtx = new AudioContextClass();
+                }
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+
+                const now = audioCtx.currentTime;
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                if (type === 'tap') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(520, now);
+                    osc.frequency.exponentialRampToValueAtTime(680, now + 0.06);
+                    gain.gain.setValueAtTime(0.12, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
+                    osc.start(now);
+                    osc.stop(now + 0.06);
+                } else if (type === 'correct') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(523.25, now); // C5
+                    osc.frequency.setValueAtTime(659.25, now + 0.08); // E5
+                    osc.frequency.setValueAtTime(783.99, now + 0.16); // G5
+                    gain.gain.setValueAtTime(0.18, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.32);
+                    osc.start(now);
+                    osc.stop(now + 0.32);
+                } else if (type === 'wrong') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(220, now);
+                    osc.frequency.linearRampToValueAtTime(150, now + 0.22);
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.24);
+                    osc.start(now);
+                    osc.stop(now + 0.24);
+                } else if (type === 'victory') {
+                    const notes = [523.25, 659.25, 783.99, 1046.5];
+                    notes.forEach((freq, idx) => {
+                        const o = audioCtx.createOscillator();
+                        const g = audioCtx.createGain();
+                        o.type = 'triangle';
+                        o.connect(g);
+                        g.connect(audioCtx.destination);
+                        o.frequency.setValueAtTime(freq, now + idx * 0.09);
+                        g.gain.setValueAtTime(0.16, now + idx * 0.09);
+                        g.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.09 + 0.28);
+                        o.start(now + idx * 0.09);
+                        o.stop(now + idx * 0.09 + 0.28);
+                    });
+                }
+            } catch (e) {}
+        }
+
+        /* ==========================================================================
+           3. HUD, TOAST & SCREEN SWITCHER NAVIGATION
+           ========================================================================== */
+        let toastTimer = null;
+        function showToast(msg) {
+            const toast = document.getElementById('game-toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2200);
+        }
+
+        function updateHUD() {
+            document.getElementById('hud-score').textContent = gameState.score;
+            const totalStars = (gameState.stars[1] || 0) + (gameState.stars[2] || 0) + (gameState.stars[3] || 0);
+            document.getElementById('hud-stars').textContent = `${totalStars}/9`;
+
+            // Update pangkat pemain berdasarkan bintang
+            const rankEl = document.getElementById('hud-rank');
+            if (totalStars >= 7) rankEl.textContent = 'Profesor SainsVerse 🌟';
+            else if (totalStars >= 4) rankEl.textContent = 'Peneliti Muda 🔬';
+            else rankEl.textContent = 'Kadet Eksplorasi 🚀';
+
+            // Update Peta Dunia (World Select)
+            const pct = Math.round((totalStars / 9) * 100);
+            document.getElementById('map-progress-pct').textContent = `${pct}%`;
+            document.getElementById('map-progress-bar').style.width = `${pct}%`;
+
+            for (let lvl = 1; lvl <= 3; lvl++) {
+                const isUnlocked = gameState.freeMode || lvl <= gameState.unlockedLevel;
+                const card = document.getElementById(`card-lvl-${lvl}`);
+                const statusPill = document.getElementById(`status-lvl-${lvl}`);
+                const starContainer = document.getElementById(`stars-lvl-${lvl}`);
+                const earned = gameState.stars[lvl] || 0;
+
+                if (isUnlocked) {
+                    card.classList.remove('locked');
+                    card.classList.add('unlocked');
+                    statusPill.classList.remove('locked');
+                    statusPill.textContent = earned > 0 ? 'SELESAI ✓' : 'TERBUKA';
+                } else {
+                    card.classList.remove('unlocked');
+                    card.classList.add('locked');
+                    statusPill.classList.add('locked');
+                    statusPill.textContent = '🔒 TERKUNCI';
+                }
+
+                // Render 3 bintang
+                starContainer.innerHTML = '';
+                for (let s = 1; s <= 3; s++) {
+                    const span = document.createElement('span');
+                    span.className = 'star-slot' + (s <= earned ? ' earned' : '');
+                    span.textContent = '★';
+                    starContainer.appendChild(span);
+                }
+            }
+
+            // Update Toggles di Settings
+            document.getElementById('toggle-sound').classList.toggle('on', gameState.soundEnabled);
+            document.getElementById('toggle-unlock').classList.toggle('on', gameState.freeMode);
+
+            // Render Badges di Modal Info
+            const badgeContainer = document.getElementById('info-badges-list');
+            if (gameState.badges.length === 0) {
+                badgeContainer.innerHTML = `<span style="font-size:0.72rem; color:var(--text-muted);">Belum ada lencana. Selesaikan misi modul!</span>`;
+            } else {
+                badgeContainer.innerHTML = gameState.badges.map(b => `<span class="badge-chip">${b}</span>`).join('');
+            }
+        }
+
+        function switchScreen(screenId) {
+            playSFX('tap');
+            document.querySelectorAll('.app-screen').forEach(scr => {
+                scr.classList.remove('active');
+            });
+            const target = document.getElementById(screenId);
+            if (target) target.classList.add('active');
+
+            // Update active state di Bottom Nav
+            document.querySelectorAll('.bottom-nav .nav-item').forEach(btn => btn.classList.remove('active'));
+            if (screenId === 'screen-home') document.getElementById('nav-home').classList.add('active');
+            else document.getElementById('nav-map').classList.add('active');
+
+            // Resize canvas jika masuk ke Modul 2
+            if (screenId === 'screen-mod2') {
+                setTimeout(resizeParticleCanvas, 60);
+            }
+        }
+
+        function enterModule(levelNum) {
+            const isUnlocked = gameState.freeMode || levelNum <= gameState.unlockedLevel;
+            if (!isUnlocked) {
+                playSFX('wrong');
+                showToast(`🔒 Selesaikan Modul ${levelNum - 1} dulu atau aktifkan Mode Bebas di ⚙️!`);
+                return;
+            }
+            if (levelNum === 1) {
+                resetMod1Game();
+                switchScreen('screen-mod1');
+            } else if (levelNum === 2) {
+                resetMod2Quiz();
+                switchScreen('screen-mod2');
+            } else if (levelNum === 3) {
+                updateForceSim();
+                updatePressureSim();
+                switchScreen('screen-mod3');
+            }
+        }
+
+        function switchModuleTab(modPrefix, tabName) {
+            playSFX('tap');
+            const screenEl = document.getElementById(
+                modPrefix === 'm1' ? 'screen-mod1' : modPrefix === 'm2' ? 'screen-mod2' : 'screen-mod3'
+            );
+            screenEl.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            screenEl.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+
+            document.getElementById(`tabbtn-${modPrefix}-${tabName}`).classList.add('active');
+            document.getElementById(`pane-${modPrefix}-${tabName}`).classList.add('active');
+
+            if (modPrefix === 'm2' && tabName === 'lab') {
+                setTimeout(resizeParticleCanvas, 50);
+            }
+        }
+
+        /* ==========================================================================
+           4. MODUL 1: MINI GAME KLASIFIKASI 5 KINGDOM (DRAG & DROP + TAP)
+           ========================================================================== */
+        const specimensData = [
+            { name: 'Harimau Sumatera', emoji: '🐅', kingdom: 'Animalia', clue: 'Multiseluler, heterotrof, bergerak aktif' },
+            { name: 'Pohon Jati', emoji: '🌳', kingdom: 'Plantae', clue: 'Memiliki klorofil & dinding sel, berfotosintesis' },
+            { name: 'Jamur Tiram', emoji: '🍄', kingdom: 'Fungi', clue: 'Tidak berklorofil, menyerap zat organik & berspora' },
+            { name: 'Amoeba & Paramecium', emoji: '🦠', kingdom: 'Mikro', clue: 'Organisme mikroskopis bersel satu (Protista)' },
+            { name: 'Burung Cenderawasih', emoji: '🦜', kingdom: 'Animalia', clue: 'Vertebrata berbulu, bernapas dengan paru-paru' },
+            { name: 'Tumbuhan Lumut & Paku', emoji: '🌿', kingdom: 'Plantae', clue: 'Autotrof berklorofil, tumbuh di tempat lembap' }
+        ];
+
+        let m1Queue = [];
+        let m1Index = 0;
+        let m1Score = 0;
+        let m1Mistakes = 0;
+
+        function resetMod1Game() {
+            m1Queue = [...specimensData].sort(() => Math.random() - 0.5);
+            m1Index = 0;
+            m1Score = 0;
+            m1Mistakes = 0;
+            renderCurrentSpecimen();
+        }
+
+        function renderCurrentSpecimen() {
+            const total = m1Queue.length;
+            document.getElementById('m1-progress-text').textContent = `${Math.min(m1Index + 1, total)} / ${total}`;
+            document.getElementById('m1-score-text').textContent = m1Score;
+
+            if (m1Index >= total) return;
+            const current = m1Queue[m1Index];
+            document.getElementById('spec-emoji').textContent = current.emoji;
+            document.getElementById('spec-name').textContent = current.name;
+            document.getElementById('spec-clue').textContent = current.clue;
+        }
+
+        function handleKingdomSelect(chosenKingdom) {
+            if (m1Index >= m1Queue.length) return;
+            const current = m1Queue[m1Index];
+
+            if (chosenKingdom === current.kingdom) {
+                playSFX('correct');
+                m1Score += 50;
+                showToast(`✅ Tepat! ${current.name} termasuk ${chosenKingdom}.`);
+                m1Index++;
+
+                if (m1Index >= m1Queue.length) {
+                    const stars = m1Mistakes === 0 ? 3 : m1Mistakes <= 2 ? 2 : 1;
+                    triggerVictoryModal(
+                        1,
+                        'Modul 1 Tuntas!',
+                        stars,
+                        m1Score,
+                        '🏅 Ahli Taksonomi Biologi',
+                        'Kamu berhasil mengklasifikasikan organisme ke dalam Kingdom yang tepat!'
+                    );
+                } else {
+                    renderCurrentSpecimen();
+                }
+            } else {
+                playSFX('wrong');
+                m1Mistakes++;
+                m1Score = Math.max(0, m1Score - 15);
+                document.getElementById('m1-score-text').textContent = m1Score;
+                showToast(`❌ Kurang tepat! Perhatikan ciri ${current.name}.`);
+            }
+        }
+
+        // Drag and Drop Event Listeners untuk Desktop & Mobile Touch
+        const draggableSpec = document.getElementById('specimen-draggable');
+        draggableSpec.addEventListener('dragstart', (e) => {
+            e.dataTransfer.setData('text/plain', 'specimen');
+        });
+
+        document.querySelectorAll('.bin-box').forEach(bin => {
+            bin.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                bin.classList.add('drag-over');
+            });
+            bin.addEventListener('dragleave', () => {
+                bin.classList.remove('drag-over');
+            });
+            bin.addEventListener('drop', (e) => {
+                e.preventDefault();
+                bin.classList.remove('drag-over');
+                const targetKingdom = bin.getAttribute('data-kingdom');
+                handleKingdomSelect(targetKingdom);
+            });
+        });
+
+        /* ==========================================================================
+           5. MODUL 2: SIMULASI PARTIKEL ZAT (CANVAS) & KUIS PERUBAHAN MATERI
+           ========================================================================== */
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        let currentTemp = -20;
+        let particles = [];
+
+        function resizeParticleCanvas() {
+            const rect = canvas.parentElement.getBoundingClientRect();
+            if (rect.width > 0 && rect.height > 0) {
+                canvas.width = rect.width;
+                canvas.height = rect.height;
+                initParticles();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            const cols = 7;
+            const rows = 4;
+            const spacingX = 26;
+            const spacingY = 24;
+            const startX = (canvas.width - (cols - 1) * spacingX) / 2;
+            const startY = canvas.height - 30 - (rows - 1) * spacingY;
+
+            for (let r = 0; r < rows; r++) {
+                for (let c = 0; c < cols; c++) {
+                    const gx = startX + c * spacingX;
+                    const gy = startY + r * spacingY;
+                    particles.push({
+                        x: gx,
+                        y: gy,
+                        gx: gx,
+                        gy: gy,
+                        vx: (Math.random() - 0.5) * 2,
+                        vy: (Math.random() - 0.5) * 2,
+                        radius: 7
+                    });
+                }
+            }
+        }
+
+        function setPresetTemp(val) {
+            playSFX('tap');
+            document.getElementById('tempSlider').value = val;
+            updateTemperature(val);
+        }
+
+        function updateTemperature(val) {
+            currentTemp = parseInt(val, 10);
+            document.getElementById('slider-temp-val').textContent = `${currentTemp}°C`;
+            document.getElementById('water-temp-label').textContent = `${currentTemp}°C`;
+
+            const stateLabel = document.getElementById('water-state-label');
+            const expBox = document.getElementById('particle-explanation');
+
+            if (currentTemp <= 0) {
+                stateLabel.textContent = '🧊 Wujud: PADAT (Es)';
+                stateLabel.style.color = '#38bdf8';
+                expBox.innerHTML = '<strong>Analisis Partikel (Padat):</strong> Suhu ≤ 0°C. Jarak antarpartikel sangat rapat dan teratur. Gaya tarik antarpartikel sangat kuat sehingga partikel hanya bergetar di posisi tetap.';
+            } else if (currentTemp < 100) {
+                stateLabel.textContent = '💧 Wujud: CAIR (Air)';
+                stateLabel.style.color = '#22d3ee';
+                expBox.innerHTML = '<strong>Analisis Partikel (Cair):</strong> Suhu 1°C – 99°C. Ikatan partikel mulai renggang sehingga partikel dapat bergerak bebas mengalir mengikuti bentuk wadahnya, namun volumenya tetap.';
+            } else {
+                stateLabel.textContent = '♨️ Wujud: GAS (Uap)';
+                stateLabel.style.color = '#fbbf24';
+                expBox.innerHTML = '<strong>Analisis Partikel (Gas):</strong> Suhu ≥ 100°C. Energi kinetik sangat tinggi! Partikel bergerak sangat cepat, berjauhan, dan memenuhi seluruh ruangan (bentuk & volume berubah).';
+            }
+        }
+
+        function animateParticles() {
+            if (canvas.width > 0 && canvas.height > 0) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                particles.forEach(p => {
+                    if (currentTemp <= 0) {
+                        // Padat: bergetar di sekitar titik kisi (grid)
+                        const jitter = 1.4;
+                        p.x = p.gx + (Math.random() - 0.5) * jitter * 2;
+                        p.y = p.gy + (Math.random() - 0.5) * jitter * 2;
+                        ctx.fillStyle = '#38bdf8';
+                    } else if (currentTemp < 100) {
+                        // Cair: bergerak mengalir di paruh bawah wadah
+                        const speedFactor = 0.8 + (currentTemp / 100) * 1.6;
+                        p.x += p.vx * speedFactor;
+                        p.y += p.vy * speedFactor + 0.25; // gravitasi ringan
+
+                        const topBound = canvas.height * 0.45;
+                        if (p.x < p.radius + 8) { p.x = p.radius + 8; p.vx *= -1; }
+                        if (p.x > canvas.width - p.radius - 8) { p.x = canvas.width - p.radius - 8; p.vx *= -1; }
+                        if (p.y < topBound) { p.y = topBound; p.vy = Math.abs(p.vy); }
+                        if (p.y > canvas.height - p.radius - 6) { p.y = canvas.height - p.radius - 6; p.vy *= -0.85; }
+                        ctx.fillStyle = '#06b6d4';
+                    } else {
+                        // Gas: bergerak cepat ke seluruh ruang kanvas
+                        const speedFactor = 2.6 + ((currentTemp - 100) / 50) * 1.8;
+                        p.x += p.vx * speedFactor;
+                        p.y += p.vy * speedFactor;
+
+                        if (p.x < p.radius + 6) { p.x = p.radius + 6; p.vx *= -1; }
+                        if (p.x > canvas.width - p.radius - 6) { p.x = canvas.width - p.radius - 6; p.vx *= -1; }
+                        if (p.y < p.radius + 36) { p.y = p.radius + 36; p.vy *= -1; }
+                        if (p.y > canvas.height - p.radius - 6) { p.y = canvas.height - p.radius - 6; p.vy *= -1; }
+                        ctx.fillStyle = '#fbbf24';
+                    }
+
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.strokeStyle = 'rgba(255,255,255,0.45)';
+                    ctx.lineWidth = 1.5;
+                    ctx.stroke();
+                });
+            }
+            requestAnimationFrame(animateParticles);
+        }
+
+        // Kuis Perubahan Fisika vs Kimia (Modul 2)
+        const matterQuestions = [
+            {
+                icon: '🧊',
+                title: 'Es Batu Mencair di Gelas',
+                desc: 'Perubahan wujud dari padat ke cair karena pemanasan tanpa membentuk zat baru.',
+                type: 'Fisika'
+            },
+            {
+                icon: '🔥',
+                title: 'Kayu Terbakar Menjadi Arang & Abu',
+                desc: 'Reaksi pembakaran menghasilkan zat baru berupa abu, arang, dan gas asap.',
+                type: 'Kimia'
+            },
+            {
+                icon: '⛓️',
+                title: 'Pagar Besi Berkarat (Korosi)',
+                desc: 'Besi bereaksi dengan oksigen dan uap air membentuk senyawa oksida besi baru.',
+                type: 'Kimia'
+            },
+            {
+                icon: '☕',
+                title: 'Gula Larut dalam Air Hangat',
+                desc: 'Partikel gula menyebar merata di dalam air, sifat manis gula tetap ada dan bisa dikristalkan kembali.',
+                type: 'Fisika'
+            },
+            {
+                icon: '🍚',
+                title: 'Singkong Диfermentasi Menjadi Tape',
+                desc: 'Mikroorganisme mengubah zat tepung menjadi glukosa dan alkohol (terbentuk zat baru).',
+                type: 'Kimia'
+            }
+        ];
+
+        let m2Index = 0;
+        let m2Score = 0;
+        let m2Mistakes = 0;
+
+        function resetMod2Quiz() {
+            m2Index = 0;
+            m2Score = 0;
+            m2Mistakes = 0;
+            renderMatterQuestion();
+        }
+
+        function renderMatterQuestion() {
+            const total = matterQuestions.length;
+            document.getElementById('m2-q-index').textContent = `${Math.min(m2Index + 1, total)} / ${total}`;
+            document.getElementById('m2-q-score').textContent = m2Score;
+
+            if (m2Index >= total) return;
+            const q = matterQuestions[m2Index];
+            document.getElementById('m2-phenom-icon').textContent = q.icon;
+            document.getElementById('m2-phenom-title').textContent = q.title;
+            document.getElementById('m2-phenom-desc').textContent = q.desc;
+        }
+
+        function answerMatterQuiz(choice) {
+            if (m2Index >= matterQuestions.length) return;
+            const q = matterQuestions[m2Index];
+
+            if (choice === q.type) {
+                playSFX('correct');
+                m2Score += 60;
+                showToast(`✅ Benar! Itu adalah Perubahan ${q.type}.`);
+                m2Index++;
+
+                if (m2Index >= matterQuestions.length) {
+                    const stars = m2Mistakes === 0 ? 3 : m2Mistakes === 1 ? 2 : 1;
+                    triggerVictoryModal(
+                        2,
+                        'Modul 2 Tuntas!',
+                        stars,
+                        m2Score,
+                        '🧪 Alkemis Partikel & Materi',
+                        'Kamu telah menguasai karakteristik partikel zat serta perbedaan perubahan fisika dan kimia!'
+                    );
+                } else {
+                    renderMatterQuestion();
+                }
+            } else {
+                playSFX('wrong');
+                m2Mistakes++;
+                m2Score = Math.max(0, m2Score - 15);
+                document.getElementById('m2-q-score').textContent = m2Score;
+                showToast(`❌ Kurang tepat! Ingat ciri pembentukan zat baru.`);
+            }
+        }
+
+        /* ==========================================================================
+           6. MODUL 3: SIMULASI GAYA GERAK & LABORATORIUM TEKANAN (P = F / A)
+           ========================================================================== */
+        let cratePos = 24;
+        let crateVel = 0;
+        let currentAccel = 4.0;
+
+        function updateForceSim() {
+            const F = parseInt(document.getElementById('slider-push').value, 10);
+            const fMax = parseInt(document.getElementById('slider-friction').value, 10);
+            const m = parseInt(document.getElementById('slider-mass').value, 10);
+
+            document.getElementById('val-push').textContent = `${F} N`;
+            document.getElementById('val-friction').textContent = `${fMax} N`;
+            document.getElementById('val-mass').textContent = `${m} kg`;
+            document.getElementById('crate-mass-label').textContent = `${m} kg`;
+
+            const netForce = Math.max(0, F - fMax);
+            currentAccel = netForce / m;
+
+            document.getElementById('tel-netforce').textContent = `${netForce} N`;
+            document.getElementById('tel-accel').textContent = `${currentAccel.toFixed(1)} m/s²`;
+
+            const statusEl = document.getElementById('tel-status');
+            if (netForce > 0) {
+                statusEl.textContent = 'Bergerak →';
+                statusEl.style.color = '#34d399';
+            } else {
+                statusEl.textContent = 'Diam (ΣF = 0)';
+                statusEl.style.color = '#f87171';
+                crateVel = 0;
+            }
+
+            // Update visual panah vektor
+            document.getElementById('arrow-push').style.width = `${Math.round(F * 0.45)}px`;
+            document.getElementById('arrow-friction').style.width = `${Math.round(Math.min(F, fMax) * 0.45)}px`;
+        }
+
+        function animateForceCrate() {
+            const crateEl = document.getElementById('sim-crate');
+            if (crateEl && currentAccel > 0) {
+                crateVel = Math.min(4.5, crateVel + currentAccel * 0.015);
+                cratePos += crateVel;
+                const parentWidth = crateEl.parentElement.clientWidth || 340;
+                if (cratePos > parentWidth - 85) {
+                    cratePos = 16;
+                }
+                crateEl.style.left = `${cratePos}px`;
+            }
+            requestAnimationFrame(animateForceCrate);
+        }
+
+        // Kalkulator & Visualisasi Tekanan (P = F / A)
+        let currentPressure = 500;
+        const m3Missions = [
+            { targetP: 1000, hint: 'Atur slider agar menghasilkan Tekanan (P) tepat 1000 Pa (Contoh: F = 200 N dan A = 0.20 m²)!' },
+            { targetP: 2000, hint: 'Misi 2: Perbesar tekanan menjadi 2000 Pa dengan memperkecil luas penampang (Contoh: F = 200 N, A = 0.10 m²)!' },
+            { targetP: 400, hint: 'Misi Terakhir: Buat tekanan rendah sebesar 400 Pa agar balok tidak amblas (Contoh: F = 200 N, A = 0.50 m²)!' }
+        ];
+        let m3MissionIdx = 0;
+
+        function updatePressureSim() {
+            const F = parseInt(document.getElementById('slider-p-force').value, 10);
+            const areaRaw = parseInt(document.getElementById('slider-p-area').value, 10); // dalam perseratus m2
+            const A = areaRaw / 100;
+
+            currentPressure = Math.round(F / A);
+
+            document.getElementById('val-p-force').textContent = `${F} N`;
+            document.getElementById('val-p-area').textContent = `${A.toFixed(2)} m²`;
+            document.getElementById('calc-pressure-out').textContent = `P = ${currentPressure} Pa`;
+
+            const blockEl = document.getElementById('pressure-block');
+            document.getElementById('p-visual-text').textContent = `${currentPressure} Pa`;
+
+            // Visual lebar penampang & kedalaman amblas ke tanah
+            const widthPx = Math.max(38, Math.min(165, Math.round(areaRaw * 1.6)));
+            const sinkPx = Math.min(46, Math.max(4, Math.round(currentPressure / 85)));
+
+            blockEl.style.width = `${widthPx}px`;
+            blockEl.style.transform = `translateY(${sinkPx}px)`;
+        }
+
+        function renderMod3Mission() {
+            const total = m3Missions.length;
+            document.getElementById('m3-mission-step').textContent = `${Math.min(m3MissionIdx + 1, total)}/${total}`;
+            if (m3MissionIdx < total) {
+                document.getElementById('m3-mission-prompt').innerHTML = m3Missions[m3MissionIdx].hint;
+            }
+        }
+
+        function verifyMod3Mission() {
+            if (m3MissionIdx >= m3Missions.length) return;
+            const target = m3Missions[m3MissionIdx].targetP;
+
+            if (Math.abs(currentPressure - target) <= 15) {
+                playSFX('correct');
+                m3MissionIdx++;
+                if (m3MissionIdx >= m3Missions.length) {
+                    m3MissionIdx = 0;
+                    renderMod3Mission();
+                    triggerVictoryModal(
+                        3,
+                        'Semua Modul Tamat!',
+                        3,
+                        350,
+                        '🚀 Master Fisika Mekanika',
+                        'Selamat! Kamu telah menuntaskan seluruh petualangan SainsVerse karya Kelompok 3 PID25!'
+                    );
+                } else {
+                    showToast(`✅ Eksperimen Berhasil! Lanjut ke misi berikutnya.`);
+                    renderMod3Mission();
+                }
+            } else {
+                playSFX('wrong');
+                showToast(`❌ Tekanan saat ini ${currentPressure} Pa. Target: ${target} Pa!`);
+            }
+        }
+
+        /* ==========================================================================
+           7. MODAL VICTORY, INFO & PENGATURAN
+           ========================================================================== */
+        function openModal(modalId) {
+            playSFX('tap');
+            document.getElementById(modalId).classList.add('open');
+        }
+
+        function closeModal(modalId) {
+            playSFX('tap');
+            document.getElementById(modalId).classList.remove('open');
+        }
+
+        function triggerVictoryModal(moduleNum, title, starsEarned, scoreAdded, badgeName, descText) {
+            playSFX('victory');
+            currentVictoryModule = moduleNum;
+
+            // Update State
+            gameState.score += scoreAdded;
+            gameState.stars[moduleNum] = Math.max(gameState.stars[moduleNum] || 0, starsEarned);
+            if (moduleNum < 3 && gameState.unlockedLevel <= moduleNum) {
+                gameState.unlockedLevel = moduleNum + 1;
+            }
+            if (!gameState.badges.includes(badgeName)) {
+                gameState.badges.push(badgeName);
+            }
+            saveState();
+
+            // Populate UI Modal Victory
+            document.getElementById('victory-title').textContent = title;
+            document.getElementById('victory-desc').textContent = descText;
+            document.getElementById('victory-badge-name').textContent = badgeName;
+            document.getElementById('victory-score-val').textContent = `+${scoreAdded}`;
+
+            for (let i = 1; i <= 3; i++) {
+                const st = document.getElementById(`vstar-${i}`);
+                st.classList.remove('lit');
+                if (i <= starsEarned) {
+                    setTimeout(() => st.classList.add('lit'), i * 180);
+                }
+            }
+
+            const nextBtn = document.getElementById('btn-next-module');
+            if (moduleNum < 3) {
+                nextBtn.style.display = 'inline-flex';
+                nextBtn.textContent = `🚀 Lanjut ke Modul ${moduleNum + 1}`;
+            } else {
+                nextBtn.style.display = 'none';
+            }
+
+            document.getElementById('modal-victory').classList.add('open');
+        }
+
+        function goNextModuleFromVictory() {
+            closeModal('modal-victory');
+            if (currentVictoryModule < 3) {
+                enterModule(currentVictoryModule + 1);
+            } else {
+                switchScreen('screen-map');
+            }
+        }
+
+        function toggleSoundSetting() {
+            gameState.soundEnabled = !gameState.soundEnabled;
+            saveState();
+            if (gameState.soundEnabled) playSFX('tap');
+            showToast(gameState.soundEnabled ? '🔊 Suara Diaktifkan' : '🔇 Suara Dimatikan');
+        }
+
+        function toggleFreeModeSetting() {
+            gameState.freeMode = !gameState.freeMode;
+            saveState();
+            playSFX('tap');
+            showToast(gameState.freeMode ? '🔓 Mode Bebas Aktif: Semua Level Terbuka!' : '🔒 Mode Progres Bertahap Aktif');
+        }
+
+        function resetAllProgress() {
+            playSFX('wrong');
+            gameState = JSON.parse(JSON.stringify(defaultState));
+            saveState();
+            resetMod1Game();
+            resetMod2Quiz();
+            m3MissionIdx = 0;
+            renderMod3Mission();
+            closeModal('modal-settings');
+            switchScreen('screen-home');
+            showToast('🗑️ Progres telah di-reset ke awal.');
+        }
+
+        /* ==========================================================================
+           8. INITIALIZATION ON WINDOW LOAD
+           ========================================================================== */
+        window.addEventListener('resize', () => {
+            if (document.getElementById('screen-mod2').classList.contains('active')) {
+                resizeParticleCanvas();
+            }
+        });
+
+        window.onload = function () {
+            updateHUD();
+            resetMod1Game();
+            resetMod2Quiz();
+            updateTemperature(-20);
+            updateForceSim();
+            updatePressureSim();
+            renderMod3Mission();
+            animateParticles();
+            animateForceCrate();
+        };
+    </script>
+</body>
+</html>
