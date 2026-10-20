@@ -927,6 +927,145 @@
             color: var(--text-muted);
         }
 
+        /* Sub-topic Pills & Rich Learning Content Styles */
+        .subtopic-nav {
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+            flex-shrink: 0;
+            scrollbar-width: none;
+        }
+        .subtopic-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .sub-pill {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid var(--glass-border);
+            color: var(--text-muted);
+            padding: 6px 12px;
+            border-radius: var(--radius-full);
+            font-family: var(--font-body);
+            font-size: 0.72rem;
+            font-weight: 700;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.18s ease;
+        }
+
+        .sub-pill.active {
+            background: rgba(6, 182, 212, 0.2);
+            border-color: var(--secondary);
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(6, 182, 212, 0.25);
+        }
+
+        .subtopic-box {
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .subtopic-box.active {
+            display: flex;
+            animation: fadeInPane 0.2s ease;
+        }
+
+        .info-list-item {
+            background: rgba(15, 23, 42, 0.75);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            padding: 9px 11px;
+            font-size: 0.74rem;
+            line-height: 1.4;
+            color: #e2e8f0;
+        }
+
+        .info-list-item strong {
+            color: #38bdf8;
+            display: block;
+            font-size: 0.8rem;
+            margin-bottom: 2px;
+        }
+
+        .formula-badge {
+            display: inline-block;
+            background: rgba(99, 102, 241, 0.22);
+            border: 1px solid rgba(99, 102, 241, 0.5);
+            color: #c7d2fe;
+            font-family: var(--font-display);
+            padding: 3px 8px;
+            border-radius: 8px;
+            font-size: 0.78rem;
+            margin: 3px 0;
+        }
+
+        /* Multiple Choice Options for Expanded Quizzes */
+        .mcq-options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 8px;
+            text-align: left;
+        }
+
+        .mcq-btn {
+            background: var(--app-surface);
+            border: 1.5px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            padding: 10px 12px;
+            color: var(--text-main);
+            font-family: var(--font-body);
+            font-size: 0.78rem;
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            line-height: 1.35;
+        }
+
+        .mcq-btn:hover {
+            border-color: var(--secondary);
+            background: rgba(6, 182, 212, 0.12);
+        }
+
+        .mcq-btn:active {
+            transform: scale(0.98);
+        }
+
+        .mcq-letter {
+            width: 24px;
+            height: 24px;
+            border-radius: 7px;
+            background: rgba(99, 102, 241, 0.25);
+            border: 1px solid rgba(99, 102, 241, 0.5);
+            color: #c7d2fe;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-size: 0.75rem;
+            flex-shrink: 0;
+        }
+
+        .gate-rule-banner {
+            background: rgba(245, 158, 11, 0.14);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            border-radius: var(--radius-sm);
+            padding: 8px 11px;
+            font-size: 0.72rem;
+            color: #fde68a;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            line-height: 1.35;
+        }
+
         /* ==========================================================================
            9. LAYAR 4: MODUL 2 (LAB PARTIKEL ZAT & KUIS PERUBAHAN MATERI)
            ========================================================================== */
@@ -1432,14 +1571,19 @@
                     </div>
                 </div>
 
+                <div class="gate-rule-banner">
+                    <span style="font-size: 1.15rem;">⭐</span>
+                    <span><strong>Syarat Lulus Level:</strong> Raih minimal <strong>2 Bintang (⭐⭐ / Akurasi ≥ 65%)</strong> untuk membuka modul berikutnya!</span>
+                </div>
+
                 <div class="level-list">
                     <!-- Modul 1 -->
                     <div class="level-card unlocked" id="card-lvl-1" onclick="enterModule(1)">
                         <div class="level-icon-box lvl-1-bg">🌿</div>
                         <div class="level-info">
                             <div class="level-num">Modul 1 • Biologi</div>
-                            <div class="level-name">Klasifikasi Makhluk Hidup</div>
-                            <div class="level-desc">5 Kingdom, karakteristik organisme & mini-game sortir taksonomi.</div>
+                            <div class="level-name">Karakteristik & Klasifikasi Makhluk Hidup</div>
+                            <div class="level-desc">8 Karakteristik makhluk hidup, 5 Kingdom, Binomial Nomenclature & 32 Bank Soal.</div>
                         </div>
                         <div class="level-meta-right">
                             <div class="star-row" id="stars-lvl-1">
@@ -1455,7 +1599,10 @@
                         <div class="level-info">
                             <div class="level-num">Modul 2 • Kimia Fisika</div>
                             <div class="level-name">Sifat & Perubahan Materi</div>
-                            <div class="level-desc">Simulasi partikel zat (Padat, Cair, Gas) & kuis perubahan materi.</div>
+                            <div class="level-desc">Wujud zat, Unsur/Senyawa/Campuran, Pemisahan & Fisika vs Kimia.</div>
+                            <div id="req-lvl-2" style="font-size: 0.66rem; color: #fbbf24; font-weight: 700; margin-top: 3px;">
+                                🔒 Syarat Buka: Min. 2 ⭐ di Modul 1
+                            </div>
                         </div>
                         <div class="level-meta-right">
                             <div class="star-row" id="stars-lvl-2">
@@ -1470,8 +1617,11 @@
                         <div class="level-icon-box lvl-3-bg">⚡</div>
                         <div class="level-info">
                             <div class="level-num">Modul 3 • Fisika Mekanika</div>
-                            <div class="level-name">Gaya, Gerak & Tekanan</div>
-                            <div class="level-desc">Arena Hukum Newton, gaya gesek & laboratorium tekanan zat padat.</div>
+                            <div class="level-name">Gaya, Gerak, dan Tekanan</div>
+                            <div class="level-desc">GLB/GLBB, Hukum I–III Newton, Tekanan Padat, Hidrostatis, Pascal & Archimedes.</div>
+                            <div id="req-lvl-3" style="font-size: 0.66rem; color: #fbbf24; font-weight: 700; margin-top: 3px;">
+                                🔒 Syarat Buka: Min. 2 ⭐ di Modul 2
+                            </div>
                         </div>
                         <div class="level-meta-right">
                             <div class="star-row" id="stars-lvl-3">
@@ -1490,7 +1640,7 @@
                 <div class="module-header">
                     <div class="module-title-wrap">
                         <div class="module-tag">Modul 1 • Biologi SMP</div>
-                        <h2 class="module-title">Klasifikasi Makhluk Hidup</h2>
+                        <h2 class="module-title">Karakteristik & Klasifikasi Makhluk Hidup</h2>
                     </div>
                     <button class="btn-game btn-surface" style="padding: 6px 12px; font-size: 0.75rem;" onclick="switchScreen('screen-map')">
                         🗺️ Peta
@@ -1500,100 +1650,184 @@
                 <!-- Tab Switcher Modul 1 -->
                 <div class="tab-switcher">
                     <button class="tab-btn active" id="tabbtn-m1-materi" onclick="switchModuleTab('m1', 'materi')">
-                        📚 Materi Visual
+                        📚 Materi Lengkap
                     </button>
                     <button class="tab-btn" id="tabbtn-m1-game" onclick="switchModuleTab('m1', 'game')">
-                        🎮 Mini Game Sortir
+                        🎮 Tantangan (10 Soal)
                     </button>
                 </div>
 
-                <!-- Tab 1: Materi Visual 5 Kingdom -->
+                <!-- Tab 1: Materi Visual Komprehensif Modul 1 -->
                 <div class="tab-pane active" id="pane-m1-materi">
-                    <div class="glass-card" style="padding: 10px 12px;">
-                        <p style="font-size: 0.76rem; color: #e2e8f0; line-height: 1.4;">
-                            💡 <strong>Ciri Makhluk Hidup:</strong> Bernapas, bergerak, butuh nutrisi, tumbuh & berkembang, berkembang biak, dan peka terhadap rangsang (iritabilitas). Robert H. Whittaker membagi makhluk hidup menjadi <strong>5 Kingdom</strong>:
-                        </p>
+                    <div class="subtopic-nav">
+                        <button class="sub-pill active" id="subbtn-m1-1" onclick="switchSubTopic('m1', 1)">1. 8 Karakteristik</button>
+                        <button class="sub-pill" id="subbtn-m1-2" onclick="switchSubTopic('m1', 2)">2. 5 Kingdom</button>
+                        <button class="sub-pill" id="subbtn-m1-3" onclick="switchSubTopic('m1', 3)">3. Tata Nama & Kunci</button>
                     </div>
 
-                    <div class="kingdom-grid">
-                        <div class="kingdom-card">
-                            <div class="kingdom-emoji">🦁</div>
-                            <div class="kingdom-text">
-                                <h4>1. Kingdom Animalia (Hewan)</h4>
-                                <p>Multiseluler, eukariotik, heterotrof (tidak bisa membuat makanan sendiri), dan bergerak aktif.</p>
+                    <!-- Sub-materi 1.1: 8 Karakteristik Makhluk Hidup -->
+                    <div class="subtopic-box active" id="subbox-m1-1">
+                        <div class="info-list-item">
+                            <strong>1. Bernapas (Respirasi)</strong>
+                            Menghirup gas oksigen (O<sub>2</sub>) untuk mengoksidasi sari makanan menjadi energi (ATP), serta mengeluarkan zat sisa berupa gas karbon dioksida (CO<sub>2</sub>) dan uap air (H<sub>2</sub>O).
+                        </div>
+                        <div class="info-list-item">
+                            <strong>2. Memerlukan Nutrisi (Makanan)</strong>
+                            Tumbuhan hijau bersifat <em>autotrof</em> (mengubah CO<sub>2</sub> dan H<sub>2</sub>O menjadi glukosa C<sub>6</sub>H<sub>12</sub>O<sub>6</sub> melalui fotosintesis), sedangkan hewan dan manusia bersifat <em>heterotrof</em>.
+                        </div>
+                        <div class="info-list-item">
+                            <strong>3. Bergerak</strong>
+                            Hewan bergerak aktif berpindah tempat menggunakan alat gerak. Tumbuhan bergerak pasif mengikuti datangnya rangsang (contoh: gerak fototropisme ujung batang ke arah cahaya matahari).
+                        </div>
+                        <div class="info-list-item">
+                            <strong>4. Peka Terhadap Rangsang (Iritabilitas)</strong>
+                            Kemampuan menanggapi rangsang cahaya, sentuhan, suhu, atau zat kimia. Contoh: daun putri malu (<em>Mimosa pudica</em>) mengatup saat disentuh (seismonasti).
+                        </div>
+                        <div class="info-list-item">
+                            <strong>5. Tumbuh dan Berkembang</strong>
+                            <strong>Tumbuh:</strong> Pertambahan ukuran, volume, dan massa tubuh yang bersifat kuantitatif serta tidak dapat kembali seperti semula (<em>ireversibel</em>). <strong>Berkembang:</strong> Proses pematangan fungsi organ menuju kedewasaan (kualitatif).
+                        </div>
+                        <div class="info-list-item">
+                            <strong>6. Berkembang Biak (Reproduksi)</strong>
+                            Kemampuan menghasilkan keturunan untuk melestarikan jenisnya agar tidak punah, baik secara generatif (kawin) maupun vegetatif (tak kawin, seperti tunas atau membelah diri).
+                        </div>
+                        <div class="info-list-item">
+                            <strong>7. Mengeluarkan Zat Sisa (Ekskresi)</strong>
+                            Membuang zat sisa metabolisme tubuh agar tidak meracuni sel (contoh: ginjal mengeluarkan urine, kulit mengeluarkan keringat, paru-paru mengeluarkan CO<sub>2</sub>, serta daun melalui stomata dan lentisel).
+                        </div>
+                        <div class="info-list-item">
+                            <strong>8. Adaptasi</strong>
+                            Penyesuaian diri makhluk hidup terhadap lingkungannya (morfologi, fisiologi, dan tingkah laku). Contoh: tanaman kaktus memiliki daun berbentuk duri untuk mengurangi penguapan air.
+                        </div>
+                    </div>
+
+                    <!-- Sub-materi 1.2: 5 Kingdom Whittaker -->
+                    <div class="subtopic-box" id="subbox-m1-2">
+                        <div class="kingdom-grid">
+                            <div class="kingdom-card">
+                                <div class="kingdom-emoji">🦠</div>
+                                <div class="kingdom-text">
+                                    <h4>1. Kingdom Monera</h4>
+                                    <p>Organisme <strong>prokariotik</strong> (belum memiliki membran inti sel) dan bersel satu (uniseluler). Contoh: Bakteri (<em>Escherichia coli</em>, <em>Lactobacillus bulgaricus</em>) dan ganggang hijau-biru (<em>Cyanobacteria</em>).</p>
+                                </div>
+                            </div>
+                            <div class="kingdom-card">
+                                <div class="kingdom-emoji">🔬</div>
+                                <div class="kingdom-text">
+                                    <h4>2. Kingdom Protista</h4>
+                                    <p>Organisme <strong>eukariotik</strong> (memiliki membran inti sel) sederhana. Dibagi menjadi Protista mirip hewan/Protozoa (<em>Amoeba proteus</em>, <em>Paramecium caudatum</em>, <em>Plasmodium</em>), mirip tumbuhan/Alga (<em>Euglena viridis</em>), dan mirip jamur.</p>
+                                </div>
+                            </div>
+                            <div class="kingdom-card">
+                                <div class="kingdom-emoji">🍄</div>
+                                <div class="kingdom-text">
+                                    <h4>3. Kingdom Fungi (Jamur)</h4>
+                                    <p>Eukariotik, <strong>tidak berklorofil</strong> (heterotrof saprofit/parasit), dinding sel dari zat kitin, tubuh tersusun atas benang hifa, dan berkembang biak dengan spora. Contoh: Jamur tiram (<em>Pleurotus ostreatus</em>), jamur tempe (<em>Rhizopus oryzae</em>), dan ragi (<em>Saccharomyces cerevisiae</em>).</p>
+                                </div>
+                            </div>
+                            <div class="kingdom-card">
+                                <div class="kingdom-emoji">🌻</div>
+                                <div class="kingdom-text">
+                                    <h4>4. Kingdom Plantae (Tumbuhan)</h4>
+                                    <p>Eukariotik multiseluler, berdinding sel selulosa, memiliki klorofil (<strong>autotrof</strong>). Terdiri atas Tumbuhan Lumut (<em>Bryophyta</em>), Tumbuhan Paku (<em>Pteridophyta</em>), dan Tumbuhan Berbiji (<em>Spermatophyta</em>: Gymnospermae & Angiospermae).</p>
+                                </div>
+                            </div>
+                            <div class="kingdom-card">
+                                <div class="kingdom-emoji">🦁</div>
+                                <div class="kingdom-text">
+                                    <h4>5. Kingdom Animalia (Hewan)</h4>
+                                    <p>Eukariotik multiseluler, tidak berdinding sel, <strong>heterotrof</strong>, bergerak aktif. Dibagi menjadi Invertebrata (tidak bertulang belakang) dan Vertebrata (Pisces, Amphibia, Reptilia, Aves, dan Mammalia).</p>
+                                </div>
                             </div>
                         </div>
-                        <div class="kingdom-card">
-                            <div class="kingdom-emoji">🌻</div>
-                            <div class="kingdom-text">
-                                <h4>2. Kingdom Plantae (Tumbuhan)</h4>
-                                <p>Multiseluler, memiliki dinding sel & klorofil untuk fotosintesis (autotrof). Contoh: lumut, paku, mangga.</p>
-                            </div>
+                    </div>
+
+                    <!-- Sub-materi 1.3: Binomial Nomenclature & Kunci Determinasi -->
+                    <div class="subtopic-box" id="subbox-m1-3">
+                        <div class="info-list-item">
+                            <strong>Urutan Tingkatan Takson (Tinggi ke Rendah)</strong>
+                            Kingdom (Kerajaan) → Filum (Hewan) / Divisi (Tumbuhan) → Kelas (<em>Classis</em>) → Ordo (Bangsa) → Famili (Suku) → Genus (Marga) → Spesies (Jenis). Semakin rendah tingkatan takson, semakin banyak persamaan ciri yang dimiliki!
                         </div>
-                        <div class="kingdom-card">
-                            <div class="kingdom-emoji">🍄</div>
-                            <div class="kingdom-text">
-                                <h4>3. Kingdom Fungi (Jamur)</h4>
-                                <p>Eukariotik, tidak berklorofil, menyerap zat organik (saprofit/parasit), bereproduksi dengan spora.</p>
-                            </div>
+                        <div class="info-list-item">
+                            <strong>Tata Nama Ganda (Binomial Nomenclature)</strong>
+                            Sistem penamaan ilmiah yang diperkenalkan oleh <em>Carolus Linnaeus</em>:<br>
+                            • Terdiri atas 2 kata dalam bahasa Latin atau yang dilatinkan.<br>
+                            • Kata pertama menunjukkan <strong>Genus</strong> (diawali huruf kapital).<br>
+                            • Kata kedua merupakan penunjuk <strong>Spesies</strong> (ditulis dengan huruf kecil semua).<br>
+                            • Ditulis dengan <em>cetak miring</em> atau digarisbawahi secara terpisah.<br>
+                            • Contoh: Padi (<em>Oryza sativa</em>), Jagung (<em>Zea mays</em>), Harimau (<em>Panthera tigris</em>).
                         </div>
-                        <div class="kingdom-card">
-                            <div class="kingdom-emoji">🦠</div>
-                            <div class="kingdom-text">
-                                <h4>4. Monera & 5. Protista</h4>
-                                <p><strong>Monera:</strong> Prokariotik bersel satu (Bakteri & Alga biru). <strong>Protista:</strong> Eukariotik sederhana (Amoeba, Paramecium, Ganggang).</p>
-                            </div>
+                        <div class="info-list-item">
+                            <strong>Kunci Determinasi Dikotomis</strong>
+                            Panduan identifikasi makhluk hidup yang memuat daftar pasangan pernyataan ciri yang berlawanan (kuplet a dan b) secara bertahap hingga ditemukan kelompok taksonnya.
                         </div>
                     </div>
 
                     <button class="btn-game btn-secondary" onclick="switchModuleTab('m1', 'game')">
-                        🎮 Mainkan Mini Game Klasifikasi →
+                        🎮 Mulai Tantangan Modul 1 (Min. 2 ⭐) →
                     </button>
                 </div>
 
-                <!-- Tab 2: Mini Game Drag & Drop / Tap to Classify -->
+                <!-- Tab 2: Tantangan Gabungan Modul 1 (Tahap 1: 6 Spesimen Acak + Tahap 2: 4 Soal Konsep Acak) -->
                 <div class="tab-pane" id="pane-m1-game">
                     <div class="classifier-hud">
-                        <span>Spesimen: <strong id="m1-progress-text">1 / 6</strong></span>
-                        <span>Skor Misi: <strong id="m1-score-text" style="color: #fbbf24;">0</strong></span>
+                        <span id="m1-stage-badge">Tahap 1: Sortir Kingdom</span>
+                        <span>Soal: <strong id="m1-progress-text">1 / 10</strong></span>
+                        <span>Benar: <strong id="m1-score-text" style="color: #34d399;">0</strong></span>
                     </div>
 
-                    <div class="specimen-stage">
-                        <p style="font-size: 0.7rem; color: #94a3b8; margin-bottom: 8px;">
-                            Seret kartu organisme di bawah atau <strong>Tap kotak Kingdom</strong> yang tepat!
-                        </p>
-                        <div class="specimen-card" id="specimen-draggable" draggable="true">
-                            <div class="specimen-emoji" id="spec-emoji">🐅</div>
-                            <div class="specimen-name" id="spec-name">Harimau Sumatera</div>
-                            <div class="specimen-clue" id="spec-clue">Multiseluler, karnivora, bergerak aktif</div>
+                    <!-- Area Tahap 1: Drag & Drop / Tap Klasifikasi 5 Kingdom -->
+                    <div id="m1-stage1-container" style="display: flex; flex-direction: column; gap: 10px;">
+                        <div class="specimen-stage">
+                            <p style="font-size: 0.7rem; color: #94a3b8; margin-bottom: 8px;">
+                                Seret kartu spesimen atau <strong>Tap kotak Kingdom</strong> yang sesuai!
+                            </p>
+                            <div class="specimen-card" id="specimen-draggable" draggable="true">
+                                <div class="specimen-emoji" id="spec-emoji">🐅</div>
+                                <div class="specimen-name" id="spec-name">Harimau Sumatera</div>
+                                <div class="specimen-clue" id="spec-clue">Multiseluler, karnivora, bergerak aktif</div>
+                            </div>
+                        </div>
+
+                        <div class="kingdom-bins">
+                            <div class="bin-box" data-kingdom="Animalia" onclick="handleKingdomSelect('Animalia')">
+                                <span class="bin-icon">🐾</span>
+                                <span class="bin-title">Animalia</span>
+                                <span class="bin-sub">Dunia Hewan</span>
+                            </div>
+                            <div class="bin-box" data-kingdom="Plantae" onclick="handleKingdomSelect('Plantae')">
+                                <span class="bin-icon">🌱</span>
+                                <span class="bin-title">Plantae</span>
+                                <span class="bin-sub">Dunia Tumbuhan</span>
+                            </div>
+                            <div class="bin-box" data-kingdom="Fungi" onclick="handleKingdomSelect('Fungi')">
+                                <span class="bin-icon">🍄</span>
+                                <span class="bin-title">Fungi</span>
+                                <span class="bin-sub">Dunia Jamur</span>
+                            </div>
+                            <div class="bin-box" data-kingdom="Mikro" onclick="handleKingdomSelect('Mikro')">
+                                <span class="bin-icon">🔬</span>
+                                <span class="bin-title">Monera / Protista</span>
+                                <span class="bin-sub">Mikroorganisme</span>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="kingdom-bins">
-                        <div class="bin-box" data-kingdom="Animalia" onclick="handleKingdomSelect('Animalia')">
-                            <span class="bin-icon">🐾</span>
-                            <span class="bin-title">Animalia</span>
-                            <span class="bin-sub">Dunia Hewan</span>
-                        </div>
-                        <div class="bin-box" data-kingdom="Plantae" onclick="handleKingdomSelect('Plantae')">
-                            <span class="bin-icon">🌱</span>
-                            <span class="bin-title">Plantae</span>
-                            <span class="bin-sub">Dunia Tumbuhan</span>
-                        </div>
-                        <div class="bin-box" data-kingdom="Fungi" onclick="handleKingdomSelect('Fungi')">
-                            <span class="bin-icon">🍄</span>
-                            <span class="bin-title">Fungi</span>
-                            <span class="bin-sub">Dunia Jamur</span>
-                        </div>
-                        <div class="bin-box" data-kingdom="Mikro" onclick="handleKingdomSelect('Mikro')">
-                            <span class="bin-icon">🔬</span>
-                            <span class="bin-title">Monera / Protista</span>
-                            <span class="bin-sub">Mikroorganisme</span>
+                    <!-- Area Tahap 2: Kuis Pilihan Ganda Konsep Biologi -->
+                    <div id="m1-stage2-container" style="display: none; flex-direction: column; gap: 10px;">
+                        <div class="glass-card" style="padding: 14px;">
+                            <div style="font-size: 0.7rem; color: var(--secondary); font-weight: 800; text-transform: uppercase; margin-bottom: 4px;">
+                                🧠 Kuis Konsep Klasifikasi & Ciri Hidup
+                            </div>
+                            <p id="m1-mcq-question" style="font-size: 0.85rem; font-weight: 700; line-height: 1.4; color: #fff;">
+                                Pertanyaan akan muncul di sini...
+                            </p>
+                            <div class="mcq-options-list" id="m1-mcq-options"></div>
                         </div>
                     </div>
 
-                    <button class="btn-game btn-surface" style="font-size: 0.78rem; padding: 8px;" onclick="resetMod1Game()">
-                        🔄 Acak Ulang Spesimen
+                    <button class="btn-game btn-surface" style="font-size: 0.76rem; padding: 8px;" onclick="resetMod1Game()">
+                        🔄 Acak Ulang Soal Sesi Ini
                     </button>
                 </div>
             </section>
@@ -1614,58 +1848,118 @@
 
                 <div class="tab-switcher">
                     <button class="tab-btn active" id="tabbtn-m2-lab" onclick="switchModuleTab('m2', 'lab')">
-                        🔬 Lab Partikel Zat
+                        🔬 Lab & Materi Zat
                     </button>
                     <button class="tab-btn" id="tabbtn-m2-quiz" onclick="switchModuleTab('m2', 'quiz')">
-                        ⚡ Kuis Fisika vs Kimia
+                        ⚡ Kuis Materi (8 Soal)
                     </button>
                 </div>
 
-                <!-- Tab 1: Simulasi Partikel Zat -->
+                <!-- Tab 1: Simulasi Partikel & Materi Lengkap Modul 2 -->
                 <div class="tab-pane active" id="pane-m2-lab">
-                    <div class="particle-canvas-wrap">
-                        <canvas id="particleCanvas"></canvas>
-                        <div class="state-overlay-badge" id="water-state-label">🧊 Wujud: PADAT (Es)</div>
-                        <div class="temp-overlay-badge" id="water-temp-label">-20°C</div>
+                    <div class="subtopic-nav">
+                        <button class="sub-pill active" id="subbtn-m2-1" onclick="switchSubTopic('m2', 1)">1. Lab Partikel & Wujud</button>
+                        <button class="sub-pill" id="subbtn-m2-2" onclick="switchSubTopic('m2', 2)">2. Unsur, Senyawa, Campuran</button>
+                        <button class="sub-pill" id="subbtn-m2-3" onclick="switchSubTopic('m2', 3)">3. Fisika vs Kimia</button>
                     </div>
 
-                    <div class="glass-card slider-control">
-                        <div class="slider-header">
-                            <span>🔥 Pengatur Suhu Pemanas Lab</span>
-                            <span id="slider-temp-val" style="color: var(--accent);">-20°C</span>
+                    <!-- Sub-materi 2.1: Simulasi Kanvas Partikel + 6 Perubahan Wujud -->
+                    <div class="subtopic-box active" id="subbox-m2-1">
+                        <div class="particle-canvas-wrap">
+                            <canvas id="particleCanvas"></canvas>
+                            <div class="state-overlay-badge" id="water-state-label">🧊 Wujud: PADAT (Es)</div>
+                            <div class="temp-overlay-badge" id="water-temp-label">-20°C</div>
                         </div>
-                        <input type="range" id="tempSlider" min="-50" max="150" value="-20" oninput="updateTemperature(this.value)">
-                        <div class="preset-temp-row" style="margin-top: 6px;">
-                            <button class="btn-game btn-surface" style="padding: 6px; font-size: 0.72rem;" onclick="setPresetTemp(-25)">🧊 Beku (-25°C)</button>
-                            <button class="btn-game btn-surface" style="padding: 6px; font-size: 0.72rem;" onclick="setPresetTemp(30)">💧 Cair (30°C)</button>
-                            <button class="btn-game btn-surface" style="padding: 6px; font-size: 0.72rem;" onclick="setPresetTemp(120)">♨️ Uap (120°C)</button>
+
+                        <div class="glass-card slider-control" style="padding: 10px 12px;">
+                            <div class="slider-header">
+                                <span>🔥 Pengatur Suhu Pemanas Lab</span>
+                                <span id="slider-temp-val" style="color: var(--accent);">-20°C</span>
+                            </div>
+                            <input type="range" id="tempSlider" min="-50" max="150" value="-20" oninput="updateTemperature(this.value)">
+                            <div class="preset-temp-row" style="margin-top: 6px;">
+                                <button class="btn-game btn-surface" style="padding: 6px; font-size: 0.72rem;" onclick="setPresetTemp(-25)">🧊 Beku (-25°C)</button>
+                                <button class="btn-game btn-surface" style="padding: 6px; font-size: 0.72rem;" onclick="setPresetTemp(30)">💧 Cair (30°C)</button>
+                                <button class="btn-game btn-surface" style="padding: 6px; font-size: 0.72rem;" onclick="setPresetTemp(120)">♨️ Uap (120°C)</button>
+                            </div>
+                        </div>
+
+                        <div class="glass-card" id="particle-explanation" style="font-size: 0.74rem; line-height: 1.4; color: #cbd5e1; padding: 10px 12px;">
+                            <strong>Analisis Partikel (Padat):</strong> Jarak antarpartikel sangat rapat dan tersusun teratur. Gaya tarik-menarik antarpartikel sangat kuat sehingga partikel hanya bergetar di tempatnya. Bentuk dan volumenya tetap.
+                        </div>
+
+                        <div class="info-list-item">
+                            <strong>6 Perubahan Wujud Zat</strong>
+                            • <strong>Menyerap Kalor (Endoterm):</strong> Mencair (Padat → Cair), Menguap (Cair → Gas), dan Menyublim (Padat → Gas, contoh: kapur barus di lemari).<br>
+                            • <strong>Melepas Kalor (Eksoterm):</strong> Membeku (Cair → Padat), Mengembun (Gas → Cair), dan Mengkristal/Deposisi (Gas → Padat, contoh: terbentuknya salju atau bunga es).
                         </div>
                     </div>
 
-                    <div class="glass-card" id="particle-explanation" style="font-size: 0.75rem; line-height: 1.4; color: #cbd5e1;">
-                        <strong>Analisis Partikel (Padat):</strong> Jarak antarpartikel sangat rapat dan teratur. Gaya tarik-menarik sangat kuat sehingga partikel hanya bergetar di tempatnya. Bentuk dan volume tetap.
+                    <!-- Sub-materi 2.2: Unsur, Senyawa, Campuran & Pemisahan -->
+                    <div class="subtopic-box" id="subbox-m2-2">
+                        <div class="info-list-item">
+                            <strong>Unsur (Zat Tunggal Paling Sederhana)</strong>
+                            Zat murni yang tidak dapat diuraikan lagi menjadi zat yang lebih sederhana melalui reaksi kimia biasa. Contoh: Emas (Au), Besi (Fe), Tembaga (Cu), Oksigen (O<sub>2</sub>), Nitrogen (N<sub>2</sub>), dan Karbon (C).
+                        </div>
+                        <div class="info-list-item">
+                            <strong>Senyawa (Gabungan Dua Unsur atau Lebih Secara Kimia)</strong>
+                            Terbentuk melalui reaksi kimia dengan perbandingan tetap dan sifatnya berbeda jauh dari unsur penyusunnya. Contoh: Air (H<sub>2</sub>O), Garam dapur (NaCl), Gas karbon dioksida (CO<sub>2</sub>), dan Gula pasir/Sukrosa (C<sub>12</sub>H<sub>22</sub>O<sub>11</sub>).
+                        </div>
+                        <div class="info-list-item">
+                            <strong>Campuran Homogen vs Heterogen</strong>
+                            • <strong>Homogen (Larutan):</strong> Partikel penyusunnya tercampur merata tanpa bidang batas (contoh: larutan gula, larutan garam, udara bersih, dan kuningan).<br>
+                            • <strong>Heterogen:</strong> Terdiri atas <em>Koloid</em> (susu, santan, kabut) dan <em>Suspensi</em> yang mengendap (campuran air dengan pasir atau air kopi tumbuk).
+                        </div>
+                        <div class="info-list-item">
+                            <strong>5 Metode Pemisahan Campuran</strong>
+                            1. <strong>Filtrasi (Penyaringan):</strong> Memisahkan zat padat dari cairan berdasarkan perbedaan ukuran partikel (contoh: menyaring santan atau air berpasir).<br>
+                            2. <strong>Destilasi (Penyulingan):</strong> Memisahkan campuran cairan berdasarkan perbedaan titik didih (contoh: pengolahan fraksi minyak bumi atau pembuatan air murni).<br>
+                            3. <strong>Kromatografi:</strong> Berdasarkan perbedaan kecepatan merambat partikel zat pada medium diam (contoh: menguji zat warna pada tinta atau makanan).<br>
+                            4. <strong>Sublimasi:</strong> Memisahkan zat padat yang mudah menyublim dari pengotornya (contoh: pemurnian kapur barus atau iodin).<br>
+                            5. <strong>Sentrifugasi:</strong> Memisahkan partikel halus dalam suspensi/koloid menggunakan gaya putar cepat (contoh: memisahkan sel darah merah dari plasma darah).
+                        </div>
+                    </div>
+
+                    <!-- Sub-materi 2.3: Perubahan Fisika vs Perubahan Kimia -->
+                    <div class="subtopic-box" id="subbox-m2-3">
+                        <div class="info-list-item">
+                            <strong>Sifat & Perubahan Fisika (Tidak Terbentuk Zat Baru)</strong>
+                            Bersifat sementara dan dapat kembali ke bentuk asal (<em>reversibel</em>). Meliputi perubahan wujud (es mencair, air menguap, lilin meleleh), pelarutan (gula larut dalam air), dan perubahan bentuk/ukuran (kayu dipahat menjadi kursi, beras ditumbuk menjadi tepung).
+                        </div>
+                        <div class="info-list-item">
+                            <strong>Sifat & Perubahan Kimia (Terbentuk Zat Jenis Baru)</strong>
+                            Bersifat permanen (<em>ireversibel</em>) karena susunan molekul zat berubah. Contoh: kayu terbakar menjadi arang dan abu, besi berkarat membentuk Fe<sub>2</sub>O<sub>3</sub> (korosi), susu menjadi masam, nasi basi, serta <strong>singkong difermentasi menjadi tapai</strong>.
+                        </div>
+                        <div class="info-list-item">
+                            <strong>4 Ciri Terjadinya Reaksi Kimia</strong>
+                            1. Terjadi perubahan warna (contoh: buah apel dikupas berubah kecokelatan karena oksidasi).<br>
+                            2. Terjadi perubahan suhu (reaksi eksoterm menghasilkan panas atau endoterm menyerap panas).<br>
+                            3. Terbentuk gelembung gas (contoh: tablet vitamin C atau soda kue dimasukkan ke dalam air/cuka menghasilkan gas CO<sub>2</sub>).<br>
+                            4. Terbentuk endapan di dasar tabung reaksi.
+                        </div>
                     </div>
 
                     <button class="btn-game btn-secondary" onclick="switchModuleTab('m2', 'quiz')">
-                        ⚡ Lanjut ke Tantangan Perubahan Materi →
+                        ⚡ Mulai Kuis Materi (8 Soal Acak) →
                     </button>
                 </div>
 
-                <!-- Tab 2: Kuis Perubahan Fisika vs Kimia -->
+                <!-- Tab 2: Kuis Modul 2 (8 Soal Acak: Fisika/Kimia + Pilihan Ganda Konsep) -->
                 <div class="tab-pane" id="pane-m2-quiz">
                     <div class="classifier-hud">
-                        <span>Tantangan: <strong id="m2-q-index">1 / 5</strong></span>
-                        <span>Skor Lab: <strong id="m2-q-score" style="color: #fbbf24;">0</strong></span>
+                        <span>Soal: <strong id="m2-q-index">1 / 8</strong></span>
+                        <span>Benar: <strong id="m2-q-score" style="color: #34d399;">0</strong></span>
                     </div>
 
                     <div class="matter-quiz-card">
-                        <div class="phenomenon-icon" id="m2-phenom-icon">🕯️</div>
-                        <h3 class="phenomenon-title" id="m2-phenom-title">Es Batu Mencair di Meja</h3>
+                        <div class="phenomenon-icon" id="m2-phenom-icon">🧊</div>
+                        <h3 class="phenomenon-title" id="m2-phenom-title">Judul Soal</h3>
                         <p class="phenomenon-desc" id="m2-phenom-desc">
-                            Air berwujud padat berubah menjadi air cair karena menyerap kalor tanpa menghasilkan zat jenis baru.
+                            Deskripsi fenomena atau pertanyaan konsep materi.
                         </p>
 
-                        <div class="choice-duo">
+                        <!-- Tombol Duo untuk tipe soal Fisika vs Kimia -->
+                        <div class="choice-duo" id="m2-duo-buttons">
                             <button class="btn-game btn-secondary" onclick="answerMatterQuiz('Fisika')">
                                 🧊 Perubahan Fisika
                             </button>
@@ -1673,13 +1967,14 @@
                                 🧪 Perubahan Kimia
                             </button>
                         </div>
+
+                        <!-- Opsi Pilihan Ganda untuk tipe soal Konsep Wujud/Campuran -->
+                        <div class="mcq-options-list" id="m2-mcq-options" style="display: none;"></div>
                     </div>
 
-                    <div class="glass-card" style="font-size: 0.73rem; color: #cbd5e1; line-height: 1.38;">
-                        💡 <strong>Tips Cepat:</strong><br>
-                        • <strong>Perubahan Fisika:</strong> Hanya mengubah wujud/ukuran, dapat balik (reversibel), <em>tidak</em> terbentuk zat baru.<br>
-                        • <strong>Perubahan Kimia:</strong> Terbentuk zat baru (ada gas, endapan, perubahan warna/suhu, pembakaran/perkaratan).
-                    </div>
+                    <button class="btn-game btn-surface" style="font-size: 0.76rem; padding: 8px;" onclick="resetMod2Quiz()">
+                        🔄 Acak Ulang 8 Soal Baru
+                    </button>
                 </div>
             </section>
 
@@ -1690,7 +1985,7 @@
                 <div class="module-header">
                     <div class="module-title-wrap">
                         <div class="module-tag">Modul 3 • Fisika Mekanika</div>
-                        <h2 class="module-title">Gaya, Gerak & Tekanan</h2>
+                        <h2 class="module-title">Gaya, Gerak, dan Tekanan</h2>
                     </div>
                     <button class="btn-game btn-surface" style="padding: 6px 12px; font-size: 0.75rem;" onclick="switchScreen('screen-map')">
                         🗺️ Peta
@@ -1699,115 +1994,161 @@
 
                 <div class="tab-switcher">
                     <button class="tab-btn active" id="tabbtn-m3-force" onclick="switchModuleTab('m3', 'force')">
-                        🚜 Simulasi Gaya & Gerak
+                        🚜 Lab & Materi Fisika
                     </button>
                     <button class="tab-btn" id="tabbtn-m3-pressure" onclick="switchModuleTab('m3', 'pressure')">
-                        📐 Lab Tekanan & Misi
+                        📐 Lab Tekanan & Kuis
                     </button>
                 </div>
 
-                <!-- Tab 1: Simulasi Gaya Dorong & Gesekan -->
+                <!-- Tab 1: Simulasi Gaya Dorong & Materi Lengkap Mekanika -->
                 <div class="tab-pane active" id="pane-m3-force">
-                    <div class="force-arena">
-                        <div class="physics-crate" id="sim-crate">
-                            <span>📦</span>
-                            <span id="crate-mass-label">10 kg</span>
-                            <div class="force-arrow arrow-push" id="arrow-push" style="width: 30px;"></div>
-                            <div class="force-arrow arrow-friction" id="arrow-friction" style="width: 10px;"></div>
-                        </div>
-                        <div class="arena-ground-grid"></div>
+                    <div class="subtopic-nav">
+                        <button class="sub-pill active" id="subbtn-m3-1" onclick="switchSubTopic('m3', 1)">1. Simulasi Gaya & Newton</button>
+                        <button class="sub-pill" id="subbtn-m3-2" onclick="switchSubTopic('m3', 2)">2. Gerak (GLB & GLBB)</button>
+                        <button class="sub-pill" id="subbtn-m3-3" onclick="switchSubTopic('m3', 3)">3. Tekanan & Hukum Fluida</button>
                     </div>
 
-                    <div class="telemetry-grid">
-                        <div class="telemetry-box">
-                            <span>Resultan (ΣF)</span>
-                            <strong id="tel-netforce">40 N</strong>
+                    <!-- Sub-materi 3.1: Simulasi Gaya & Hukum I, II, III Newton -->
+                    <div class="subtopic-box active" id="subbox-m3-1">
+                        <div class="force-arena">
+                            <div class="physics-crate" id="sim-crate">
+                                <span>📦</span>
+                                <span id="crate-mass-label">10 kg</span>
+                                <div class="force-arrow arrow-push" id="arrow-push" style="width: 30px;"></div>
+                                <div class="force-arrow arrow-friction" id="arrow-friction" style="width: 10px;"></div>
+                            </div>
+                            <div class="arena-ground-grid"></div>
                         </div>
-                        <div class="telemetry-box">
-                            <span>Percepatan (a)</span>
-                            <strong id="tel-accel">4.0 m/s²</strong>
+
+                        <div class="telemetry-grid">
+                            <div class="telemetry-box">
+                                <span>Resultan (ΣF)</span>
+                                <strong id="tel-netforce">40 N</strong>
+                            </div>
+                            <div class="telemetry-box">
+                                <span>Percepatan (a)</span>
+                                <strong id="tel-accel">4.0 m/s²</strong>
+                            </div>
+                            <div class="telemetry-box">
+                                <span>Status Benda</span>
+                                <strong id="tel-status" style="color: #34d399;">Bergerak →</strong>
+                            </div>
                         </div>
-                        <div class="telemetry-box">
-                            <span>Status Benda</span>
-                            <strong id="tel-status" style="color: #34d399;">Bergerak →</strong>
+
+                        <div class="glass-card" style="display: flex; flex-direction: column; gap: 6px; padding: 10px 12px;">
+                            <div class="slider-control">
+                                <div class="slider-header">
+                                    <span>🟢 Gaya Dorong (F):</span>
+                                    <span id="val-push">60 N</span>
+                                </div>
+                                <input type="range" id="slider-push" min="0" max="120" value="60" oninput="updateForceSim()">
+                            </div>
+
+                            <div class="slider-control">
+                                <div class="slider-header">
+                                    <span>🔴 Gaya Gesek Maksimum (f):</span>
+                                    <span id="val-friction">20 N</span>
+                                </div>
+                                <input type="range" id="slider-friction" min="0" max="80" value="20" oninput="updateForceSim()">
+                            </div>
+
+                            <div class="slider-control">
+                                <div class="slider-header">
+                                    <span>⚖️ Massa Balok (m):</span>
+                                    <span id="val-mass">10 kg</span>
+                                </div>
+                                <input type="range" id="slider-mass" min="2" max="30" value="10" oninput="updateForceSim()">
+                            </div>
+                        </div>
+
+                        <div class="info-list-item">
+                            <strong>Hukum I, II, dan III Newton</strong>
+                            • <strong>Hukum I Newton (Kelembaman/Inersia):</strong> <span class="formula-badge">ΣF = 0</span>. Benda yang diam akan tetap diam, dan benda yang bergerak lurus beraturan akan tetap bergerak dengan kecepatan konstan. Contoh: tubuh penumpang terdorong ke depan saat bus direm mendadak.<br>
+                            • <strong>Hukum II Newton:</strong> <span class="formula-badge">a = ΣF / m</span> atau <span class="formula-badge">ΣF = m × a</span>. Percepatan benda (m/s<sup>2</sup>) berbanding lurus dengan resultan gaya (N) dan berbanding terbalik dengan massanya (kg).<br>
+                            • <strong>Hukum III Newton (Aksi-Reaksi):</strong> <span class="formula-badge">F<sub>aksi</sub> = −F<sub>reaksi</sub></span>. Gaya aksi dan reaksi sama besar namun berlawanan arah. Contoh: semburan gas roket ke bawah mendorong roket meluncur ke atas.
                         </div>
                     </div>
 
-                    <div class="glass-card" style="display: flex; flex-direction: column; gap: 8px; padding: 10px 12px;">
-                        <div class="slider-control">
-                            <div class="slider-header">
-                                <span>🟢 Gaya Dorong (F):</span>
-                                <span id="val-push">60 N</span>
-                            </div>
-                            <input type="range" id="slider-push" min="0" max="120" value="60" oninput="updateForceSim()">
+                    <!-- Sub-materi 3.2: Konsep Gerak, GLB, dan GLBB -->
+                    <div class="subtopic-box" id="subbox-m3-2">
+                        <div class="info-list-item">
+                            <strong>Jarak vs Perpindahan & Kelajuan vs Kecepatan</strong>
+                            • <strong>Jarak (s):</strong> Panjang seluruh lintasan yang ditempuh benda tanpa memperhatikan arah (besaran skalar).<br>
+                            • <strong>Perpindahan (Δx):</strong> Perubahan posisi benda yang diukur lurus dari titik awal ke titik akhir (besaran vektor).<br>
+                            • <strong>Rumus Kelajuan / Kecepatan:</strong> <span class="formula-badge">v = s / t</span> (v = kelajuan dalam m/s, s = jarak tempuh dalam meter, t = waktu tempuh dalam sekon).
                         </div>
-
-                        <div class="slider-control">
-                            <div class="slider-header">
-                                <span>🔴 Gaya Gesek Maksimum (f):</span>
-                                <span id="val-friction">20 N</span>
-                            </div>
-                            <input type="range" id="slider-friction" min="0" max="80" value="20" oninput="updateForceSim()">
+                        <div class="info-list-item">
+                            <strong>Gerak Lurus Beraturan (GLB)</strong>
+                            Gerak benda pada lintasan lurus dengan <strong>kecepatan tetap (konstan)</strong> sehingga percepatannya nol (a = 0 m/s<sup>2</sup>). Contoh: kereta api melaju konstan 20 m/s (72 km/jam) pada rel lurus.
                         </div>
+                        <div class="info-list-item">
+                            <strong>Gerak Lurus Berubah Beraturan (GLBB)</strong>
+                            Gerak lurus dengan <strong>percepatan tetap (konstan)</strong>:<br>
+                            • <strong>GLBB Dipercepat:</strong> Kecepatan bertambah secara teratur (contoh: buah kelapa jatuh bebas dari pohon, sepeda meluncur menuruni bukit).<br>
+                            • <strong>GLBB Diperlambat:</strong> Kecepatan berkurang secara teratur (contoh: bola dilempar vertikal ke atas, mobil direm hingga berhenti).
+                        </div>
+                    </div>
 
-                        <div class="slider-control">
-                            <div class="slider-header">
-                                <span>⚖️ Massa Balok (m):</span>
-                                <span id="val-mass">10 kg</span>
-                            </div>
-                            <input type="range" id="slider-mass" min="2" max="30" value="10" oninput="updateForceSim()">
+                    <!-- Sub-materi 3.3: Tekanan Zat Padat, Hidrostatis, Pascal & Archimedes -->
+                    <div class="subtopic-box" id="subbox-m3-3">
+                        <div class="info-list-item">
+                            <strong>1. Tekanan Zat Padat</strong>
+                            <span class="formula-badge">P = F / A</span><br>
+                            P = Tekanan (N/m<sup>2</sup> atau Pascal/Pa), F = Gaya tekan (N), dan A = Luas bidang tekan (m<sup>2</sup>). Semakin kecil luas permukaan sentuh (A), semakin besar tekanan (P) yang dihasilkan. Contoh: mata pisau dibuat tipis dan tajam, sedangkan kaki bebek berselaput lebar agar tidak mudah amblas di lumpur.
+                        </div>
+                        <div class="info-list-item">
+                            <strong>2. Tekanan Hidrostatis (Zat Cair)</strong>
+                            <span class="formula-badge">P<sub>h</sub> = ρ × g × h</span><br>
+                            Tekanan di dalam zat cair bergantung pada massa jenis zat cair (ρ dalam kg/m<sup>3</sup>), percepatan gravitasi (g dalam m/s<sup>2</sup>), dan <strong>kedalaman diukur dari permukaan zat cair (h dalam meter)</strong>. Oleh sebab itu, dinding bendungan bagian dasar dibuat jauh lebih tebal.
+                        </div>
+                        <div class="info-list-item">
+                            <strong>3. Hukum Pascal (Fluida Ruang Tertutup)</strong>
+                            <span class="formula-badge">F<sub>1</sub> / A<sub>1</sub> = F<sub>2</sub> / A<sub>2</sub></span><br>
+                            Tekanan yang diberikan pada zat cair di dalam ruang tertutup diteruskan ke segala arah dengan sama besar. Penerapan: dongkrak hidrolik, alat pengangkat mobil di tempat cuci mobil, dan rem cakram hidrolik.
+                        </div>
+                        <div class="info-list-item">
+                            <strong>4. Hukum Archimedes (Gaya Apung: F<sub>a</sub> = ρ<sub>cair</sub> × g × V<sub>celup</sub>)</strong>
+                            • <strong>Terapung:</strong> Massa jenis benda lebih kecil daripada massa jenis zat cair (ρ<sub>benda</sub> &lt; ρ<sub>cair</sub>).<br>
+                            • <strong>Melayang:</strong> Massa jenis benda sama dengan massa jenis zat cair (ρ<sub>benda</sub> = ρ<sub>cair</sub>).<br>
+                            • <strong>Tenggelam:</strong> Massa jenis benda lebih besar daripada massa jenis zat cair (ρ<sub>benda</sub> &gt; ρ<sub>cair</sub>). Penerapan: kapal selam, jembatan ponton, hidrometer, dan balon udara.
                         </div>
                     </div>
 
                     <button class="btn-game btn-secondary" onclick="switchModuleTab('m3', 'pressure')">
-                        📐 Buka Kalkulator & Misi Tekanan →
+                        📐 Buka Lab Tekanan & Kuis Fisika (6 Soal) →
                     </button>
                 </div>
 
-                <!-- Tab 2: Kalkulator & Visualisasi Tekanan (P = F / A) + Misi Akhir -->
+                <!-- Tab 2: Simulator Kontekstual Dinamis + Kuis Tantangan Fisika (6 Soal Acak) -->
                 <div class="tab-pane" id="pane-m3-pressure">
-                    <div class="pressure-visual-stage">
-                        <div class="pressure-pillar" id="pressure-block" style="width: 70px; height: 55px; transform: translateY(12px);">
-                            <span id="p-visual-text">500 Pa</span>
-                        </div>
-                        <span class="soil-label">Lapisan Tanah Lunak</span>
+                    <div class="classifier-hud">
+                        <span>Kuis Fisika: <strong id="m3-q-index">1 / 6</strong></span>
+                        <span id="m3-sim-topic-badge" style="color: var(--secondary);">🔬 Simulator Soal Aktif</span>
+                        <span>Benar: <strong id="m3-q-score" style="color: #34d399;">0</strong></span>
                     </div>
 
-                    <div class="glass-card" style="display: flex; flex-direction: column; gap: 8px; padding: 10px 12px;">
-                        <div class="slider-header" style="border-bottom: 1px solid var(--glass-border); padding-bottom: 6px;">
-                            <span>Rumus: <strong>P = F / A</strong></span>
-                            <span style="color: #38bdf8; font-family: var(--font-display); font-size: 0.95rem;" id="calc-pressure-out">P = 500 N/m² (Pa)</span>
-                        </div>
-
-                        <div class="slider-control">
-                            <div class="slider-header">
-                                <span>⬇️ Gaya Tekan (F):</span>
-                                <span id="val-p-force">100 N</span>
-                            </div>
-                            <input type="range" id="slider-p-force" min="20" max="300" step="10" value="100" oninput="updatePressureSim()">
-                        </div>
-
-                        <div class="slider-control">
-                            <div class="slider-header">
-                                <span>📏 Luas Bidang Tekan (A):</span>
-                                <span id="val-p-area">0.20 m²</span>
-                            </div>
-                            <input type="range" id="slider-p-area" min="5" max="100" step="5" value="20" oninput="updatePressureSim()">
-                        </div>
+                    <!-- Panggung Simulator Visual Kontekstual (Berubah Otomatis Sesuai Soal) -->
+                    <div class="pressure-visual-stage" id="m3-dynamic-stage" style="height: 122px; padding: 10px; justify-content: center;">
+                        <!-- Diisi secara dinamis oleh renderMod3ContextualSim() -->
                     </div>
 
-                    <!-- Misi Tantangan Tekanan untuk Menyelesaikan Modul 3 -->
-                    <div class="glass-card" style="background: rgba(99, 102, 241, 0.16); border-color: rgba(99, 102, 241, 0.45);">
-                        <div style="font-size: 0.72rem; color: #a5f3fc; font-weight: 800; text-transform: uppercase;">
-                            🎯 Misi Laboratorium Fisika (<span id="m3-mission-step">1/3</span>)
-                        </div>
-                        <p id="m3-mission-prompt" style="font-size: 0.8rem; color: #fff; margin: 4px 0 10px; line-height: 1.35;">
-                            Atur slider di atas agar menghasilkan Tekanan (P) sebesar <strong>1000 Pa</strong> (Contoh: F = 200 N dan A = 0.20 m²), lalu klik Verifikasi!
+                    <!-- Kontrol Slider Kontekstual Sesuai Soal -->
+                    <div class="glass-card" id="m3-dynamic-controls" style="display: flex; flex-direction: column; gap: 6px; padding: 9px 12px;">
+                        <!-- Diisi secara dinamis oleh renderMod3ContextualSim() -->
+                    </div>
+
+                    <!-- Kuis Tantangan Fisika Modul 3 -->
+                    <div class="glass-card" style="padding: 12px;">
+                        <p id="m3-mcq-question" style="font-size: 0.82rem; font-weight: 700; line-height: 1.4; color: #fff;">
+                            Soal Fisika akan muncul di sini...
                         </p>
-                        <button class="btn-game btn-success" style="width: 100%; padding: 10px;" onclick="verifyMod3Mission()">
-                            ✅ Verifikasi Eksperimen Tekanan
-                        </button>
+                        <div class="mcq-options-list" id="m3-mcq-options"></div>
                     </div>
+
+                    <button class="btn-game btn-surface" style="font-size: 0.75rem; padding: 7px;" onclick="resetMod3Quiz()">
+                        🔄 Acak Ulang 6 Soal Fisika
+                    </button>
                 </div>
             </section>
 
@@ -1843,7 +2184,7 @@
              ====================================================================== -->
         <div class="modal-backdrop" id="modal-victory">
             <div class="modal-dialog">
-                <div style="font-size: 0.75rem; font-weight: 800; color: var(--secondary); text-transform: uppercase;">
+                <div id="victory-status-pill" style="font-size: 0.75rem; font-weight: 800; color: var(--secondary); text-transform: uppercase;">
                     🎉 Misi Modul Selesai!
                 </div>
                 <h3 id="victory-title" style="font-family: var(--font-display); font-size: 1.35rem; margin-top: 2px;">
@@ -1856,11 +2197,15 @@
                     <span class="v-star" id="vstar-3">★</span>
                 </div>
 
-                <p id="victory-desc" style="font-size: 0.8rem; color: #cbd5e1; line-height: 1.4;">
+                <div id="victory-accuracy-pill" style="font-size: 0.76rem; font-weight: 800; color: #fbbf24; margin-bottom: 6px;">
+                    Akurasi Jawaban: 100%
+                </div>
+
+                <p id="victory-desc" style="font-size: 0.78rem; color: #cbd5e1; line-height: 1.4;">
                     Luar biasa! Kamu berhasil mengelompokkan spesimen makhluk hidup dengan akurat.
                 </p>
 
-                <div class="badge-earned-box">
+                <div class="badge-earned-box" id="victory-badge-container">
                     <div style="font-size: 1.6rem;" id="victory-badge-icon">🏅</div>
                     <div style="font-family: var(--font-display); font-size: 0.9rem; color: #fbbf24;" id="victory-badge-name">
                         Lencana Ahli Taksonomi
@@ -1873,6 +2218,9 @@
                 <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 14px;">
                     <button class="btn-game btn-primary" id="btn-next-module" onclick="goNextModuleFromVictory()">
                         🚀 Lanjut ke Level Berikutnya
+                    </button>
+                    <button class="btn-game btn-accent" id="btn-retry-module" style="display: none;" onclick="retryModuleFromVictory()">
+                        🔄 Ulangi & Perbaiki Skor (Butuh Min. 2 ⭐)
                     </button>
                     <button class="btn-game btn-surface" onclick="closeModal('modal-victory'); switchScreen('screen-map');">
                         🗺️ Kembali ke Peta Dunia
@@ -1900,11 +2248,12 @@
                     </div>
 
                     <div>
-                        <strong style="color: #fbbf24;">🎮 Cara Bermain:</strong>
+                        <strong style="color: #fbbf24;">🎮 Cara Bermain & Aturan Bintang:</strong>
                         <ul style="padding-left: 18px; margin-top: 4px;">
                             <li>Pilih <strong>Mulai Petualangan</strong> untuk membuka Peta Dunia.</li>
-                            <li>Setiap modul memiliki tab <strong>Materi Visual / Lab Simulasi</strong> dan <strong>Mini Game / Tantangan</strong>.</li>
-                            <li>Raih minimal 1 Bintang di setiap modul untuk membuka modul berikutnya (atau aktifkan <em>Mode Bebas</em> di Pengaturan).</li>
+                            <li>Setiap modul memiliki tab <strong>Materi Lengkap / Lab Simulasi</strong> dan <strong>Tantangan Soal Acak</strong>.</li>
+                            <li><strong>Aturan Bintang:</strong> Akurasi ≥ 85% = ⭐⭐⭐, Akurasi 65%–84% = ⭐⭐, Akurasi &lt; 65% = ⭐.</li>
+                            <li><strong>Syarat Lanjut Level:</strong> Wajib meraih minimal <strong>2 Bintang (⭐⭐)</strong> untuk membuka modul berikutnya (atau aktifkan <em>Mode Bebas</em> di Pengaturan).</li>
                         </ul>
                     </div>
 
@@ -1972,7 +2321,7 @@
         /* ==========================================================================
            1. STATE MANAGEMENT & LOCALSTORAGE PERSISTENCE
            ========================================================================== */
-        const STORAGE_KEY = 'sainsverse_pid25_save_v1';
+        const STORAGE_KEY = 'sainsverse_pid25_save_v2';
 
         const defaultState = {
             score: 0,
@@ -2003,6 +2352,31 @@
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(gameState));
             } catch (e) {}
             updateHUD();
+        }
+
+        // Fungsi utilitas pengacak array (Fisher-Yates Shuffle) agar soal selalu bervariasi
+        function shuffleArray(arr) {
+            const copy = [...arr];
+            for (let i = copy.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [copy[i], copy[j]] = [copy[j], copy[i]];
+            }
+            return copy;
+        }
+
+        // Aturan Perolehan Bintang (1-3 Bintang) berdasarkan persentase akurasi
+        function calculateStarsFromAccuracy(correctCount, totalCount) {
+            const pct = Math.round((correctCount / totalCount) * 100);
+            if (pct >= 85) return { stars: 3, pct };
+            if (pct >= 65) return { stars: 2, pct };
+            return { stars: 1, pct };
+        }
+
+        // Cek apakah level tertentu sudah terbuka (Strict Star Gate: Butuh minimal 2 Bintang di level sebelumnya)
+        function isLevelUnlocked(lvl) {
+            if (gameState.freeMode || lvl === 1) return true;
+            const prevStars = gameState.stars[lvl - 1] || 0;
+            return prevStars >= 2;
         }
 
         /* ==========================================================================
@@ -2101,22 +2475,47 @@
             document.getElementById('map-progress-bar').style.width = `${pct}%`;
 
             for (let lvl = 1; lvl <= 3; lvl++) {
-                const isUnlocked = gameState.freeMode || lvl <= gameState.unlockedLevel;
+                const isUnlocked = isLevelUnlocked(lvl);
                 const card = document.getElementById(`card-lvl-${lvl}`);
                 const statusPill = document.getElementById(`status-lvl-${lvl}`);
                 const starContainer = document.getElementById(`stars-lvl-${lvl}`);
+                const reqBanner = document.getElementById(`req-lvl-${lvl}`);
                 const earned = gameState.stars[lvl] || 0;
 
                 if (isUnlocked) {
                     card.classList.remove('locked');
                     card.classList.add('unlocked');
                     statusPill.classList.remove('locked');
-                    statusPill.textContent = earned > 0 ? 'SELESAI ✓' : 'TERBUKA';
+                    if (earned >= 2) {
+                        statusPill.textContent = 'LULUS ✓';
+                        statusPill.style.background = 'rgba(16, 185, 129, 0.22)';
+                        statusPill.style.color = '#34d399';
+                    } else if (earned === 1) {
+                        statusPill.textContent = '1 ⭐ (ULANGI)';
+                        statusPill.style.background = 'rgba(245, 158, 11, 0.22)';
+                        statusPill.style.color = '#fbbf24';
+                    } else {
+                        statusPill.textContent = 'TERBUKA';
+                        statusPill.style.background = 'rgba(56, 189, 248, 0.2)';
+                        statusPill.style.color = '#38bdf8';
+                    }
+                    if (reqBanner) reqBanner.style.display = 'none';
                 } else {
                     card.classList.remove('unlocked');
                     card.classList.add('locked');
                     statusPill.classList.add('locked');
                     statusPill.textContent = '🔒 TERKUNCI';
+                    statusPill.style.background = 'rgba(148, 163, 184, 0.2)';
+                    statusPill.style.color = '#94a3b8';
+                    if (reqBanner) {
+                        reqBanner.style.display = 'block';
+                        const prevStars = gameState.stars[lvl - 1] || 0;
+                        if (prevStars === 1) {
+                            reqBanner.textContent = `⚠️ Baru 1 ⭐ di Modul ${lvl - 1}. Perbaiki jadi min. 2 ⭐!`;
+                        } else {
+                            reqBanner.textContent = `🔒 Syarat Buka: Min. 2 ⭐ di Modul ${lvl - 1}`;
+                        }
+                    }
                 }
 
                 // Render 3 bintang
@@ -2136,7 +2535,7 @@
             // Render Badges di Modal Info
             const badgeContainer = document.getElementById('info-badges-list');
             if (gameState.badges.length === 0) {
-                badgeContainer.innerHTML = `<span style="font-size:0.72rem; color:var(--text-muted);">Belum ada lencana. Selesaikan misi modul!</span>`;
+                badgeContainer.innerHTML = `<span style="font-size:0.72rem; color:var(--text-muted);">Belum ada lencana. Raih minimal 2 Bintang di setiap modul!</span>`;
             } else {
                 badgeContainer.innerHTML = gameState.badges.map(b => `<span class="badge-chip">${b}</span>`).join('');
             }
@@ -2161,11 +2560,28 @@
             }
         }
 
+        function switchSubTopic(modPrefix, num) {
+            playSFX('tap');
+            for (let i = 1; i <= 3; i++) {
+                const btn = document.getElementById(`subbtn-${modPrefix}-${i}`);
+                const box = document.getElementById(`subbox-${modPrefix}-${i}`);
+                if (btn) btn.classList.toggle('active', i === num);
+                if (box) box.classList.toggle('active', i === num);
+            }
+            if (modPrefix === 'm2' && num === 1) {
+                setTimeout(resizeParticleCanvas, 50);
+            }
+        }
+
         function enterModule(levelNum) {
-            const isUnlocked = gameState.freeMode || levelNum <= gameState.unlockedLevel;
-            if (!isUnlocked) {
+            if (!isLevelUnlocked(levelNum)) {
                 playSFX('wrong');
-                showToast(`🔒 Selesaikan Modul ${levelNum - 1} dulu atau aktifkan Mode Bebas di ⚙️!`);
+                const prevStars = gameState.stars[levelNum - 1] || 0;
+                if (prevStars === 1) {
+                    showToast(`⚠️ Kamu baru dapat 1 ⭐ di Modul ${levelNum - 1}. Wajib minimal 2 ⭐ untuk lanjut!`);
+                } else {
+                    showToast(`🔒 Raih minimal 2 ⭐ di Modul ${levelNum - 1} dulu untuk membuka modul ini!`);
+                }
                 return;
             }
             if (levelNum === 1) {
@@ -2176,7 +2592,7 @@
                 switchScreen('screen-mod2');
             } else if (levelNum === 3) {
                 updateForceSim();
-                updatePressureSim();
+                resetMod3Quiz();
                 switchScreen('screen-mod3');
             }
         }
@@ -2198,72 +2614,212 @@
         }
 
         /* ==========================================================================
-           4. MODUL 1: MINI GAME KLASIFIKASI 5 KINGDOM (DRAG & DROP + TAP)
+           4. MODUL 1: BANK 20 SPESIMEN + 12 SOAL KONSEP (DIACAK SETIAP SESI)
            ========================================================================== */
         const specimensData = [
-            { name: 'Harimau Sumatera', emoji: '🐅', kingdom: 'Animalia', clue: 'Multiseluler, heterotrof, bergerak aktif' },
-            { name: 'Pohon Jati', emoji: '🌳', kingdom: 'Plantae', clue: 'Memiliki klorofil & dinding sel, berfotosintesis' },
-            { name: 'Jamur Tiram', emoji: '🍄', kingdom: 'Fungi', clue: 'Tidak berklorofil, menyerap zat organik & berspora' },
-            { name: 'Amoeba & Paramecium', emoji: '🦠', kingdom: 'Mikro', clue: 'Organisme mikroskopis bersel satu (Protista)' },
-            { name: 'Burung Cenderawasih', emoji: '🦜', kingdom: 'Animalia', clue: 'Vertebrata berbulu, bernapas dengan paru-paru' },
-            { name: 'Tumbuhan Lumut & Paku', emoji: '🌿', kingdom: 'Plantae', clue: 'Autotrof berklorofil, tumbuh di tempat lembap' }
+            { name: 'Harimau Sumatera (<i>Panthera tigris</i>)', plainName: 'Harimau Sumatera', emoji: '🐅', kingdom: 'Animalia', clue: 'Multiseluler, heterotrof, mamalia karnivora' },
+            { name: 'Burung Cenderawasih (<i>Paradisaea</i>)', plainName: 'Burung Cenderawasih', emoji: '🦜', kingdom: 'Animalia', clue: 'Vertebrata berbulu (Aves), berdarah panas (homoioterm)' },
+            { name: 'Ikan Badut (<i>Amphiprion ocellaris</i>)', plainName: 'Ikan Badut', emoji: '🐠', kingdom: 'Animalia', clue: 'Kelompok Pisces, bernapas dengan insang, poikiloterm' },
+            { name: 'Katak Pohon Hijau (<i>Litoria caerulea</i>)', plainName: 'Katak Pohon Hijau', emoji: '🐸', kingdom: 'Animalia', clue: 'Kelompok Amphibia, mengalami metamorfosis sempurna' },
+            { name: 'Ubur-ubur Laut (<i>Aurelia aurita</i>)', plainName: 'Ubur-ubur Laut', emoji: '🪼', kingdom: 'Animalia', clue: 'Invertebrata berongga (Coelenterata), bergerak aktif' },
+            { name: 'Kupu-kupu Raja (<i>Danaus plexippus</i>)', plainName: 'Kupu-kupu Raja', emoji: '🦋', kingdom: 'Animalia', clue: 'Arthropoda (serangga), memiliki 3 pasang kaki beruas' },
+            { name: 'Pohon Jati (<i>Tectona grandis</i>)', plainName: 'Pohon Jati', emoji: '🌳', kingdom: 'Plantae', clue: 'Berdinding sel selulosa, berklorofil, tumbuhan berbiji' },
+            { name: 'Lumut Hati (<i>Marchantia polymorpha</i>)', plainName: 'Lumut Hati', emoji: '🌿', kingdom: 'Plantae', clue: 'Bryophyta, autotrof tidak berpembuluh di tempat lembap' },
+            { name: 'Paku Tanduk Rusa (<i>Platycerium</i>)', plainName: 'Paku Tanduk Rusa', emoji: '🪴', kingdom: 'Plantae', clue: 'Pteridophyta, berpembuluh dan berkembang biak dengan spora' },
+            { name: 'Tanaman Padi (<i>Oryza sativa</i>)', plainName: 'Tanaman Padi', emoji: '🌾', kingdom: 'Plantae', clue: 'Tumbuhan berbiji tertutup (Angiospermae) penghasil beras' },
+            { name: 'Bunga Matahari (<i>Helianthus annuus</i>)', plainName: 'Bunga Matahari', emoji: '🌻', kingdom: 'Plantae', clue: 'Autotrof berklorofil, melakukan gerak fototropisme' },
+            { name: 'Jamur Tiram Putih (<i>Pleurotus ostreatus</i>)', plainName: 'Jamur Tiram Putih', emoji: '🍄', kingdom: 'Fungi', clue: 'Eukariotik tidak berklorofil, tubuh buah berbentuk payung' },
+            { name: 'Jamur Tempe (<i>Rhizopus oryzae</i>)', plainName: 'Jamur Tempe', emoji: '🍞', kingdom: 'Fungi', clue: 'Memiliki benang hifa yang mengikat kedelai saat fermentasi' },
+            { name: 'Ragi Roti (<i>Saccharomyces cerevisiae</i>)', plainName: 'Ragi Roti', emoji: '🍺', kingdom: 'Fungi', clue: 'Fungi uniseluler pengembang adonan roti dan pembuat tapai' },
+            { name: 'Jamur Penisilin (<i>Penicillium notatum</i>)', plainName: 'Jamur Penisilin', emoji: '🧫', kingdom: 'Fungi', clue: 'Fungi mikroskopis penghasil zat antibiotik penisilin' },
+            { name: '<i>Amoeba proteus</i>', plainName: 'Amoeba proteus', emoji: '🦠', kingdom: 'Mikro', clue: 'Protista mirip hewan (Protozoa), bergerak dengan kaki semu' },
+            { name: '<i>Paramecium caudatum</i>', plainName: 'Paramecium caudatum', emoji: '🔬', kingdom: 'Mikro', clue: 'Protista bersel satu yang bergerak dengan rambut getar (silia)' },
+            { name: '<i>Euglena viridis</i>', plainName: 'Euglena viridis', emoji: '🧪', kingdom: 'Mikro', clue: 'Protista berflagela (bulu cambuk) yang memiliki klorofil' },
+            { name: 'Bakteri <i>Escherichia coli</i>', plainName: 'Bakteri Escherichia coli', emoji: '🧬', kingdom: 'Mikro', clue: 'Monera prokariotik yang membantu pembusukan di usus besar' },
+            { name: 'Bakteri <i>Lactobacillus bulgaricus</i>', plainName: 'Bakteri Lactobacillus', emoji: '🥛', kingdom: 'Mikro', clue: 'Monera prokariotik pengubah susu segar menjadi yoghurt' }
         ];
 
-        let m1Queue = [];
-        let m1Index = 0;
-        let m1Score = 0;
-        let m1Mistakes = 0;
+        const mod1ConceptBank = [
+            {
+                q: 'Daun putri malu (<i>Mimosa pudica</i>) mengatupkan daunnya ketika disentuh. Hal ini menunjukkan karakteristik makhluk hidup yaitu...',
+                options: ['Peka terhadap rangsang (iritabilitas)', 'Mengeluarkan zat sisa (ekskresi)', 'Berkembang biak (reproduksi)', 'Memerlukan nutrisi'],
+                answer: 0
+            },
+            {
+                q: 'Perbedaan utama antara sel Kingdom Monera dan Kingdom Protista terletak pada...',
+                options: ['Monera bersifat prokariotik (tanpa membran inti), sedangkan Protista eukariotik', 'Monera selalu multiseluler, sedangkan Protista selalu uniseluler', 'Monera berklorofil semua, sedangkan Protista tidak', 'Monera berukuran besar, sedangkan Protista mikroskopis'],
+                answer: 0
+            },
+            {
+                q: 'Menurut aturan tata nama ganda (<i>Binomial Nomenclature</i>), penulisan nama ilmiah tanaman padi yang benar adalah...',
+                options: ['<i>Oryza sativa</i>', '<i>oryza Sativa</i>', 'ORYZA SATIVA', 'Oryza Sativa (tanpa cetak miring)'],
+                answer: 0
+            },
+            {
+                q: 'Mengapa jamur (Fungi) dipisahkan dari Kingdom Plantae (tumbuhan)?',
+                options: ['Karena jamur tidak memiliki klorofil dan dinding selnya tersusun atas zat kitin', 'Karena jamur dapat berpindah tempat secara aktif seperti hewan', 'Karena sel jamur tidak memiliki membran inti (prokariotik)', 'Karena jamur berkembang biak dengan cara melahirkan'],
+                answer: 0
+            },
+            {
+                q: 'Proses pengeluaran keringat oleh kulit, urine oleh ginjal, serta gas CO<sub>2</sub> dan uap air (H<sub>2</sub>O) oleh paru-paru merupakan karakteristik makhluk hidup yaitu...',
+                options: ['Ekskresi (pengeluaran zat sisa metabolisme)', 'Respirasi (pernapasan seluler)', 'Adaptasi morfologi', 'Iritabilitas (peka terhadap rangsang)'],
+                answer: 0
+            },
+            {
+                q: 'Urutan tingkatan takson dari tingkat tertinggi hingga tingkat terendah pada dunia tumbuhan (Plantae) adalah...',
+                options: ['Kingdom – Divisi – Kelas – Ordo – Famili – Genus – Spesies', 'Kingdom – Filum – Ordo – Kelas – Famili – Genus – Spesies', 'Spesies – Genus – Famili – Ordo – Kelas – Divisi – Kingdom', 'Kingdom – Kelas – Divisi – Famili – Ordo – Genus – Spesies'],
+                answer: 0
+            },
+            {
+                q: 'Pada nama ilmiah harimau (<i>Panthera tigris</i>) dan singa (<i>Panthera leo</i>), kata pertama yaitu "<i>Panthera</i>" menunjukkan bahwa keduanya memiliki kesamaan pada tingkat takson...',
+                options: ['Genus (Marga)', 'Spesies (Jenis)', 'Varietas', 'Individu'],
+                answer: 0
+            },
+            {
+                q: 'Bertambahnya tinggi batang kecambah kacang hijau dari 2 cm menjadi 12 cm bersifat kuantitatif dan tidak dapat kembali seperti semula. Hal ini menunjukkan ciri...',
+                options: ['Pertumbuhan (tumbuh)', 'Perkembangan menuju dewasa', 'Gerak aktif berpindah tempat', 'Adaptasi tingkah laku'],
+                answer: 0
+            },
+            {
+                q: 'Tumbuhan hijau mampu mengubah gas karbon dioksida (CO<sub>2</sub>) dan air (H<sub>2</sub>O) menjadi glukosa (C<sub>6</sub>H<sub>12</sub>O<sub>6</sub>) serta oksigen (O<sub>2</sub>) dengan bantuan cahaya matahari. Sifat ini disebut...',
+                options: ['Autotrof', 'Heterotrof', 'Saprofit', 'Parasit'],
+                answer: 0
+            },
+            {
+                q: 'Daftar rangkaian ciri makhluk hidup yang disusun berpasangan dan berlawanan (kuplet a dan b) untuk mengidentifikasi nama kelompok organisme disebut...',
+                options: ['Kunci determinasi dikotomis', 'Tabel periodik unsur', 'Peta konsep ekosistem', 'Mikroskop elektron'],
+                answer: 0
+            },
+            {
+                q: 'Kelompok hewan bertulang belakang (Vertebrata) yang memiliki kelenjar susu (<i>glandula mammae</i>), berdarah panas, dan bernapas menggunakan paru-paru adalah...',
+                options: ['Mammalia', 'Amphibia', 'Reptilia', 'Pisces'],
+                answer: 0
+            },
+            {
+                q: 'Proses menghirup gas oksigen (O<sub>2</sub>) untuk membakar sari makanan di dalam sel guna menghasilkan energi disebut...',
+                options: ['Respirasi (bernapas)', 'Fotosintesis', 'Ekskresi', 'Adaptasi fisiologi'],
+                answer: 0
+            }
+        ];
+
+        const M1_STAGE1_COUNT = 6;
+        const M1_STAGE2_COUNT = 4;
+        const M1_TOTAL_QUESTIONS = M1_STAGE1_COUNT + M1_STAGE2_COUNT; // 10 Tantangan per sesi
+
+        let m1SpecQueue = [];
+        let m1McqQueue = [];
+        let m1Step = 0; // 0..5 = Stage 1 (6 spesimen), 6..9 = Stage 2 (4 MCQ)
+        let m1Correct = 0;
 
         function resetMod1Game() {
-            m1Queue = [...specimensData].sort(() => Math.random() - 0.5);
-            m1Index = 0;
-            m1Score = 0;
-            m1Mistakes = 0;
-            renderCurrentSpecimen();
+            m1SpecQueue = shuffleArray(specimensData).slice(0, M1_STAGE1_COUNT);
+            m1McqQueue = shuffleArray(mod1ConceptBank).slice(0, M1_STAGE2_COUNT);
+            m1Step = 0;
+            m1Correct = 0;
+            renderMod1Challenge();
         }
 
-        function renderCurrentSpecimen() {
-            const total = m1Queue.length;
-            document.getElementById('m1-progress-text').textContent = `${Math.min(m1Index + 1, total)} / ${total}`;
-            document.getElementById('m1-score-text').textContent = m1Score;
+        function renderMod1Challenge() {
+            document.getElementById('m1-progress-text').textContent = `${Math.min(m1Step + 1, M1_TOTAL_QUESTIONS)} / ${M1_TOTAL_QUESTIONS}`;
+            document.getElementById('m1-score-text').textContent = m1Correct;
 
-            if (m1Index >= total) return;
-            const current = m1Queue[m1Index];
-            document.getElementById('spec-emoji').textContent = current.emoji;
-            document.getElementById('spec-name').textContent = current.name;
-            document.getElementById('spec-clue').textContent = current.clue;
+            const stage1El = document.getElementById('m1-stage1-container');
+            const stage2El = document.getElementById('m1-stage2-container');
+            const badgeEl = document.getElementById('m1-stage-badge');
+
+            if (m1Step < M1_STAGE1_COUNT) {
+                // Tahap 1: Klasifikasi Spesimen
+                stage1El.style.display = 'flex';
+                stage2El.style.display = 'none';
+                badgeEl.textContent = 'Tahap 1: Sortir Kingdom';
+
+                const current = m1SpecQueue[m1Step];
+                document.getElementById('spec-emoji').textContent = current.emoji;
+                document.getElementById('spec-name').innerHTML = current.name;
+                document.getElementById('spec-clue').innerHTML = current.clue;
+            } else if (m1Step < M1_TOTAL_QUESTIONS) {
+                // Tahap 2: Kuis Pilihan Ganda
+                stage1El.style.display = 'none';
+                stage2El.style.display = 'flex';
+                badgeEl.textContent = 'Tahap 2: Kuis Konsep';
+
+                const mcqItem = m1McqQueue[m1Step - M1_STAGE1_COUNT];
+                document.getElementById('m1-mcq-question').innerHTML = mcqItem.q;
+
+                // Acak urutan pilihan jawaban
+                const indexedOpts = mcqItem.options.map((text, idx) => ({
+                    text,
+                    isCorrect: idx === mcqItem.answer
+                }));
+                const shuffledOpts = shuffleArray(indexedOpts);
+
+                const optContainer = document.getElementById('m1-mcq-options');
+                optContainer.innerHTML = '';
+                const letters = ['A', 'B', 'C', 'D'];
+                shuffledOpts.forEach((opt, i) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'mcq-btn';
+                    btn.innerHTML = `<span class="mcq-letter">${letters[i]}</span><span>${opt.text}</span>`;
+                    btn.onclick = () => handleMod1McqAnswer(opt.isCorrect);
+                    optContainer.appendChild(btn);
+                });
+            }
         }
 
         function handleKingdomSelect(chosenKingdom) {
-            if (m1Index >= m1Queue.length) return;
-            const current = m1Queue[m1Index];
+            if (m1Step >= M1_STAGE1_COUNT) return;
+            const current = m1SpecQueue[m1Step];
+            const labelName = current.plainName || current.name;
 
             if (chosenKingdom === current.kingdom) {
                 playSFX('correct');
-                m1Score += 50;
-                showToast(`✅ Tepat! ${current.name} termasuk ${chosenKingdom}.`);
-                m1Index++;
-
-                if (m1Index >= m1Queue.length) {
-                    const stars = m1Mistakes === 0 ? 3 : m1Mistakes <= 2 ? 2 : 1;
-                    triggerVictoryModal(
-                        1,
-                        'Modul 1 Tuntas!',
-                        stars,
-                        m1Score,
-                        '🏅 Ahli Taksonomi Biologi',
-                        'Kamu berhasil mengklasifikasikan organisme ke dalam Kingdom yang tepat!'
-                    );
-                } else {
-                    renderCurrentSpecimen();
-                }
+                m1Correct++;
+                showToast(`✅ Benar! ${labelName} termasuk ${chosenKingdom}.`);
             } else {
                 playSFX('wrong');
-                m1Mistakes++;
-                m1Score = Math.max(0, m1Score - 15);
-                document.getElementById('m1-score-text').textContent = m1Score;
-                showToast(`❌ Kurang tepat! Perhatikan ciri ${current.name}.`);
+                showToast(`❌ Kurang tepat! ${labelName} seharusnya ${current.kingdom}.`);
             }
+
+            m1Step++;
+            if (m1Step >= M1_TOTAL_QUESTIONS) {
+                finishMod1Session();
+            } else {
+                renderMod1Challenge();
+            }
+        }
+
+        function handleMod1McqAnswer(isCorrect) {
+            if (isCorrect) {
+                playSFX('correct');
+                m1Correct++;
+                showToast('✅ Jawaban Konsep Tepat!');
+            } else {
+                playSFX('wrong');
+                showToast('❌ Jawaban kurang tepat!');
+            }
+
+            m1Step++;
+            if (m1Step >= M1_TOTAL_QUESTIONS) {
+                finishMod1Session();
+            } else {
+                renderMod1Challenge();
+            }
+        }
+
+        function finishMod1Session() {
+            const { stars, pct } = calculateStarsFromAccuracy(m1Correct, M1_TOTAL_QUESTIONS);
+            const pointsEarned = m1Correct * 35;
+            triggerVictoryModal(
+                1,
+                stars >= 2 ? 'Modul 1 Lulus!' : 'Belum Lulus Syarat!',
+                stars,
+                pct,
+                pointsEarned,
+                '🏅 Ahli Taksonomi Biologi',
+                stars >= 2
+                    ? `Hebat! Kamu menjawab benar ${m1Correct} dari ${M1_TOTAL_QUESTIONS} soal (${pct}%) dan membuka Modul 2!`
+                    : `Kamu baru menjawab benar ${m1Correct} dari ${M1_TOTAL_QUESTIONS} soal (${pct}%). Butuh minimal 2 Bintang (⭐⭐ / akurasi ≥ 65%) untuk membuka Modul 2!`
+            );
         }
 
         // Drag and Drop Event Listeners untuk Desktop & Mobile Touch
@@ -2289,7 +2845,7 @@
         });
 
         /* ==========================================================================
-           5. MODUL 2: SIMULASI PARTIKEL ZAT (CANVAS) & KUIS PERUBAHAN MATERI
+           5. MODUL 2: SIMULASI PARTIKEL ZAT & BANK 18 SOAL MATERI (BEBAS TYPO)
            ========================================================================== */
         const canvas = document.getElementById('particleCanvas');
         const ctx = canvas.getContext('2d');
@@ -2366,16 +2922,14 @@
 
                 particles.forEach(p => {
                     if (currentTemp <= 0) {
-                        // Padat: bergetar di sekitar titik kisi (grid)
                         const jitter = 1.4;
                         p.x = p.gx + (Math.random() - 0.5) * jitter * 2;
                         p.y = p.gy + (Math.random() - 0.5) * jitter * 2;
                         ctx.fillStyle = '#38bdf8';
                     } else if (currentTemp < 100) {
-                        // Cair: bergerak mengalir di paruh bawah wadah
                         const speedFactor = 0.8 + (currentTemp / 100) * 1.6;
                         p.x += p.vx * speedFactor;
-                        p.y += p.vy * speedFactor + 0.25; // gravitasi ringan
+                        p.y += p.vy * speedFactor + 0.25;
 
                         const topBound = canvas.height * 0.45;
                         if (p.x < p.radius + 8) { p.x = p.radius + 8; p.vx *= -1; }
@@ -2384,7 +2938,6 @@
                         if (p.y > canvas.height - p.radius - 6) { p.y = canvas.height - p.radius - 6; p.vy *= -0.85; }
                         ctx.fillStyle = '#06b6d4';
                     } else {
-                        // Gas: bergerak cepat ke seluruh ruang kanvas
                         const speedFactor = 2.6 + ((currentTemp - 100) / 50) * 1.8;
                         p.x += p.vx * speedFactor;
                         p.y += p.vy * speedFactor;
@@ -2407,97 +2960,245 @@
             requestAnimationFrame(animateParticles);
         }
 
-        // Kuis Perubahan Fisika vs Kimia (Modul 2)
-        const matterQuestions = [
+        // Bank 18 Soal Modul 2 (Bebas Typo, Rumus Kimia Rapi Tanpa Simbol $)
+        const mod2QuestionBank = [
             {
+                mode: 'duo',
                 icon: '🧊',
-                title: 'Es Batu Mencair di Gelas',
-                desc: 'Perubahan wujud dari padat ke cair karena pemanasan tanpa membentuk zat baru.',
+                title: 'Es Batu Mencair di Dalam Gelas',
+                desc: 'Perubahan wujud air padat (H<sub>2</sub>O) menjadi air cair karena menyerap kalor tanpa membentuk zat jenis baru.',
                 type: 'Fisika'
             },
             {
+                mode: 'duo',
                 icon: '🔥',
-                title: 'Kayu Terbakar Menjadi Arang & Abu',
-                desc: 'Reaksi pembakaran menghasilkan zat baru berupa abu, arang, dan gas asap.',
+                title: 'Kayu Terbakar Menjadi Arang dan Abu',
+                desc: 'Reaksi pembakaran kayu dengan gas oksigen (O<sub>2</sub>) menghasilkan zat baru berupa arang (karbon), abu, dan gas CO<sub>2</sub>.',
                 type: 'Kimia'
             },
             {
+                mode: 'duo',
                 icon: '⛓️',
                 title: 'Pagar Besi Berkarat (Korosi)',
-                desc: 'Besi bereaksi dengan oksigen dan uap air membentuk senyawa oksida besi baru.',
+                desc: 'Logam besi (Fe) bereaksi dengan gas oksigen (O<sub>2</sub>) dan uap air membentuk senyawa oksida besi (Fe<sub>2</sub>O<sub>3</sub>) atau karat.',
                 type: 'Kimia'
             },
             {
+                mode: 'duo',
                 icon: '☕',
-                title: 'Gula Larut dalam Air Hangat',
-                desc: 'Partikel gula menyebar merata di dalam air, sifat manis gula tetap ada dan bisa dikristalkan kembali.',
+                title: 'Gula Pasir Larut dalam Air Hangat',
+                desc: 'Partikel gula menyebar merata di dalam air; sifat manis gula tetap ada dan dapat dipisahkan kembali melalui penguapan.',
                 type: 'Fisika'
             },
             {
+                mode: 'duo',
                 icon: '🍚',
-                title: 'Singkong Difermentasi Menjadi Tape',
-                desc: 'Mikroorganisme mengubah zat tepung menjadi glukosa dan alkohol (terbentuk zat baru).',
+                title: 'Singkong Difermentasi Menjadi Tapai',
+                desc: 'Jamur ragi mengubah karbohidrat pada singkong menjadi glukosa dan alkohol sehingga terbentuk zat baru yang manis dan lunak.',
                 type: 'Kimia'
+            },
+            {
+                mode: 'duo',
+                icon: '🪔',
+                title: 'Kapur Barus Menyublim di Lemari',
+                desc: 'Padatan kapur barus berubah wujud langsung menjadi gas beraroma harum tanpa mengubah susunan kimianya.',
+                type: 'Fisika'
+            },
+            {
+                mode: 'duo',
+                icon: '🥛',
+                title: 'Susu Segar Menjadi Masam dan Basi',
+                desc: 'Aktivitas mikroorganisme mengubah laktosa susu menjadi asam laktat sehingga menghasilkan bau asam dan gumpalan.',
+                type: 'Kimia'
+            },
+            {
+                mode: 'duo',
+                icon: '🌾',
+                title: 'Beras Ditumbuk Menjadi Tepung Beras',
+                desc: 'Ukuran butiran beras berubah menjadi serbuk halus tanpa mengubah sifat kimia maupun kandungan zat pada beras.',
+                type: 'Fisika'
+            },
+            {
+                mode: 'duo',
+                icon: '🍎',
+                title: 'Buah Apel Dikupas Berubah Cokelat',
+                desc: 'Terjadi reaksi oksidasi enzimatis ketika permukaan daging buah apel bereaksi dengan gas oksigen (O<sub>2</sub>) di udara.',
+                type: 'Kimia'
+            },
+            {
+                mode: 'duo',
+                icon: '⚡',
+                title: 'Filamen Kawat Wolfram Berpijar Saat Dialiri Listrik',
+                desc: 'Kawat lampu menyala terang karena panas arus listrik dan kembali seperti semula saat arus listrik diputuskan.',
+                type: 'Fisika'
+            },
+            {
+                mode: 'mcq',
+                icon: '💨',
+                title: 'Konsep Perubahan Wujud Zat',
+                desc: 'Perubahan wujud zat dari gas langsung menjadi padat karena melepas kalor (contohnya pembentukan salju di awan) disebut...',
+                options: ['Mengkristal (Deposisi)', 'Menyublim', 'Mengembun', 'Membeku'],
+                answer: 0
+            },
+            {
+                mode: 'mcq',
+                icon: '⚛️',
+                title: 'Unsur, Senyawa, dan Campuran',
+                desc: 'Manakah di bawah ini yang keduanya termasuk kelompok Senyawa murni?',
+                options: ['Air (H<sub>2</sub>O) dan Garam Dapur (NaCl)', 'Emas (Au) dan Gas Oksigen (O<sub>2</sub>)', 'Air Sungai dan Udara Bersih', 'Besi (Fe) dan Tembaga (Cu)'],
+                answer: 0
+            },
+            {
+                mode: 'mcq',
+                icon: '🧪',
+                title: 'Metode Pemisahan Campuran',
+                desc: 'Metode pemisahan campuran yang tepat untuk memisahkan bensin, minyak tanah, dan solar dari minyak bumi berdasarkan perbedaan titik didihnya adalah...',
+                options: ['Destilasi bertingkat (Penyulingan)', 'Filtrasi (Penyaringan)', 'Kromatografi kertas', 'Sublimasi'],
+                answer: 0
+            },
+            {
+                mode: 'mcq',
+                icon: '🔬',
+                title: 'Karakteristik Partikel Wujud Zat',
+                desc: 'Zat yang memiliki karakteristik bentuk berubah mengikuti wadahnya namun volumenya selalu tetap adalah zat berwujud...',
+                options: ['Cair', 'Padat', 'Gas', 'Plasma'],
+                answer: 0
+            },
+            {
+                mode: 'mcq',
+                icon: '🎨',
+                title: 'Pemisahan Zat Warna Tinta',
+                desc: 'Untuk memisahkan dan mengidentifikasi komponen zat warna pada tinta spidol berdasarkan kecepatan merambatnya, metode yang paling tepat adalah...',
+                options: ['Kromatografi', 'Sentrifugasi', 'Dekantasi', 'Filtrasi'],
+                answer: 0
+            },
+            {
+                mode: 'mcq',
+                icon: '🩸',
+                title: 'Pemisahan Komponen Darah',
+                desc: 'Pemisahan keping darah dan sel darah merah dari plasma darah di laboratorium medis menggunakan alat pemutar berkecepatan tinggi disebut...',
+                options: ['Sentrifugasi', 'Filtrasi', 'Destilasi', 'Sublimasi'],
+                answer: 0
+            },
+            {
+                mode: 'mcq',
+                icon: '🥤',
+                title: 'Klasifikasi Campuran Materi',
+                desc: 'Larutan gula di dalam air jernih yang tercampur merata dan tidak memperlihatkan bidang batas antarpenyusunnya disebut...',
+                options: ['Campuran homogen (Larutan)', 'Campuran heterogen (Suspensi)', 'Unsur logam murni', 'Senyawa anorganik'],
+                answer: 0
+            },
+            {
+                mode: 'mcq',
+                icon: '❄️',
+                title: 'Peran Kalor dalam Perubahan Wujud',
+                desc: 'Kelompok perubahan wujud zat di bawah ini yang semuanya memerlukan atau menyerap kalor (endoterm) adalah...',
+                options: ['Mencair, Menguap, dan Menyublim', 'Membeku, Mengembun, dan Mengkristal', 'Membeku, Mencair, dan Mengembun', 'Mengembun, Mengkristal, dan Menyublim'],
+                answer: 0
             }
         ];
 
+        const M2_SESSION_COUNT = 8;
+        let m2Queue = [];
         let m2Index = 0;
-        let m2Score = 0;
-        let m2Mistakes = 0;
+        let m2Correct = 0;
 
         function resetMod2Quiz() {
+            m2Queue = shuffleArray(mod2QuestionBank).slice(0, M2_SESSION_COUNT);
             m2Index = 0;
-            m2Score = 0;
-            m2Mistakes = 0;
+            m2Correct = 0;
             renderMatterQuestion();
         }
 
         function renderMatterQuestion() {
-            const total = matterQuestions.length;
-            document.getElementById('m2-q-index').textContent = `${Math.min(m2Index + 1, total)} / ${total}`;
-            document.getElementById('m2-q-score').textContent = m2Score;
+            document.getElementById('m2-q-index').textContent = `${Math.min(m2Index + 1, M2_SESSION_COUNT)} / ${M2_SESSION_COUNT}`;
+            document.getElementById('m2-q-score').textContent = m2Correct;
 
-            if (m2Index >= total) return;
-            const q = matterQuestions[m2Index];
+            if (m2Index >= M2_SESSION_COUNT) return;
+            const q = m2Queue[m2Index];
             document.getElementById('m2-phenom-icon').textContent = q.icon;
-            document.getElementById('m2-phenom-title').textContent = q.title;
-            document.getElementById('m2-phenom-desc').textContent = q.desc;
+            document.getElementById('m2-phenom-title').innerHTML = q.title;
+            document.getElementById('m2-phenom-desc').innerHTML = q.desc;
+
+            const duoBox = document.getElementById('m2-duo-buttons');
+            const mcqBox = document.getElementById('m2-mcq-options');
+
+            if (q.mode === 'duo') {
+                duoBox.style.display = 'grid';
+                mcqBox.style.display = 'none';
+            } else {
+                duoBox.style.display = 'none';
+                mcqBox.style.display = 'flex';
+                mcqBox.innerHTML = '';
+
+                const indexedOpts = q.options.map((text, idx) => ({
+                    text,
+                    isCorrect: idx === q.answer
+                }));
+                const shuffledOpts = shuffleArray(indexedOpts);
+                const letters = ['A', 'B', 'C', 'D'];
+
+                shuffledOpts.forEach((opt, i) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'mcq-btn';
+                    btn.innerHTML = `<span class="mcq-letter">${letters[i]}</span><span>${opt.text}</span>`;
+                    btn.onclick = () => handleMod2McqAnswer(opt.isCorrect);
+                    mcqBox.appendChild(btn);
+                });
+            }
         }
 
         function answerMatterQuiz(choice) {
-            if (m2Index >= matterQuestions.length) return;
-            const q = matterQuestions[m2Index];
+            if (m2Index >= M2_SESSION_COUNT) return;
+            const q = m2Queue[m2Index];
 
             if (choice === q.type) {
                 playSFX('correct');
-                m2Score += 60;
+                m2Correct++;
                 showToast(`✅ Benar! Itu adalah Perubahan ${q.type}.`);
-                m2Index++;
-
-                if (m2Index >= matterQuestions.length) {
-                    const stars = m2Mistakes === 0 ? 3 : m2Mistakes === 1 ? 2 : 1;
-                    triggerVictoryModal(
-                        2,
-                        'Modul 2 Tuntas!',
-                        stars,
-                        m2Score,
-                        '🧪 Alkemis Partikel & Materi',
-                        'Kamu telah menguasai karakteristik partikel zat serta perbedaan perubahan fisika dan kimia!'
-                    );
-                } else {
-                    renderMatterQuestion();
-                }
             } else {
                 playSFX('wrong');
-                m2Mistakes++;
-                m2Score = Math.max(0, m2Score - 15);
-                document.getElementById('m2-q-score').textContent = m2Score;
-                showToast(`❌ Kurang tepat! Ingat ciri pembentukan zat baru.`);
+                showToast(`❌ Kurang tepat! Seharusnya Perubahan ${q.type}.`);
+            }
+
+            advanceMod2Question();
+        }
+
+        function handleMod2McqAnswer(isCorrect) {
+            if (isCorrect) {
+                playSFX('correct');
+                m2Correct++;
+                showToast('✅ Jawaban Tepat!');
+            } else {
+                playSFX('wrong');
+                showToast('❌ Jawaban belum tepat!');
+            }
+            advanceMod2Question();
+        }
+
+        function advanceMod2Question() {
+            m2Index++;
+            if (m2Index >= M2_SESSION_COUNT) {
+                const { stars, pct } = calculateStarsFromAccuracy(m2Correct, M2_SESSION_COUNT);
+                const pointsEarned = m2Correct * 40;
+                triggerVictoryModal(
+                    2,
+                    stars >= 2 ? 'Modul 2 Lulus!' : 'Belum Lulus Syarat!',
+                    stars,
+                    pct,
+                    pointsEarned,
+                    '🧪 Alkemis Partikel & Materi',
+                    stars >= 2
+                        ? `Luar biasa! Kamu menjawab benar ${m2Correct} dari ${M2_SESSION_COUNT} soal (${pct}%) dan membuka Modul 3!`
+                        : `Kamu baru menjawab benar ${m2Correct} dari ${M2_SESSION_COUNT} soal (${pct}%). Butuh minimal 2 Bintang (⭐⭐ / akurasi ≥ 65%) untuk membuka Modul 3!`
+                );
+            } else {
+                renderMatterQuestion();
             }
         }
 
         /* ==========================================================================
-           6. MODUL 3: SIMULASI GAYA GERAK & LABORATORIUM TEKANAN (P = F / A)
+           6. MODUL 3: SIMULASI GAYA, LAB TEKANAN & BANK 16 SOAL FISIKA (DIACAK)
            ========================================================================== */
         let cratePos = 24;
         let crateVel = 0;
@@ -2529,7 +3230,6 @@
                 crateVel = 0;
             }
 
-            // Update visual panah vektor
             document.getElementById('arrow-push').style.width = `${Math.round(F * 0.45)}px`;
             document.getElementById('arrow-friction').style.width = `${Math.round(Math.min(F, fMax) * 0.45)}px`;
         }
@@ -2548,75 +3248,546 @@
             requestAnimationFrame(animateForceCrate);
         }
 
-        // Kalkulator & Visualisasi Tekanan (P = F / A)
-        let currentPressure = 500;
-        const m3Missions = [
-            { targetP: 1000, hint: 'Atur slider agar menghasilkan Tekanan (P) tepat 1000 Pa (Contoh: F = 200 N dan A = 0.20 m²)!' },
-            { targetP: 2000, hint: 'Misi 2: Perbesar tekanan menjadi 2000 Pa dengan memperkecil luas penampang (Contoh: F = 200 N, A = 0.10 m²)!' },
-            { targetP: 400, hint: 'Misi Terakhir: Buat tekanan rendah sebesar 400 Pa agar balok tidak amblas (Contoh: F = 200 N, A = 0.50 m²)!' }
+        // Bank 16 Soal Tantangan Fisika Modul 3 dilengkapi Konfigurasi Simulator Kontekstual per Soal
+        const mod3QuestionBank = [
+            {
+                simType: 'newton2',
+                topicBadge: '🚜 Simulasi Hukum II Newton',
+                simConfig: { F: 80, f: 20, m: 10 },
+                q: 'Sebuah balok bermassa 10 kg didorong dengan gaya 80 N ke kanan. Jika gaya gesek lantai sebesar 20 N ke kiri, berapakah percepatan balok tersebut? (Coba geser slider di atas sesuai angka soal!)',
+                options: ['6 m/s<sup>2</sup>', '8 m/s<sup>2</sup>', '10 m/s<sup>2</sup>', '4 m/s<sup>2</sup>'],
+                answer: 0
+            },
+            {
+                simType: 'inertia',
+                topicBadge: '🚌 Simulasi Kelembaman (Inersia)',
+                simConfig: { brake: 0 },
+                q: 'Saat bus yang melaju kencang direm secara mendadak, tubuh penumpang terdorong ke depan (uji tombol Rem Mendadak di atas). Peristiwa ini merupakan penerapan dari...',
+                options: ['Hukum I Newton (Kelembaman/Inersia)', 'Hukum II Newton', 'Hukum III Newton (Aksi-Reaksi)', 'Hukum Archimedes'],
+                answer: 0
+            },
+            {
+                simType: 'solid_pressure',
+                topicBadge: '📐 Simulasi Tekanan Padat',
+                simConfig: { F: 200, A: 20 },
+                q: 'Sebuah peti memberikan gaya tekan F = 200 N pada lantai dengan luas bidang sentuh A = 0,20 m<sup>2</sup>. Gunakan simulator di atas untuk mencari nilai tekanan (P = F / A) peti tersebut!',
+                options: ['1.000 Pa (N/m<sup>2</sup>)', '400 Pa (N/m<sup>2</sup>)', '2.000 Pa (N/m<sup>2</sup>)', '100 Pa (N/m<sup>2</sup>)'],
+                answer: 0
+            },
+            {
+                simType: 'solid_pressure',
+                topicBadge: '🔪 Simulasi Luas Bidang Tekan',
+                simConfig: { F: 120, A: 5 },
+                q: 'Mengapa mata pisau yang tipis dan tajam (luas A sangat kecil pada simulator di atas) lebih mudah memotong bahan makanan dibandingkan pisau yang tumpul?',
+                options: ['Luas bidang tekan pisau tajam sangat kecil sehingga menghasilkan tekanan yang besar', 'Luas bidang tekan pisau tajam sangat besar sehingga tekanannya kecil', 'Gaya gesek pisau tajam lebih besar daripada pisau tumpul', 'Massa pisau tajam berkurang saat digunakan memotong'],
+                answer: 0
+            },
+            {
+                simType: 'hydrostatic',
+                topicBadge: '🐟 Simulasi Tekanan Hidrostatis',
+                simConfig: { h: 2, rho: 1000 },
+                q: 'Seekor ikan berenang pada kedalaman h = 2 m di dalam air (ρ = 1.000 kg/m<sup>3</sup> dan g = 10 m/s<sup>2</sup>). Atur kedalaman ikan pada simulator di atas untuk melihat besar tekanan hidrostatisnya!',
+                options: ['20.000 Pa', '2.000 Pa', '5.000 Pa', '10.000 Pa'],
+                answer: 0
+            },
+            {
+                simType: 'pascal',
+                topicBadge: '🚗 Simulasi Dongkrak Hidrolik',
+                simConfig: { F1: 50, ratio: 4 },
+                q: 'Alat teknik seperti dongkrak hidrolik pada simulator di atas dapat mengangkat beban mobil yang berat dengan gaya kecil karena bekerja berdasarkan prinsip...',
+                options: ['Hukum Pascal (F<sub>1</sub> / A<sub>1</sub> = F<sub>2</sub> / A<sub>2</sub>)', 'Hukum Archimedes', 'Hukum I Newton', 'Tekanan Udara Barometrik'],
+                answer: 0
+            },
+            {
+                simType: 'archimedes',
+                topicBadge: '🚢 Simulasi Hukum Archimedes',
+                simConfig: { rhoObj: 1000, rhoFluid: 1000 },
+                q: 'Kapal selam pada simulator di atas dapat diatur agar terapung, melayang, dan tenggelam di dalam air laut karena menerapkan prinsip...',
+                options: ['Hukum Archimedes (mengatur massa jenis dengan mengisi/mengosongkan tangki pemberat)', 'Hukum Pascal pada fluida ruang tertutup', 'Hukum III Newton tentang gravitasi', 'Gerak Lurus Beraturan (GLB)'],
+                answer: 0
+            },
+            {
+                simType: 'freefall',
+                topicBadge: '🥥 Simulasi Jatuh Bebas (GLBB)',
+                simConfig: { t: 2 },
+                q: 'Buah kelapa yang jatuh bebas dari tangkai pohon menuju permukaan tanah (lihat pertambahan laju v pada simulator di atas) mengalami jenis gerak...',
+                options: ['GLBB Dipercepat (karena percepatan gravitasi bumi)', 'GLBB Diperlambat', 'Gerak Lurus Beraturan (GLB)', 'Gerak Melingkar Beraturan'],
+                answer: 0
+            },
+            {
+                simType: 'glb',
+                topicBadge: '🏃 Simulasi Kelajuan Gerak Lurus',
+                simConfig: { s: 100, t: 10 },
+                q: 'Seorang pelari menempuh lintasan lurus sejauh s = 100 meter dalam waktu t = 10 sekon. Cek simulator di atas, berapakah kelajuan rata-rata pelari tersebut? (Rumus: v = s / t)',
+                options: ['10 m/s', '1.000 m/s', '5 m/s', '20 m/s'],
+                answer: 0
+            },
+            {
+                simType: 'rocket',
+                topicBadge: '🚀 Simulasi Aksi-Reaksi Roket',
+                simConfig: { thrust: 80 },
+                q: 'Roket pada simulator di atas dapat meluncur naik ke angkasa karena menyemburkan gas panas ke bawah (F<sub>aksi</sub>) dan gas mendorong roket ke atas (F<sub>reaksi</sub>). Hal ini sesuai dengan...',
+                options: ['Hukum III Newton (F<sub>aksi</sub> = −F<sub>reaksi</sub>)', 'Hukum I Newton (Inersia)', 'Hukum II Newton', 'Hukum Tekanan Hidrostatis'],
+                answer: 0
+            },
+            {
+                simType: 'newton2',
+                topicBadge: '📦 Simulasi Resultan Gaya',
+                simConfig: { F: 80, f: 30, m: 10 },
+                q: 'Dua siswa mendorong meja searah ke kanan dengan total gaya dorong F = 80 N (45 N + 35 N). Bila gaya gesek lantai sebesar f = 30 N ke kiri, berapakah resultan gaya (ΣF) pada simulator di atas?',
+                options: ['50 N ke kanan', '80 N ke kanan', '110 N ke kanan', '10 N ke kiri'],
+                answer: 0
+            },
+            {
+                simType: 'hydrostatic',
+                topicBadge: '🌊 Simulasi Kedalaman Bendungan',
+                simConfig: { h: 4, rho: 1000 },
+                q: 'Coba gerakkan slider kedalaman (h) semakin ke dasar pada simulator di atas! Mengapa dinding bendungan air bagian dasar dirancang jauh lebih tebal daripada bagian atasnya?',
+                options: ['Karena semakin dalam zat cair (h), tekanan hidrostatisnya semakin besar', 'Karena suhu air di dasar bendungan jauh lebih tinggi', 'Agar air di permukaan bendungan cepat menguap', 'Karena percepatan gravitasi di dasar bendungan bernilai nol'],
+                answer: 0
+            },
+            {
+                simType: 'archimedes',
+                topicBadge: '🥚 Simulasi Massa Jenis & Apung',
+                simConfig: { rhoObj: 1000, rhoFluid: 1000 },
+                q: 'Pada simulator di atas, ketika benda berada tepat di tengah-tengah air (melayang), bagaimana perbandingan massa jenis benda (ρ<sub>benda</sub>) dengan massa jenis zat cair (ρ<sub>cair</sub>)?',
+                options: ['Massa jenis benda sama dengan massa jenis zat cair (ρ<sub>benda</sub> = ρ<sub>cair</sub>)', 'Massa jenis benda lebih besar daripada zat cair (ρ<sub>benda</sub> > ρ<sub>cair</sub>)', 'Massa jenis benda lebih kecil daripada udara', 'Tidak ada gaya apung (F<sub>a</sub>) yang bekerja pada benda'],
+                answer: 0
+            },
+            {
+                simType: 'glb',
+                topicBadge: '🚆 Simulasi Laju Konstan (GLB)',
+                simConfig: { s: 100, t: 5 },
+                q: 'Sebuah kereta api melaju di atas rel lurus dengan kecepatan tetap v = 20 m/s (menempuh 100 m setiap 5 sekon secara konstan). Gerak kereta tersebut termasuk...',
+                options: ['Gerak Lurus Beraturan (GLB)', 'GLBB Dipercepat', 'GLBB Diperlambat', 'Gerak Parabola'],
+                answer: 0
+            },
+            {
+                simType: 'solid_pressure',
+                topicBadge: '📐 Simulasi Tekanan Padat',
+                simConfig: { F: 200, A: 50 },
+                q: 'Atur simulator di atas pada gaya tekan F = 200 N dan luas bidang tekan A = 0,50 m<sup>2</sup>! Berapakah tekanan (P = F / A) yang dihasilkan?',
+                options: ['400 Pa', '1.000 Pa', '100 Pa', '2.500 Pa'],
+                answer: 0
+            },
+            {
+                simType: 'solid_pressure',
+                topicBadge: '🦆 Simulasi Luas Kaki Berselaput',
+                simConfig: { F: 60, A: 60 },
+                q: 'Kaki bebek memiliki selaput lebar di sela-sela jarinya. Coba perbesar luas bidang tekan (A) pada simulator di atas! Apa fungsi selaput lebar tersebut saat berjalan di atas lumpur?',
+                options: ['Memperbesar luas bidang tekan (A) agar tekanan (P) menjadi kecil sehingga kaki bebek tidak mudah amblas', 'Memperkecil luas bidang tekan (A) agar tekanan (P) semakin besar', 'Menambah gaya berat bebek saat berjalan di lumpur', 'Menghilangkan gaya gesek antara kaki bebek dan lumpur'],
+                answer: 0
+            }
         ];
-        let m3MissionIdx = 0;
 
-        function updatePressureSim() {
-            const F = parseInt(document.getElementById('slider-p-force').value, 10);
-            const areaRaw = parseInt(document.getElementById('slider-p-area').value, 10); // dalam perseratus m2
-            const A = areaRaw / 100;
+        const M3_SESSION_COUNT = 6;
+        let m3Queue = [];
+        let m3Index = 0;
+        let m3Correct = 0;
 
-            currentPressure = Math.round(F / A);
+        // Render Simulator Kontekstual yang menyesuaikan dengan tipe soal aktif
+        function renderMod3ContextualSim(item) {
+            const stageEl = document.getElementById('m3-dynamic-stage');
+            const ctrlEl = document.getElementById('m3-dynamic-controls');
+            const badgeEl = document.getElementById('m3-sim-topic-badge');
 
-            document.getElementById('val-p-force').textContent = `${F} N`;
-            document.getElementById('val-p-area').textContent = `${A.toFixed(2)} m²`;
-            document.getElementById('calc-pressure-out').textContent = `P = ${currentPressure} Pa`;
+            if (badgeEl) badgeEl.textContent = item.topicBadge || '🔬 Simulator Soal Aktif';
+            const cfg = item.simConfig || {};
 
-            const blockEl = document.getElementById('pressure-block');
-            document.getElementById('p-visual-text').textContent = `${currentPressure} Pa`;
+            if (item.simType === 'solid_pressure') {
+                const initF = cfg.F || 160;
+                const initA = cfg.A || 20; // dalam perseratus m2
+                stageEl.style.background = 'linear-gradient(180deg, #090d16 0%, #1e293b 58%, #065f46 58%, #064e3b 100%)';
+                stageEl.innerHTML = `
+                    <div class="pressure-pillar" id="ctx-p-block" style="width: 70px; height: 48px;">
+                        <span id="ctx-p-text">800 Pa</span>
+                    </div>
+                    <span class="soil-label">Simulasi Tekanan Zat Padat: P = F / A</span>
+                `;
+                ctrlEl.innerHTML = `
+                    <div class="slider-header">
+                        <span>⬇️ Gaya (F): <strong id="ctx-val-f">${initF} N</strong></span>
+                        <span>📏 Luas (A): <strong id="ctx-val-a">${(initA / 100).toFixed(2).replace('.', ',')} m²</strong></span>
+                        <span style="color: #38bdf8; font-family: var(--font-display);" id="ctx-out-p">P = 0 Pa</span>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                        <input type="range" id="ctx-slider-f" min="20" max="300" step="10" value="${initF}" oninput="updateCtxSolidPressure()">
+                        <input type="range" id="ctx-slider-a" min="5" max="100" step="5" value="${initA}" oninput="updateCtxSolidPressure()">
+                    </div>
+                `;
+                updateCtxSolidPressure();
 
-            // Visual lebar penampang & kedalaman amblas ke tanah
-            const widthPx = Math.max(38, Math.min(165, Math.round(areaRaw * 1.6)));
-            const sinkPx = Math.min(46, Math.max(4, Math.round(currentPressure / 85)));
+            } else if (item.simType === 'hydrostatic') {
+                const initH = cfg.h || 2;
+                stageEl.style.background = 'linear-gradient(180deg, #0f172a 0%, #0f172a 18%, #0284c7 18%, #0369a1 60%, #1e3a8a 100%)';
+                stageEl.innerHTML = `
+                    <div style="position:absolute; top:20%; left:10px; font-size:0.65rem; color:#bae6fd;">〰️ Permukaan Air (h = 0 m)</div>
+                    <div id="ctx-fish-el" style="font-size:1.75rem; transition:transform 0.25s ease; display:flex; align-items:center; gap:6px;">
+                        <span>🐟</span>
+                        <span id="ctx-hydro-badge" style="font-family:var(--font-display); font-size:0.75rem; background:rgba(9,13,22,0.8); padding:2px 8px; border-radius:99px; color:#38bdf8;">20.000 Pa</span>
+                    </div>
+                    <span class="soil-label" style="color:#bae6fd;">Rumus: P<sub>h</sub> = ρ × g × h (ρ = 1.000 kg/m³, g = 10 m/s²)</span>
+                `;
+                ctrlEl.innerHTML = `
+                    <div class="slider-header">
+                        <span>🌊 Kedalaman Ikan (h): <strong id="ctx-val-h">${initH} m</strong></span>
+                        <span style="color: #fbbf24; font-family: var(--font-display);" id="ctx-out-hydro">P<sub>h</sub> = 20.000 Pa</span>
+                    </div>
+                    <input type="range" id="ctx-slider-h" min="1" max="5" step="0.5" value="${initH}" oninput="updateCtxHydrostatic()">
+                `;
+                updateCtxHydrostatic();
 
-            blockEl.style.width = `${widthPx}px`;
-            blockEl.style.transform = `translateY(${sinkPx}px)`;
-        }
+            } else if (item.simType === 'newton2') {
+                const initF = cfg.F || 80;
+                const initFr = cfg.f || 20;
+                const m = cfg.m || 10;
+                stageEl.style.background = 'linear-gradient(180deg, #0b1325 0%, #1e293b 76%, #334155 76%, #0f172a 100%)';
+                stageEl.innerHTML = `
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <span style="font-size:0.72rem; color:#f87171; font-weight:700;" id="ctx-n2-fr">← f = ${initFr} N</span>
+                        <div style="width:52px; height:48px; background:linear-gradient(135deg,#f59e0b,#b45309); border:2px solid #fde68a; border-radius:10px; display:flex; flex-direction:column; align-items:center; justify-content:center; font-family:var(--font-display); font-size:0.72rem;">
+                            📦<span>${m} kg</span>
+                        </div>
+                        <span style="font-size:0.72rem; color:#34d399; font-weight:700;" id="ctx-n2-f">F = ${initF} N →</span>
+                    </div>
+                    <span class="soil-label">ΣF = F − f | Percepatan: a = ΣF / m</span>
+                `;
+                ctrlEl.innerHTML = `
+                    <div class="slider-header">
+                        <span>🟢 Dorong (F): <strong id="ctx-val-n2f">${initF} N</strong></span>
+                        <span>🔴 Gesek (f): <strong id="ctx-val-n2fr">${initFr} N</strong></span>
+                        <span style="color:#38bdf8; font-family:var(--font-display);" id="ctx-out-n2">ΣF = 60 N | a = 6 m/s²</span>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                        <input type="range" id="ctx-slider-n2f" min="0" max="120" step="5" value="${initF}" oninput="updateCtxNewton2(${m})">
+                        <input type="range" id="ctx-slider-n2fr" min="0" max="60" step="5" value="${initFr}" oninput="updateCtxNewton2(${m})">
+                    </div>
+                `;
+                updateCtxNewton2(m);
 
-        function renderMod3Mission() {
-            const total = m3Missions.length;
-            document.getElementById('m3-mission-step').textContent = `${Math.min(m3MissionIdx + 1, total)}/${total}`;
-            if (m3MissionIdx < total) {
-                document.getElementById('m3-mission-prompt').innerHTML = m3Missions[m3MissionIdx].hint;
+            } else if (item.simType === 'archimedes') {
+                const initRho = cfg.rhoObj || 1000;
+                stageEl.style.background = 'linear-gradient(180deg, #090d16 0%, #090d16 20%, #0e7490 20%, #155e75 100%)';
+                stageEl.innerHTML = `
+                    <div id="ctx-arch-obj" style="transition:transform 0.28s ease; display:flex; align-items:center; gap:8px;">
+                        <span style="font-size:1.85rem;">🚢</span>
+                        <span id="ctx-arch-status" style="font-family:var(--font-display); font-size:0.76rem; background:rgba(15,23,42,0.85); padding:3px 9px; border-radius:99px; color:#fbbf24;">MELAYANG (ρ<sub>benda</sub> = ρ<sub>cair</sub>)</span>
+                    </div>
+                    <span class="soil-label" style="color:#a5f3fc;">Massa Jenis Air Laut (ρ<sub>cair</sub>) = 1.000 kg/m³</span>
+                `;
+                ctrlEl.innerHTML = `
+                    <div class="slider-header">
+                        <span>⚖️ Atur Massa Jenis Benda (ρ<sub>benda</sub>):</span>
+                        <strong id="ctx-val-arch" style="color:#38bdf8;">${initRho} kg/m³</strong>
+                    </div>
+                    <input type="range" id="ctx-slider-arch" min="600" max="1400" step="200" value="${initRho}" oninput="updateCtxArchimedes()">
+                `;
+                updateCtxArchimedes();
+
+            } else if (item.simType === 'pascal') {
+                const initF1 = cfg.F1 || 50;
+                stageEl.style.background = 'linear-gradient(180deg, #090d16 0%, #1e293b 100%)';
+                stageEl.innerHTML = `
+                    <div style="display:flex; align-items:flex-end; gap:18px;">
+                        <div style="text-align:center;">
+                            <div style="font-size:0.68rem; color:#38bdf8;">Piston Kecil (A<sub>1</sub> = 1)</div>
+                            <div style="width:36px; height:40px; background:#0284c7; border:2px solid #bae6fd; border-radius:6px; margin:4px auto; display:flex; align-items:center; justify-content:center; font-size:0.7rem; font-weight:800;" id="ctx-pas-f1">${initF1} N</div>
+                        </div>
+                        <div style="font-size:1.1rem; color:#fbbf24; padding-bottom:14px;">⇄ P<sub>1</sub> = P<sub>2</sub> ⇄</div>
+                        <div style="text-align:center;">
+                            <div style="font-size:0.68rem; color:#34d399;">Piston Besar (A<sub>2</sub> = 4)</div>
+                            <div style="width:78px; height:46px; background:#059669; border:2px solid #a7f3d0; border-radius:8px; margin:4px auto; display:flex; align-items:center; justify-content:center; font-size:0.8rem; font-weight:800;" id="ctx-pas-f2">🚗 ${initF1 * 4} N</div>
+                        </div>
+                    </div>
+                    <span class="soil-label">Hukum Pascal: F<sub>1</sub> / A<sub>1</sub> = F<sub>2</sub> / A<sub>2</sub></span>
+                `;
+                ctrlEl.innerHTML = `
+                    <div class="slider-header">
+                        <span>⬇️ Gaya Tekan Piston Kecil (F<sub>1</sub>): <strong id="ctx-val-pas">${initF1} N</strong></span>
+                        <span style="color:#34d399; font-family:var(--font-display);" id="ctx-out-pas">Gaya Angkat F<sub>2</sub> = ${initF1 * 4} N</span>
+                    </div>
+                    <input type="range" id="ctx-slider-pas" min="20" max="150" step="10" value="${initF1}" oninput="updateCtxPascal()">
+                `;
+                updateCtxPascal();
+
+            } else if (item.simType === 'glb') {
+                const initS = cfg.s || 100;
+                const initT = cfg.t || 10;
+                stageEl.style.background = 'linear-gradient(180deg, #0b1325 0%, #1e293b 75%, #334155 75%, #0f172a 100%)';
+                stageEl.innerHTML = `
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <span style="font-size:1.9rem;">🏃‍♂️💨</span>
+                        <div style="text-align:left;">
+                            <div style="font-family:var(--font-display); font-size:0.9rem; color:#38bdf8;" id="ctx-glb-v">Kelajuan v = 10 m/s</div>
+                            <div style="font-size:0.7rem; color:#cbd5e1;" id="ctx-glb-detail">Jarak s = 100 m | Waktu t = 10 s</div>
+                        </div>
+                    </div>
+                    <span class="soil-label">Rumus Gerak Lurus Beraturan: v = s / t</span>
+                `;
+                ctrlEl.innerHTML = `
+                    <div class="slider-header">
+                        <span>📏 Jarak (s): <strong id="ctx-val-s">${initS} m</strong></span>
+                        <span>⏱️ Waktu (t): <strong id="ctx-val-t">${initT} s</strong></span>
+                        <span style="color:#fbbf24; font-family:var(--font-display);" id="ctx-out-glb">v = ${(initS / initT).toFixed(1)} m/s</span>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                        <input type="range" id="ctx-slider-s" min="20" max="200" step="20" value="${initS}" oninput="updateCtxGLB()">
+                        <input type="range" id="ctx-slider-t" min="2" max="20" step="1" value="${initT}" oninput="updateCtxGLB()">
+                    </div>
+                `;
+                updateCtxGLB();
+
+            } else if (item.simType === 'freefall') {
+                stageEl.style.background = 'linear-gradient(180deg, #090d16 0%, #1e293b 80%, #065f46 80%, #064e3b 100%)';
+                stageEl.innerHTML = `
+                    <div id="ctx-fall-item" style="display:flex; align-items:center; gap:8px; transition:transform 0.2s ease;">
+                        <span style="font-size:1.7rem;">🥥</span>
+                        <span id="ctx-fall-badge" style="font-family:var(--font-display); font-size:0.76rem; background:rgba(15,23,42,0.85); padding:3px 9px; border-radius:99px; color:#34d399;">t = 1 s → v = 10 m/s</span>
+                    </div>
+                    <span class="soil-label">Jatuh Bebas: Kecepatan bertambah teratur (g = 10 m/s²)</span>
+                `;
+                ctrlEl.innerHTML = `
+                    <div class="slider-header">
+                        <span>⏱️ Waktu Jatuh (t): <strong id="ctx-val-fall">1 sekon</strong></span>
+                        <span style="color:#fbbf24; font-family:var(--font-display);" id="ctx-out-fall">Laju (v = g × t) = 10 m/s</span>
+                    </div>
+                    <input type="range" id="ctx-slider-fall" min="0" max="4" step="1" value="1" oninput="updateCtxFreefall()">
+                `;
+                updateCtxFreefall();
+
+            } else if (item.simType === 'inertia') {
+                stageEl.style.background = 'linear-gradient(180deg, #0b1325 0%, #1e293b 78%, #334155 78%, #0f172a 100%)';
+                stageEl.innerHTML = `
+                    <div id="ctx-bus-wrap" style="display:flex; align-items:center; gap:10px; transition:transform 0.25s ease;">
+                        <span style="font-size:2rem;">🚌</span>
+                        <span id="ctx-inertia-text" style="font-family:var(--font-display); font-size:0.76rem; color:#38bdf8;">Bus Melaju Konstan → Penumpang Tegak</span>
+                    </div>
+                    <span class="soil-label">Hukum I Newton: Sifat Kelembaman (Inersia) Benda</span>
+                `;
+                ctrlEl.innerHTML = `
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                        <button class="btn-game btn-secondary" style="padding:7px; font-size:0.74rem;" onclick="triggerCtxInertia(false)">🚌 Bus Melaju Normal</button>
+                        <button class="btn-game btn-accent" style="padding:7px; font-size:0.74rem;" onclick="triggerCtxInertia(true)">🛑 Injak Rem Mendadak!</button>
+                    </div>
+                `;
+            } else if (item.simType === 'rocket') {
+                stageEl.style.background = 'linear-gradient(180deg, #050811 0%, #1e1b4b 100%)';
+                stageEl.innerHTML = `
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <span style="font-size:1.9rem;" id="ctx-rocket-icon">🚀🔥</span>
+                        <div style="text-align:left; font-size:0.74rem;">
+                            <div style="color:#f87171; font-weight:700;" id="ctx-rak-aksi">⬇️ F<sub>aksi</sub> (Gas ke Bawah): 80 N</div>
+                            <div style="color:#34d399; font-weight:700;" id="ctx-rak-reaksi">⬆️ F<sub>reaksi</sub> (Dorong Roket): 80 N</div>
+                        </div>
+                    </div>
+                    <span class="soil-label">Hukum III Newton: F<sub>aksi</sub> = −F<sub>reaksi</sub></span>
+                `;
+                ctrlEl.innerHTML = `
+                    <div class="slider-header">
+                        <span>🔥 Daya Semburan Gas Roket:</span>
+                        <strong id="ctx-val-rocket" style="color:#fbbf24;">80 N</strong>
+                    </div>
+                    <input type="range" id="ctx-slider-rocket" min="20" max="150" step="10" value="80" oninput="updateCtxRocket()">
+                `;
             }
         }
 
-        function verifyMod3Mission() {
-            if (m3MissionIdx >= m3Missions.length) return;
-            const target = m3Missions[m3MissionIdx].targetP;
+        // Handler Interaktif untuk Masing-Masing Mode Simulator Kontekstual Modul 3
+        function updateCtxSolidPressure() {
+            const F = parseInt(document.getElementById('ctx-slider-f').value, 10);
+            const aRaw = parseInt(document.getElementById('ctx-slider-a').value, 10);
+            const A = aRaw / 100;
+            const P = Math.round(F / A);
 
-            if (Math.abs(currentPressure - target) <= 15) {
+            document.getElementById('ctx-val-f').textContent = `${F} N`;
+            document.getElementById('ctx-val-a').textContent = `${A.toFixed(2).replace('.', ',')} m²`;
+            document.getElementById('ctx-out-p').textContent = `P = ${P.toLocaleString('id-ID')} Pa`;
+
+            const block = document.getElementById('ctx-p-block');
+            const text = document.getElementById('ctx-p-text');
+            if (block && text) {
+                text.textContent = `${P.toLocaleString('id-ID')} Pa`;
+                const widthPx = Math.max(36, Math.min(165, Math.round(aRaw * 1.6)));
+                const sinkPx = Math.min(26, Math.max(-6, Math.round(P / 120) - 4));
+                block.style.width = `${widthPx}px`;
+                block.style.transform = `translateY(${sinkPx}px)`;
+            }
+        }
+
+        function updateCtxHydrostatic() {
+            const h = parseFloat(document.getElementById('ctx-slider-h').value);
+            const Ph = Math.round(1000 * 10 * h);
+            document.getElementById('ctx-val-h').textContent = `${h.toString().replace('.', ',')} m`;
+            document.getElementById('ctx-out-hydro').innerHTML = `P<sub>h</sub> = ${Ph.toLocaleString('id-ID')} Pa`;
+
+            const fish = document.getElementById('ctx-fish-el');
+            const badge = document.getElementById('ctx-hydro-badge');
+            if (fish && badge) {
+                badge.textContent = `${Ph.toLocaleString('id-ID')} Pa`;
+                const offsetY = (h - 2.5) * 11;
+                fish.style.transform = `translateY(${offsetY}px)`;
+            }
+        }
+
+        function updateCtxNewton2(m) {
+            const F = parseInt(document.getElementById('ctx-slider-n2f').value, 10);
+            const fr = parseInt(document.getElementById('ctx-slider-n2fr').value, 10);
+            const netF = Math.max(0, F - fr);
+            const a = (netF / m).toFixed(1).replace('.0', '');
+
+            document.getElementById('ctx-val-n2f').textContent = `${F} N`;
+            document.getElementById('ctx-val-n2fr').textContent = `${fr} N`;
+            document.getElementById('ctx-n2-f').textContent = `F = ${F} N →`;
+            document.getElementById('ctx-n2-fr').textContent = `← f = ${fr} N`;
+            document.getElementById('ctx-out-n2').textContent = `ΣF = ${netF} N | a = ${a} m/s²`;
+        }
+
+        function updateCtxArchimedes() {
+            const rho = parseInt(document.getElementById('ctx-slider-arch').value, 10);
+            document.getElementById('ctx-val-arch').textContent = `${rho.toLocaleString('id-ID')} kg/m³`;
+            const obj = document.getElementById('ctx-arch-obj');
+            const status = document.getElementById('ctx-arch-status');
+            if (!obj || !status) return;
+
+            if (rho < 1000) {
+                obj.style.transform = 'translateY(-18px)';
+                status.innerHTML = 'TERAPUNG (ρ<sub>benda</sub> &lt; ρ<sub>cair</sub>)';
+                status.style.color = '#34d399';
+            } else if (rho === 1000) {
+                obj.style.transform = 'translateY(2px)';
+                status.innerHTML = 'MELAYANG (ρ<sub>benda</sub> = ρ<sub>cair</sub>)';
+                status.style.color = '#fbbf24';
+            } else {
+                obj.style.transform = 'translateY(22px)';
+                status.innerHTML = 'TENGGELAM (ρ<sub>benda</sub> &gt; ρ<sub>cair</sub>)';
+                status.style.color = '#f87171';
+            }
+        }
+
+        function updateCtxPascal() {
+            const F1 = parseInt(document.getElementById('ctx-slider-pas').value, 10);
+            const F2 = F1 * 4;
+            document.getElementById('ctx-val-pas').textContent = `${F1} N`;
+            document.getElementById('ctx-out-pas').innerHTML = `Gaya Angkat F<sub>2</sub> = ${F2} N`;
+            document.getElementById('ctx-pas-f1').textContent = `${F1} N`;
+            document.getElementById('ctx-pas-f2').textContent = `🚗 ${F2} N`;
+        }
+
+        function updateCtxGLB() {
+            const s = parseInt(document.getElementById('ctx-slider-s').value, 10);
+            const t = parseInt(document.getElementById('ctx-slider-t').value, 10);
+            const v = (s / t).toFixed(1).replace('.0', '');
+            document.getElementById('ctx-val-s').textContent = `${s} m`;
+            document.getElementById('ctx-val-t').textContent = `${t} s`;
+            document.getElementById('ctx-out-glb').textContent = `v = ${v} m/s`;
+            document.getElementById('ctx-glb-v').textContent = `Kelajuan v = ${v} m/s`;
+            document.getElementById('ctx-glb-detail').textContent = `Jarak s = ${s} m | Waktu t = ${t} s`;
+        }
+
+        function updateCtxFreefall() {
+            const t = parseInt(document.getElementById('ctx-slider-fall').value, 10);
+            const v = t * 10;
+            document.getElementById('ctx-val-fall').textContent = `${t} sekon`;
+            document.getElementById('ctx-out-fall').textContent = `Laju (v = g × t) = ${v} m/s`;
+            const item = document.getElementById('ctx-fall-item');
+            const badge = document.getElementById('ctx-fall-badge');
+            if (item && badge) {
+                badge.textContent = `t = ${t} s → v = ${v} m/s (GLBB Dipercepat)`;
+                item.style.transform = `translateY(${(t - 2) * 9}px)`;
+            }
+        }
+
+        function triggerCtxInertia(isBraking) {
+            playSFX('tap');
+            const wrap = document.getElementById('ctx-bus-wrap');
+            const txt = document.getElementById('ctx-inertia-text');
+            if (!wrap || !txt) return;
+            if (isBraking) {
+                wrap.style.transform = 'translateX(14px) skewX(-12deg)';
+                txt.textContent = '🛑 REM MENDADAK! Tubuh penumpang terdorong ke depan (Inersia)';
+                txt.style.color = '#fbbf24';
+            } else {
+                wrap.style.transform = 'translateX(0) skewX(0)';
+                txt.textContent = '🚌 Bus Melaju Konstan → Penumpang Duduk Tegak';
+                txt.style.color = '#38bdf8';
+            }
+        }
+
+        function updateCtxRocket() {
+            const thrust = parseInt(document.getElementById('ctx-slider-rocket').value, 10);
+            document.getElementById('ctx-val-rocket').textContent = `${thrust} N`;
+            document.getElementById('ctx-rak-aksi').innerHTML = `⬇️ F<sub>aksi</sub> (Gas ke Bawah): ${thrust} N`;
+            document.getElementById('ctx-rak-reaksi').innerHTML = `⬆️ F<sub>reaksi</sub> (Dorong Roket): ${thrust} N`;
+        }
+
+        function resetMod3Quiz() {
+            m3Queue = shuffleArray(mod3QuestionBank).slice(0, M3_SESSION_COUNT);
+            m3Index = 0;
+            m3Correct = 0;
+            renderMod3Question();
+        }
+
+        function renderMod3Question() {
+            document.getElementById('m3-q-index').textContent = `${Math.min(m3Index + 1, M3_SESSION_COUNT)} / ${M3_SESSION_COUNT}`;
+            document.getElementById('m3-q-score').textContent = m3Correct;
+
+            if (m3Index >= M3_SESSION_COUNT) return;
+            const item = m3Queue[m3Index];
+            document.getElementById('m3-mcq-question').innerHTML = item.q;
+
+            // Update Simulator Visual di atas kuis agar sesuai dengan soal yang sedang tampil!
+            renderMod3ContextualSim(item);
+
+            const indexedOpts = item.options.map((text, idx) => ({
+                text,
+                isCorrect: idx === item.answer
+            }));
+            const shuffledOpts = shuffleArray(indexedOpts);
+            const letters = ['A', 'B', 'C', 'D'];
+
+            const container = document.getElementById('m3-mcq-options');
+            container.innerHTML = '';
+            shuffledOpts.forEach((opt, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'mcq-btn';
+                btn.innerHTML = `<span class="mcq-letter">${letters[i]}</span><span>${opt.text}</span>`;
+                btn.onclick = () => handleMod3McqAnswer(opt.isCorrect);
+                container.appendChild(btn);
+            });
+        }
+
+        function handleMod3McqAnswer(isCorrect) {
+            if (isCorrect) {
                 playSFX('correct');
-                m3MissionIdx++;
-                if (m3MissionIdx >= m3Missions.length) {
-                    m3MissionIdx = 0;
-                    renderMod3Mission();
-                    triggerVictoryModal(
-                        3,
-                        'Semua Modul Tamat!',
-                        3,
-                        350,
-                        '🚀 Master Fisika Mekanika',
-                        'Selamat! Kamu telah menuntaskan seluruh petualangan SainsVerse karya Kelompok 3 PID25!'
-                    );
-                } else {
-                    showToast(`✅ Eksperimen Berhasil! Lanjut ke misi berikutnya.`);
-                    renderMod3Mission();
-                }
+                m3Correct++;
+                showToast('✅ Perhitungan & Konsep Fisika Tepat!');
             } else {
                 playSFX('wrong');
-                showToast(`❌ Tekanan saat ini ${currentPressure} Pa. Target: ${target} Pa!`);
+                showToast('❌ Kurang tepat! Perhatikan rumus fisikanya.');
+            }
+
+            m3Index++;
+            if (m3Index >= M3_SESSION_COUNT) {
+                const { stars, pct } = calculateStarsFromAccuracy(m3Correct, M3_SESSION_COUNT);
+                const pointsEarned = m3Correct * 50;
+                triggerVictoryModal(
+                    3,
+                    stars >= 2 ? 'Semua Modul Tamat!' : 'Belum Lulus Syarat!',
+                    stars,
+                    pct,
+                    pointsEarned,
+                    '🚀 Master Fisika Mekanika',
+                    stars >= 2
+                        ? `Selamat! Kamu menjawab benar ${m3Correct} dari ${M3_SESSION_COUNT} soal (${pct}%) dan menuntaskan seluruh petualangan SainsVerse!`
+                        : `Kamu baru menjawab benar ${m3Correct} dari ${M3_SESSION_COUNT} soal (${pct}%). Raih minimal 2 Bintang (⭐⭐ / akurasi ≥ 65%) untuk lulus sempurna!`
+                );
+            } else {
+                renderMod3Question();
             }
         }
 
         /* ==========================================================================
-           7. MODAL VICTORY, INFO & PENGATURAN
+           7. MODAL VICTORY (STRICT 2-STAR GATE), INFO & PENGATURAN
            ========================================================================== */
         function openModal(modalId) {
             playSFX('tap');
@@ -2628,26 +3799,40 @@
             document.getElementById(modalId).classList.remove('open');
         }
 
-        function triggerVictoryModal(moduleNum, title, starsEarned, scoreAdded, badgeName, descText) {
-            playSFX('victory');
+        function triggerVictoryModal(moduleNum, title, starsEarned, accuracyPct, scoreAdded, badgeName, descText) {
+            const passedGate = starsEarned >= 2;
+            playSFX(passedGate ? 'victory' : 'wrong');
             currentVictoryModule = moduleNum;
 
-            // Update State
-            gameState.score += scoreAdded;
+            // Update State: hanya berikan lencana dan buka level berikutnya jika starsEarned >= 2
+            if (passedGate) {
+                gameState.score += scoreAdded;
+                if (moduleNum < 3 && gameState.unlockedLevel <= moduleNum) {
+                    gameState.unlockedLevel = moduleNum + 1;
+                }
+                if (!gameState.badges.includes(badgeName)) {
+                    gameState.badges.push(badgeName);
+                }
+            }
             gameState.stars[moduleNum] = Math.max(gameState.stars[moduleNum] || 0, starsEarned);
-            if (moduleNum < 3 && gameState.unlockedLevel <= moduleNum) {
-                gameState.unlockedLevel = moduleNum + 1;
-            }
-            if (!gameState.badges.includes(badgeName)) {
-                gameState.badges.push(badgeName);
-            }
             saveState();
 
             // Populate UI Modal Victory
+            const statusPill = document.getElementById('victory-status-pill');
+            if (passedGate) {
+                statusPill.textContent = '🎉 LULUS SYARAT BINTANG!';
+                statusPill.style.color = '#34d399';
+            } else {
+                statusPill.textContent = '⚠️ BELUM LULUS SYARAT LANJUT (MIN. 2 ⭐)';
+                statusPill.style.color = '#f87171';
+            }
+
             document.getElementById('victory-title').textContent = title;
+            document.getElementById('victory-accuracy-pill').textContent = `Akurasi Jawaban: ${accuracyPct}% (${starsEarned} Bintang)`;
             document.getElementById('victory-desc').textContent = descText;
-            document.getElementById('victory-badge-name').textContent = badgeName;
-            document.getElementById('victory-score-val').textContent = `+${scoreAdded}`;
+            document.getElementById('victory-badge-name').textContent = passedGate ? badgeName : 'Lencana Belum Terbuka (Butuh Min. 2 ⭐)';
+            document.getElementById('victory-badge-icon').textContent = passedGate ? '🏅' : '🔒';
+            document.getElementById('victory-score-val').textContent = passedGate ? `+${scoreAdded}` : '+0 (Ulangi Kuis)';
 
             for (let i = 1; i <= 3; i++) {
                 const st = document.getElementById(`vstar-${i}`);
@@ -2658,11 +3843,20 @@
             }
 
             const nextBtn = document.getElementById('btn-next-module');
-            if (moduleNum < 3) {
-                nextBtn.style.display = 'inline-flex';
-                nextBtn.textContent = `🚀 Lanjut ke Modul ${moduleNum + 1}`;
+            const retryBtn = document.getElementById('btn-retry-module');
+
+            if (passedGate) {
+                retryBtn.style.display = 'none';
+                if (moduleNum < 3) {
+                    nextBtn.style.display = 'inline-flex';
+                    nextBtn.textContent = `🚀 Lanjut ke Modul ${moduleNum + 1}`;
+                } else {
+                    nextBtn.style.display = 'none';
+                }
             } else {
+                // Jika hanya dapat 1 Bintang, sembunyikan tombol lanjut dan wajibkan ulangi
                 nextBtn.style.display = 'none';
+                retryBtn.style.display = 'inline-flex';
             }
 
             document.getElementById('modal-victory').classList.add('open');
@@ -2670,10 +3864,24 @@
 
         function goNextModuleFromVictory() {
             closeModal('modal-victory');
-            if (currentVictoryModule < 3) {
+            if (currentVictoryModule < 3 && isLevelUnlocked(currentVictoryModule + 1)) {
                 enterModule(currentVictoryModule + 1);
             } else {
                 switchScreen('screen-map');
+            }
+        }
+
+        function retryModuleFromVictory() {
+            closeModal('modal-victory');
+            if (currentVictoryModule === 1) {
+                resetMod1Game();
+                switchModuleTab('m1', 'game');
+            } else if (currentVictoryModule === 2) {
+                resetMod2Quiz();
+                switchModuleTab('m2', 'quiz');
+            } else if (currentVictoryModule === 3) {
+                resetMod3Quiz();
+                switchModuleTab('m3', 'pressure');
             }
         }
 
@@ -2688,7 +3896,7 @@
             gameState.freeMode = !gameState.freeMode;
             saveState();
             playSFX('tap');
-            showToast(gameState.freeMode ? '🔓 Mode Bebas Aktif: Semua Level Terbuka!' : '🔒 Mode Progres Bertahap Aktif');
+            showToast(gameState.freeMode ? '🔓 Mode Bebas Aktif: Semua Level Terbuka!' : '🔒 Mode Syarat Min. 2 ⭐ Aktif');
         }
 
         function resetAllProgress() {
@@ -2697,8 +3905,7 @@
             saveState();
             resetMod1Game();
             resetMod2Quiz();
-            m3MissionIdx = 0;
-            renderMod3Mission();
+            resetMod3Quiz();
             closeModal('modal-settings');
             switchScreen('screen-home');
             showToast('🗑️ Progres telah di-reset ke awal.');
@@ -2717,10 +3924,9 @@
             updateHUD();
             resetMod1Game();
             resetMod2Quiz();
+            resetMod3Quiz();
             updateTemperature(-20);
             updateForceSim();
-            updatePressureSim();
-            renderMod3Mission();
             animateParticles();
             animateForceCrate();
         };
